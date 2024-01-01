@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "modelspecific_ext_equipments",
+  "info": {
+    "singularName": "modelspecific-ext-equipment",
+    "pluralName": "modelspecific-ext-equipments",
+    "displayName": "modelspecific ext equipment"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "model_specific": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::model-specific.model-specific"
+    },
+    "exterior_equipment": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::exterior-equipment.exterior-equipment"
+    }
+  }
+}

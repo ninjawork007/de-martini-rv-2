@@ -1,0 +1,22 @@
+{
+  "kind": "collectionType",
+  "collectionName": "bath_layouts",
+  "info": {
+    "singularName": "bath-layout",
+    "pluralName": "bath-layouts",
+    "displayName": "bath layout",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "original_created_at": {
+      "type": "datetime"
+    }
+  }
+}

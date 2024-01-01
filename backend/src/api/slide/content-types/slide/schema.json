@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "slides",
+  "info": {
+    "singularName": "slide",
+    "pluralName": "slides",
+    "displayName": "slide"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    }
+  }
+}

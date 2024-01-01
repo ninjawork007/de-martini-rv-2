@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "vehicle_images",
+  "info": {
+    "singularName": "vehicle-image",
+    "pluralName": "vehicle-images",
+    "displayName": "vehicle image",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "vehicle": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::vehicle.vehicle"
+    },
+    "image": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::image.image"
+    }
+  }
+}

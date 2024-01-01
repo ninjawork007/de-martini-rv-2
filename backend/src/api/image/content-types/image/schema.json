@@ -1,0 +1,39 @@
+{
+  "kind": "collectionType",
+  "collectionName": "images",
+  "info": {
+    "singularName": "image",
+    "pluralName": "images",
+    "displayName": "image",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "is_front": {
+      "type": "integer"
+    },
+    "position": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "public": {
+      "type": "integer"
+    },
+    "image": {
+      "type": "string"
+    },
+    "group": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::group.group"
+    }
+  }
+}

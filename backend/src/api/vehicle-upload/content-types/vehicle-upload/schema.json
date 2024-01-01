@@ -1,0 +1,23 @@
+{
+  "kind": "collectionType",
+  "collectionName": "vehicle_uploads",
+  "info": {
+    "singularName": "vehicle-upload",
+    "pluralName": "vehicle-uploads",
+    "displayName": "vehicle upload"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "vehicle": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::vehicle.vehicle"
+    },
+    "upload_id": {
+      "type": "integer"
+    }
+  }
+}

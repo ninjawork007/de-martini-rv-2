@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "modelspecific_cockpit_options",
+  "info": {
+    "singularName": "modelspecific-cockpit-option",
+    "pluralName": "modelspecific-cockpit-options",
+    "displayName": "modelspecific cockpit option",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "model_specific": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::model-specific.model-specific"
+    },
+    "cockpit_option": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::cockpit-option.cockpit-option"
+    }
+  }
+}

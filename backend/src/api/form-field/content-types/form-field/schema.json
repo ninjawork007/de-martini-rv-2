@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "form_fields",
+  "info": {
+    "singularName": "form-field",
+    "pluralName": "form-fields",
+    "displayName": "form field",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "label": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "type": {
+      "type": "string"
+    },
+    "dropdown_options": {
+      "type": "text"
+    },
+    "form": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::form.form"
+    }
+  }
+}

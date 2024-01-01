@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "modelspecific_furnitures",
+  "info": {
+    "singularName": "modelspecific-furniture",
+    "pluralName": "modelspecific-furnitures",
+    "displayName": "modelspecific furniture",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "model_specific": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::model-specific.model-specific"
+    },
+    "furniture": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::furniture.furniture"
+    }
+  }
+}

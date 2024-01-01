@@ -1,0 +1,54 @@
+{
+  "kind": "collectionType",
+  "collectionName": "model_specifics",
+  "info": {
+    "singularName": "model-specific",
+    "pluralName": "model-specifics",
+    "displayName": "model specific",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "year": {
+      "type": "string"
+    },
+    "make": {
+      "type": "string"
+    },
+    "model": {
+      "type": "string"
+    },
+    "manufacture_url": {
+      "type": "string"
+    },
+    "manufacture_list": {
+      "type": "text"
+    },
+    "generator_make": {
+      "type": "string"
+    },
+    "generator_kw": {
+      "type": "string"
+    },
+    "generator_hours": {
+      "type": "string"
+    },
+    "generator_type": {
+      "type": "string"
+    },
+    "chassis": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "engine": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::engine.engine"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "vehicle_bath_layouts",
+  "info": {
+    "singularName": "vehicle-bath-layout",
+    "pluralName": "vehicle-bath-layouts",
+    "displayName": "vehicle bath layout",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "bath_layout": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::bath-layout.bath-layout"
+    },
+    "vehicle": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::vehicle.vehicle"
+    }
+  }
+}

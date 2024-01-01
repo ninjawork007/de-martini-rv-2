@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "vehicle_exterior_equipments",
+  "info": {
+    "singularName": "vehicle-exterior-equipment",
+    "pluralName": "vehicle-exterior-equipments",
+    "displayName": "vehicle exterior equipment"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "vehicle": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::vehicle.vehicle"
+    },
+    "exterior_equipment": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::exterior-equipment.exterior-equipment"
+    }
+  }
+}

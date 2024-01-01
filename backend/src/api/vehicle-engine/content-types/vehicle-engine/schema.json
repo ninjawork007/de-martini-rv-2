@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "vehicle_engines",
+  "info": {
+    "singularName": "vehicle-engine",
+    "pluralName": "vehicle-engines",
+    "displayName": "vehicle engine"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "vehicle": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::vehicle.vehicle"
+    },
+    "engine": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::engine.engine"
+    }
+  }
+}

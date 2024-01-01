@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "users_groups",
+  "info": {
+    "singularName": "users-group",
+    "pluralName": "users-groups",
+    "displayName": "users group"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "group": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::group.group"
+    }
+  }
+}

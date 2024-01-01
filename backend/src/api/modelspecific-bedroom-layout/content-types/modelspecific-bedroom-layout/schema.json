@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "modelspecific_bedroom_layouts",
+  "info": {
+    "singularName": "modelspecific-bedroom-layout",
+    "pluralName": "modelspecific-bedroom-layouts",
+    "displayName": "modelspecific bedroom layout",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "model_specific": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::model-specific.model-specific"
+    },
+    "bedroom_layout": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::bedroom-layout.bedroom-layout"
+    }
+  }
+}

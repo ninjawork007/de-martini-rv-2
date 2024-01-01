@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "floor_plans",
+  "info": {
+    "singularName": "floor-plan",
+    "pluralName": "floor-plans",
+    "displayName": "floor plan"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "model": {
+      "type": "string"
+    },
+    "year": {
+      "type": "integer"
+    },
+    "floor_plan": {
+      "type": "string"
+    }
+  }
+}

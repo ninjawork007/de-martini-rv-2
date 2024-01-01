@@ -1,0 +1,163 @@
+{
+  "kind": "collectionType",
+  "collectionName": "vehicles",
+  "info": {
+    "singularName": "vehicle",
+    "pluralName": "vehicles",
+    "displayName": "vehicle"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "category": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::category.category"
+    },
+    "vehicle_condition": {
+      "type": "string"
+    },
+    "status": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::status.status"
+    },
+    "template_id": {
+      "type": "integer"
+    },
+    "asking_price": {
+      "type": "decimal"
+    },
+    "sale_price": {
+      "type": "decimal"
+    },
+    "web_special": {
+      "type": "integer"
+    },
+    "featured_special": {
+      "type": "integer"
+    },
+    "clearance": {
+      "type": "integer"
+    },
+    "year": {
+      "type": "string"
+    },
+    "make": {
+      "type": "string"
+    },
+    "model": {
+      "type": "string"
+    },
+    "series": {
+      "type": "string"
+    },
+    "item_number": {
+      "type": "string"
+    },
+    "vin": {
+      "type": "string"
+    },
+    "mileage": {
+      "type": "string"
+    },
+    "length": {
+      "type": "integer"
+    },
+    "description": {
+      "type": "text"
+    },
+    "short_description": {
+      "type": "string"
+    },
+    "engine": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::engine.engine"
+    },
+    "fuel_type": {
+      "type": "string"
+    },
+    "generator_make": {
+      "type": "string"
+    },
+    "generator_kw": {
+      "type": "string"
+    },
+    "generator_hours": {
+      "type": "string"
+    },
+    "generator_type": {
+      "type": "string"
+    },
+    "hide_generator_hours": {
+      "type": "integer"
+    },
+    "chassis": {
+      "type": "string"
+    },
+    "map_price": {
+      "type": "integer"
+    },
+    "model_number": {
+      "type": "string"
+    },
+    "transmission": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "video_embed": {
+      "type": "text"
+    },
+    "tagline": {
+      "type": "string"
+    },
+    "warranty_title": {
+      "type": "string"
+    },
+    "warranty_description": {
+      "type": "text"
+    },
+    "drivetrain": {
+      "type": "string"
+    },
+    "style": {
+      "type": "string"
+    },
+    "interior_color": {
+      "type": "string"
+    },
+    "exterior_color": {
+      "type": "string"
+    },
+    "cockpit_option": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::cockpit-option.cockpit-option"
+    },
+    "bedroom_layout": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::bedroom-layout.bedroom-layout"
+    },
+    "furniture": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::furniture.furniture"
+    },
+    "flooring": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::flooring.flooring"
+    },
+    "slide": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::slide.slide"
+    }
+  }
+}

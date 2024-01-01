@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "engines",
+  "info": {
+    "singularName": "engine",
+    "pluralName": "engines",
+    "displayName": "engine"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    }
+  }
+}

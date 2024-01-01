@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "ci_sessions",
+  "info": {
+    "singularName": "ci-session",
+    "pluralName": "ci-sessions",
+    "displayName": "ci session",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "session_id": {
+      "type": "string"
+    },
+    "ip_address": {
+      "type": "string"
+    },
+    "user_agent": {
+      "type": "string"
+    },
+    "last_activity": {
+      "type": "integer"
+    },
+    "user_data": {
+      "type": "text"
+    }
+  }
+}

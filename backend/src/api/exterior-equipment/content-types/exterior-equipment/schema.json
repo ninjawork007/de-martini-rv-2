@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "exterior_equipments",
+  "info": {
+    "singularName": "exterior-equipment",
+    "pluralName": "exterior-equipments",
+    "displayName": "exterior equipment"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    }
+  }
+}

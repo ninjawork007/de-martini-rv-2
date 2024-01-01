@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "vehicle_cockpit_options",
+  "info": {
+    "singularName": "vehicle-cockpit-option",
+    "pluralName": "vehicle-cockpit-options",
+    "displayName": "vehicle cockpit option"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "vehicle": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::vehicle.vehicle"
+    },
+    "cockpit_option": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::cockpit-option.cockpit-option"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "modelspecific_engines",
+  "info": {
+    "singularName": "modelspecific-engine",
+    "pluralName": "modelspecific-engines",
+    "displayName": "modelspecific engine",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "model_specific": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::model-specific.model-specific"
+    },
+    "engine": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::engine.engine"
+    }
+  }
+}

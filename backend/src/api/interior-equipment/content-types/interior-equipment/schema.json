@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "interior_equipments",
+  "info": {
+    "singularName": "interior-equipment",
+    "pluralName": "interior-equipments",
+    "displayName": "interior equipment",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    }
+  }
+}

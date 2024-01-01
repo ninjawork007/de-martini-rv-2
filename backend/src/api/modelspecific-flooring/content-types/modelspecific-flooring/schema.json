@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "modelspecific_floorings",
+  "info": {
+    "singularName": "modelspecific-flooring",
+    "pluralName": "modelspecific-floorings",
+    "displayName": "modelspecific flooring"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "model_specific": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::model-specific.model-specific"
+    },
+    "flooring": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::flooring.flooring"
+    }
+  }
+}

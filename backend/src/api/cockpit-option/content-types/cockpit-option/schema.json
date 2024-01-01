@@ -1,0 +1,19 @@
+{
+  "kind": "collectionType",
+  "collectionName": "cockpit_options",
+  "info": {
+    "singularName": "cockpit-option",
+    "pluralName": "cockpit-options",
+    "displayName": "cockpit option",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    }
+  }
+}

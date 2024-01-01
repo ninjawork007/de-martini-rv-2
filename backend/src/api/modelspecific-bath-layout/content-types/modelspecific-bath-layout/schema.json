@@ -1,0 +1,26 @@
+{
+  "kind": "collectionType",
+  "collectionName": "modelspecific_bath_layouts",
+  "info": {
+    "singularName": "modelspecific-bath-layout",
+    "pluralName": "modelspecific-bath-layouts",
+    "displayName": "modelspecific bath layout",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "model_specific": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::model-specific.model-specific"
+    },
+    "bath_layout": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::bath-layout.bath-layout"
+    }
+  }
+}

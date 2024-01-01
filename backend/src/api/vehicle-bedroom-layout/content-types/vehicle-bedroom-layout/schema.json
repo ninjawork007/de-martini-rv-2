@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "vehicle_bedroom_layouts",
+  "info": {
+    "singularName": "vehicle-bedroom-layout",
+    "pluralName": "vehicle-bedroom-layouts",
+    "displayName": "vehicle bedroom layout"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "vehicle": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::vehicle.vehicle"
+    },
+    "bedroom_layout": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::bedroom-layout.bedroom-layout"
+    }
+  }
+}
