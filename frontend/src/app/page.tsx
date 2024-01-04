@@ -1,3 +1,3 @@
 export default function Home() {
-  return <>De Martini RV</>;
+  return <div className="py-40 flex justify-center">Homepage</div>;
 }
