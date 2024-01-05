@@ -1,10 +1,29 @@
+"use client";
+
 import Image from "next/image";
 import React from "react";
+import ReactSelect from "react-select";
 
 interface HeaderProps {
   showCompanyName?: boolean;
   showSearchForm?: boolean;
 }
+
+const Select = () => (
+  <ReactSelect
+    className="h-10"
+    components={{
+      IndicatorSeparator: () => null,
+    }}
+    options={[
+      {
+        label: "Dummy Option",
+        value: "Dummy Option",
+      },
+    ]}
+    defaultValue="Dummy Option"
+  />
+);
 
 const Header: React.FC<HeaderProps> = ({
   showCompanyName = true,
@@ -31,25 +50,16 @@ const Header: React.FC<HeaderProps> = ({
       {showSearchForm && (
         <div className="absolute -bottom-10 left-0 right-0 flex justify-center">
           <div className="bg-00669E p-8 flex gap-3 justify-center rounded-xl">
-            <select className="min-w-32">
-              <option value="option1">Dummy Option 1</option>
-              <option value="option2">Dummy Option 2</option>
-            </select>
-            <select className="min-w-32">
-              <option value="option1">Dummy Option 1</option>
-              <option value="option2">Dummy Option 2</option>
-            </select>
-            <select className="min-w-32">
-              <option value="option1">Dummy Option 1</option>
-              <option value="option2">Dummy Option 2</option>
-            </select>
-            <input placeholder="Stock #" />
+            <Select />
+            <Select />
+            <Select />
+            <input className="h-10 rounded-md px-2 " placeholder="Stock #" />
             <button className="primary-button">
               <Image
                 src="/icons/MagnifyingGlass.svg"
                 alt="Search"
-                height={30}
-                width={30}
+                height={25}
+                width={25}
               />
             </button>
           </div>
