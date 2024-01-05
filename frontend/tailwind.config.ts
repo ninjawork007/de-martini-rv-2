@@ -1,20 +1,32 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from "tailwindcss";
 
 const config: Config = {
   content: [
-    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
-    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
+    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    colors: {
+      C8E4FF: "#C8E4FF",
+      "00669E": "#00669E",
+      "01294A": "#01294A",
+      white: "#FFFFFF",
+      E7E7DC: "#E7E7DC",
+      FFFFFFCC: "#FFFFFFCC",
+      CFD8DC: "#CFD8DC",
+      "455A64": "#455A64",
+      "263238": "#263238",
+    },
     extend: {
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
+        "gradient-conic":
+          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        "why-choose-us-bg": "url('/images/why-choose-us-bg.png')",
       },
     },
   },
   plugins: [],
-}
-export default config
+};
+export default config;

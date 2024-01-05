@@ -15,3 +15,13 @@
     --background-end-rgb: 0, 0, 0;
   }
 }
+
+
+@layer components {
+  .primary-button {
+    background: linear-gradient(180deg, #FFFAEA 0%, #FFE57F 63%, #FFCC00 100%);
+    box-shadow: 0px 0px 5px 0px #32323280;
+
+    @apply rounded-lg shadow-md p-2;
+  }
+}
