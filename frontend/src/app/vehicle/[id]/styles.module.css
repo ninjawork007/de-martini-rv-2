@@ -1,0 +1,10 @@
+.table > tbody > tr > td {
+  padding: 8px;
+}
+
+.makeOfferButton {
+  background: var(
+    --Gradient-2,
+    linear-gradient(60deg, #b23deb 13.4%, #de8fff 86.6%)
+  );
+}

@@ -37,14 +37,14 @@ const Header: React.FC<HeaderProps> = ({
         />
 
         {showCompanyName && (
-          <h1 className="absolute text-center top-5 left-0 right-0 text-white text-4xl flex justify-center uppercase drop-shadow-md">
+          <h1 className="absolute text-center top-16 left-0 right-0 text-white text-7xl font-extrabold flex justify-center uppercase drop-shadow-md">
             DeMartini RV Sales
           </h1>
         )}
       </div>
 
       {showSearchForm && (
-        <div className="absolute -bottom-10 left-0 right-0 flex justify-center">
+        <div className="absolute -bottom-14 left-0 right-0 flex justify-center">
           <div className="bg-00669E p-8 flex gap-3 justify-center rounded-xl">
             <Select />
             <Select />

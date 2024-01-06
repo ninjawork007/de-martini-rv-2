@@ -1,10 +1,15 @@
 import classNames from "classnames";
 import Image from "next/image";
+import Link from "next/link";
 import React from "react";
 
 import styles from "./styles.module.css";
 
-const VehicleCard = () => {
+interface VehicleCardProps {
+  id: number;
+}
+
+const VehicleCard: React.FC<VehicleCardProps> = ({ id }) => {
   return (
     <div className={classNames(styles.card, "p-4", "max-w-[500px] rounded-md")}>
       <Image
@@ -50,7 +55,7 @@ const VehicleCard = () => {
         </div>
 
         <button className="primary-button w-full text-0053A6 font-semibold mt-6 py-4">
-          View Details
+          <Link href={`/vehicle/${id}`}>View Details</Link>
         </button>
       </div>
     </div>

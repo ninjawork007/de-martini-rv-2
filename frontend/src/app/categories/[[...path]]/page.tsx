@@ -144,15 +144,15 @@ const Page = ({ params }: { params: { path: string[] } }) => {
             <button className="primary-button text-left text-lg w-full text-263238 font-semibold py-3.5 px-6 rounded-[4px] mb-3">
               Make An Offer!
             </button>
-            <ul className="text-ECEFF1 py-2.5 px-3">
-              <li>Click the Make An Offer button</li>
-              <li>
+            <ul className="text-ECEFF1 py-2.5 px-3 pl-5">
+              <li className="list-disc">Click the Make An Offer button</li>
+              <li className="list-disc">
                 On the form, just enter a price that’ll work for you and we’ll
                 get back to you as soon as possible and let you know if we are
                 willing to sell you that coach at your price or we may give you
                 a counter-offer.
               </li>
-              <li>
+              <li className="list-disc">
                 Offers are not binding until we mutually agree upon price, terms
                 and conditions between customer and dealership and a contract is
                 signed.
@@ -162,11 +162,11 @@ const Page = ({ params }: { params: { path: string[] } }) => {
         </div>
         <div>
           <div className="grid grid-cols-2 gap-4">
-            <VehicleCard />
-            <VehicleCard />
-            <VehicleCard />
-            <VehicleCard />
-            <VehicleCard />
+            <VehicleCard id={1} />
+            <VehicleCard id={1} />
+            <VehicleCard id={1} />
+            <VehicleCard id={1} />
+            <VehicleCard id={1} />
           </div>
         </div>
       </div>

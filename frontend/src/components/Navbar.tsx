@@ -24,16 +24,17 @@ const Navbar = () => {
         <div className="flex gap-2">
           <input
             placeholder="What RV are you looking for?"
-            className="min-w-[400px]"
+            className="input-box rounded-md p-4 min-w-[400px]"
           />
-          <button className="primary-button">Search</button>
+          <button className="primary-button w-32">Search</button>
         </div>
         <div className="flex gap-3">
-          <div className="flex gap-2">
+          <div className="flex items-center gap-2">
             <Image src="/icons/Phone.svg" height={30} width={30} alt="" />
             (800)576-1921
           </div>
-          <div className="flex gap-2">
+          <div className="my-auto text-B0BEC5 text-2xl">|</div>
+          <div className="flex items-center gap-2">
             <Image src="/icons/Email.svg" height={30} width={30} alt="" />
             sales@demartini.com
           </div>
@@ -41,7 +42,7 @@ const Navbar = () => {
       </div>
 
       <div>
-        <ul className="flex justify-center bg-00669E text-white gap-5 py-5">
+        <ul className="flex justify-center bg-00669E text-white gap-8 py-5">
           <li>New RV’s</li>
           <li>Used RV’s</li>
           <li>Used Diesels</li>

@@ -18,15 +18,26 @@
 
 @layer components {
   .primary-button {
-    @apply rounded-lg shadow-md p-2;
+    @apply rounded-lg shadow-md p-2 font-bold;
 
     background: linear-gradient(180deg, #fffaea 0%, #ffe57f 63%, #ffcc00 100%);
+    color: #0053a6;
     box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.5);
   }
 
   .secondary-button {
-    @apply text-white rounded-lg p-2;
+    @apply text-white rounded-lg p-3;
 
     background: #0053a6;
+  }
+
+  .tertiary-button {
+    @apply text-white rounded-lg p-3;
+    color: #263238;
+    background: #eceff1;
+  }
+
+  .input-box {
+    box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.16) inset;
   }
 }

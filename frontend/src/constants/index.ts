@@ -91,3 +91,11 @@ export const accordionData = [
     data: ["Palm Harbor", "Skyline"],
   },
 ];
+
+export const vehiclePageTabsArray = [
+  "Description",
+  "Features",
+  "MSRP Sheet",
+  "Financing",
+  "Insurance & Warranty",
+];
