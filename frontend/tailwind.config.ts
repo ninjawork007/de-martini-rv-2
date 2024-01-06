@@ -17,6 +17,8 @@ const config: Config = {
       CFD8DC: "#CFD8DC",
       "455A64": "#455A64",
       "263238": "#263238",
+      F2F4F5: "#F2F4F5",
+      B0BEC5: "#B0BEC5",
     },
     extend: {
       backgroundImage: {

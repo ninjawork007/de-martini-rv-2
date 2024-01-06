@@ -3,6 +3,7 @@
 import Image from "next/image";
 import React from "react";
 import ReactSelect from "react-select";
+import { options } from "../constants";
 
 interface HeaderProps {
   showCompanyName?: boolean;
@@ -15,13 +16,8 @@ const Select = () => (
     components={{
       IndicatorSeparator: () => null,
     }}
-    options={[
-      {
-        label: "Dummy Option",
-        value: "Dummy Option",
-      },
-    ]}
-    defaultValue="Dummy Option"
+    options={options}
+    defaultValue={options[0]}
   />
 );
 
