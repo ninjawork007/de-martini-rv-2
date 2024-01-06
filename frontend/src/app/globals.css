@@ -16,12 +16,17 @@
   }
 }
 
-
 @layer components {
   .primary-button {
-    background: linear-gradient(180deg, #FFFAEA 0%, #FFE57F 63%, #FFCC00 100%);
-    box-shadow: 0px 0px 5px 0px #32323280;
-
     @apply rounded-lg shadow-md p-2;
+
+    background: linear-gradient(180deg, #fffaea 0%, #ffe57f 63%, #ffcc00 100%);
+    box-shadow: 0px 0px 5px 0px rgba(50, 50, 50, 0.5);
+  }
+
+  .secondary-button {
+    @apply text-white rounded-lg p-2;
+
+    background: #0053a6;
   }
 }

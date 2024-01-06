@@ -26,7 +26,7 @@ const Header: React.FC<HeaderProps> = ({
   showSearchForm = true,
 }) => {
   return (
-    <div className="relative mb-10">
+    <div className="relative mb-20">
       <div className="relative w-full h-[60vh]">
         <Image
           src="/images/banner.png"

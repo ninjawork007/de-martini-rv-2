@@ -2,9 +2,6 @@
 
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import ReactSelect from "react-select";
-
-import { accordionData, options } from "../../../constants";
 import {
   Accordion,
   AccordionItem,
@@ -13,6 +10,10 @@ import {
   AccordionItemPanel,
   AccordionItemState,
 } from "react-accessible-accordion";
+import ReactSelect from "react-select";
+
+import VehicleCard from "@/components/categories/VehicleCard";
+import { accordionData, options } from "../../../constants";
 
 const Page = ({ params }: { params: { path: string[] } }) => {
   const paths = params.path;
@@ -77,8 +78,6 @@ const Page = ({ params }: { params: { path: string[] } }) => {
 
   return (
     <div>
-      {title}
-
       <div className="bg-F2F4F5 flex justify-center items-center px-48 py-5 my-10">
         <h2 className="mr-auto font-medium text-2xl">Newmar King Aire</h2>
         <div className="flex items-center gap-5">
@@ -98,17 +97,19 @@ const Page = ({ params }: { params: { path: string[] } }) => {
         </div>
       </div>
 
-      <div className="grid grid-cols-12 gap-4">
-        <div className="col-span-3">
-          <div className="font-bold p-3 bg-CFD8DC">Shop By Brand</div>
+      <div className="flex justify-center gap-8 mx-auto">
+        <div className="min-w-[300px]">
+          <div className="font-bold py-4 px-6 mb-4 bg-CFD8DC text-263238 text-lg">
+            Shop By Brand
+          </div>
           <Accordion
             allowZeroExpanded
             preExpanded={accordionData.map((item) => item.uuid)}
           >
             {accordionData.map((item) => (
-              <AccordionItem key={item.uuid}>
+              <AccordionItem uuid={item.uuid} key={item.uuid}>
                 <AccordionItemHeading>
-                  <AccordionItemButton className="flex">
+                  <AccordionItemButton className="flex justify-between py-4 text-37474F text-lg font-bold px-2">
                     {item.title}
                     <AccordionItemState>
                       {({ expanded }) => (
@@ -126,15 +127,48 @@ const Page = ({ params }: { params: { path: string[] } }) => {
                 <AccordionItemPanel>
                   <ul>
                     {item.data.map((item) => (
-                      <li key={item}>{item}</li>
+                      <li
+                        className="p-2 text-base text-455A64 cursor-pointer hover:text-263238"
+                        key={item}
+                      >
+                        {item}
+                      </li>
                     ))}
                   </ul>
                 </AccordionItemPanel>
               </AccordionItem>
             ))}
           </Accordion>
+
+          <div className="bg-0053A6 rounded-lg p-4 max-w-[300px] my-4">
+            <button className="primary-button text-left text-lg w-full text-263238 font-semibold py-3.5 px-6 rounded-[4px] mb-3">
+              Make An Offer!
+            </button>
+            <ul className="text-ECEFF1 py-2.5 px-3">
+              <li>Click the Make An Offer button</li>
+              <li>
+                On the form, just enter a price that’ll work for you and we’ll
+                get back to you as soon as possible and let you know if we are
+                willing to sell you that coach at your price or we may give you
+                a counter-offer.
+              </li>
+              <li>
+                Offers are not binding until we mutually agree upon price, terms
+                and conditions between customer and dealership and a contract is
+                signed.
+              </li>
+            </ul>
+          </div>
         </div>
-        <div className="col-span-9">Vehicles</div>
+        <div>
+          <div className="grid grid-cols-2 gap-4">
+            <VehicleCard />
+            <VehicleCard />
+            <VehicleCard />
+            <VehicleCard />
+            <VehicleCard />
+          </div>
+        </div>
       </div>
     </div>
   );

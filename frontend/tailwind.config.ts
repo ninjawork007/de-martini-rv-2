@@ -19,6 +19,11 @@ const config: Config = {
       "263238": "#263238",
       F2F4F5: "#F2F4F5",
       B0BEC5: "#B0BEC5",
+      "607D8B": "#607D8B",
+      "0053A6": "#0053A6",
+      "12B669": "#12B669",
+      "37474F": "#37474F",
+      ECEFF1: "#ECEFF1",
     },
     extend: {
       backgroundImage: {
