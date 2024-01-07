@@ -1839,6 +1839,7 @@ export interface ApiVehicleVehicle extends Schema.CollectionType {
     singularName: 'vehicle';
     pluralName: 'vehicles';
     displayName: 'vehicle';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -1919,6 +1920,11 @@ export interface ApiVehicleVehicle extends Schema.CollectionType {
       'api::vehicle.vehicle',
       'oneToOne',
       'api::slide.slide'
+    >;
+    image: Attribute.Relation<
+      'api::vehicle.vehicle',
+      'oneToOne',
+      'api::image.image'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;

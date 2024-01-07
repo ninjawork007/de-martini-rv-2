@@ -4,7 +4,8 @@
   "info": {
     "singularName": "vehicle",
     "pluralName": "vehicles",
-    "displayName": "vehicle"
+    "displayName": "vehicle",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -158,6 +159,11 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::slide.slide"
+    },
+    "image": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::image.image"
     }
   }
 }
