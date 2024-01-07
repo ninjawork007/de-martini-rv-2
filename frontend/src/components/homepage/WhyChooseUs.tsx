@@ -2,13 +2,13 @@ import React from "react";
 
 const WhyChooseUs = () => {
   return (
-    <div className="bg-why-choose-us-bg bg-cover bg-center bg-no-repeat p-16">
+    <div className="bg-why-choose-us-bg bg-cover bg-center bg-no-repeat p-10 lg:p-16">
       <h3 className="text-center font-bold text-2xl pb-8">
         Why Choose Demartini Sales
       </h3>
 
       <div className="flex justify-center">
-        <div className="grid grid-cols-3 gap-4 text-center">
+        <div className="grid lg:grid-cols-3 gap-4 text-center">
           <div className="bg-FFFFFFCC rounded-md p-9 max-w-[450px]">
             <h4 className="font-medium pb-3">Lowest Prices </h4>
             DeMartini RV Sales has the lowest prices on in-stock and specially

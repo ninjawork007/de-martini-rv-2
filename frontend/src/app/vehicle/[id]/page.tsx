@@ -18,27 +18,29 @@ const Vehicle = ({ params }: { params: { id: string } }) => {
 
   useEffect(() => {
     const getVehicle = async () => {
-      const res = await service.get(`${urls.vehicles}/${id}?populate=*`);
-      setVehicle(res?.data?.data);
+      try {
+        const res = await service.get(`${urls.vehicles}/${id}?populate=*`);
+        setVehicle(res?.data?.data);
+      } catch (error) {}
     };
 
     if (id) getVehicle();
   }, [id]);
 
   return (
-    <div className="px-48">
-      <div className="flex justify-center gap-10">
-        <div>
+    <div className="px-10 lg:px-30 2xl:px-48">
+      <div className="flex flex-wrap lg:flex-nowrap justify-center gap-10">
+        <div className="w-full lg:w-[60%] 2xl:w-[70%]">
           <Image
             src="/images/vehicle.png"
             height={450}
             width={800}
             alt=""
-            className="rounded-lg"
+            className="rounded-lg w-full"
           />
         </div>
 
-        <div>
+        <div className="w-full lg:w-[40%] 2xl:w-[30%]">
           <h2>{vehicle?.attributes.title}</h2>
           <div className="text-3xl font-bold">RETAIL MSRP: $1,698,507</div>
           <div>
@@ -56,7 +58,7 @@ const Vehicle = ({ params }: { params: { id: string } }) => {
 
           <table
             className={classNames(
-              "table-fixed border border-ECEFF1 rounded-md overflow-hidden",
+              "table-fixed border border-ECEFF1 rounded-md overflow-hidden w-full",
               styles.table
             )}
           >

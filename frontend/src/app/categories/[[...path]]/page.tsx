@@ -23,11 +23,20 @@ const Page = ({ params }: { params: { path: string[] } }) => {
 
   const [title, setTitle] = useState("");
   const [vehicles, setVehicles] = useState([]);
+  const [loading, setLoading] = useState(false);
 
+  // get vehicle information
   useEffect(() => {
     const getVehicles = async () => {
-      const res = await service.get(`${urls.vehicles}?populate=*`);
-      setVehicles(res?.data?.data);
+      try {
+        setLoading(true);
+        const res = await service.get(`${urls.vehicles}?populate=*`);
+        setVehicles(res?.data?.data);
+        setLoading(false);
+      } catch (error) {
+        setLoading(false);
+        console.log(error);
+      }
     };
 
     getVehicles();
@@ -92,9 +101,9 @@ const Page = ({ params }: { params: { path: string[] } }) => {
 
   return (
     <div>
-      <div className="bg-F2F4F5 flex justify-center items-center px-48 py-5 my-10">
+      <div className="bg-F2F4F5 flex flex-wrap justify-center items-center px-12 md:px-28 lg:px-48 py-5 my-10">
         <h2 className="mr-auto font-medium text-2xl">All Vehicles</h2>
-        <div className="flex items-center gap-5">
+        <div className="flex flex-wrap items-center gap-3 md:gap-5">
           <div>Sort By</div>
           <ReactSelect
             options={options}
@@ -103,16 +112,19 @@ const Page = ({ params }: { params: { path: string[] } }) => {
               IndicatorSeparator: () => null,
             }}
           />
-          Favorites
-          <div className="flex justify-center items-center px-2 py-1 rounded-3xl border-[1px] border-B0BEC5">
-            <Image src="/icons/Heart.svg" height={20} width={20} alt="" />
-            <div>(01)</div>
+          <div className="flex items-center gap-3">
+            Favorites
+            <div className="flex justify-center items-center px-3 py-1 rounded-3xl border-[1px] border-B0BEC5">
+              <Image src="/icons/Heart.svg" height={20} width={20} alt="" />
+              <div>(01)</div>
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="flex justify-center gap-8 mx-auto">
-        <div className="min-w-[300px]">
+      <div className="flex flex-wrap sm:flex-nowrap justify-center gap-8 mx-auto">
+        {/* categories with accordion */}
+        <div className="lg:min-w-[300px]">
           <div className="font-bold py-4 px-6 mb-4 bg-CFD8DC text-263238 text-lg">
             Shop By Brand
           </div>
@@ -174,12 +186,12 @@ const Page = ({ params }: { params: { path: string[] } }) => {
             </ul>
           </div>
         </div>
-        <div>
-          <div className="grid grid-cols-2 gap-4">
-            {vehicles?.map((vehicle: Vehicle) => (
-              <VehicleCard key={vehicle.id} {...vehicle} />
-            ))}
-          </div>
+        {/* vehicle list */}
+        <div className="w-full grid md:grid-cols-2 gap-4">
+          {loading && <div>Loading..</div>}
+          {vehicles?.map((vehicle: Vehicle) => (
+            <VehicleCard key={vehicle.id} {...vehicle} />
+          ))}
         </div>
       </div>
     </div>

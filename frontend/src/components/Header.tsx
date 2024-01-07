@@ -1,9 +1,12 @@
 "use client";
 
+import classNames from "classnames";
 import Image from "next/image";
 import React from "react";
 import ReactSelect from "react-select";
+
 import { options } from "../constants";
+import styles from "./styles.module.css";
 
 interface HeaderProps {
   showCompanyName?: boolean;
@@ -18,6 +21,12 @@ const Select = () => (
     }}
     options={options}
     defaultValue={options[0]}
+    styles={{
+      control: (baseStyles, state) => ({
+        ...baseStyles,
+        height: 40,
+      }),
+    }}
   />
 );
 
@@ -37,7 +46,12 @@ const Header: React.FC<HeaderProps> = ({
         />
 
         {showCompanyName && (
-          <h1 className="absolute text-center top-16 left-0 right-0 text-white text-7xl font-extrabold flex justify-center uppercase drop-shadow-md">
+          <h1
+            className={classNames(
+              "absolute text-center top-16 left-0 right-0 text-white text-4xl md:text-7xl font-extrabold flex justify-center uppercase drop-shadow-md",
+              styles.title
+            )}
+          >
             DeMartini RV Sales
           </h1>
         )}
@@ -45,11 +59,15 @@ const Header: React.FC<HeaderProps> = ({
 
       {showSearchForm && (
         <div className="absolute -bottom-14 left-0 right-0 flex justify-center">
-          <div className="bg-00669E p-8 flex gap-3 justify-center rounded-xl">
+          <div className="bg-00669E p-8 flex flex-wrap gap-3 justify-center rounded-xl">
+            {/* 1. vehicle_condition > NEW, USED, NEW AND USED */}
+            {/* 2. category */}
+            <div className="h-10">
+              <Select />
+            </div>
             <Select />
             <Select />
-            <Select />
-            <input className="h-10 rounded-md px-2 " placeholder="Stock #" />
+            <input className="h-10 rounded-md px-2" placeholder="Stock #" />
             <button className="primary-button">
               <Image
                 src="/icons/MagnifyingGlass.svg"

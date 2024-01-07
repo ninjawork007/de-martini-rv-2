@@ -22,7 +22,12 @@ const VehicleCard: React.FC<Vehicle> = ({
   },
 }) => {
   return (
-    <div className={classNames(styles.card, "p-4", "max-w-[500px] rounded-md")}>
+    <div
+      className={classNames(
+        styles.card,
+        "flex flex-col p-4 max-w-[500px] rounded-md"
+      )}
+    >
       <Image
         src="/images/van.png"
         width={450}
@@ -31,7 +36,7 @@ const VehicleCard: React.FC<Vehicle> = ({
         className="w-full"
         alt=""
       />
-      <div className="mt-4">
+      <div className="flex flex-grow flex-col mt-4">
         {/* make an offer */}
         <div className="flex justify-between items-center">
           <button className="secondary-button text-sm px-4">
@@ -57,24 +62,27 @@ const VehicleCard: React.FC<Vehicle> = ({
             />
           </div>
         </div>
-        {/* retail */}
-        <div className="text-607D8B pt-2 text-sm flex items-center">
-          Retail MSRP :
-          <span className="line-through text-455A64 pl-2 text-base">
-            $12569.00
-          </span>
-        </div>
-        {/* sale price */}
-        <div className="text-607D8B pt-2 text-sm flex items-center">
-          Sale Price :
-          <span className="text-xl font-bold text-263238 pl-2">
-            ${sale_price}
-          </span>
-        </div>
 
-        <button className="primary-button w-full text-0053A6 font-semibold mt-6 py-4">
-          <Link href={`/vehicle/${id}`}>View Details</Link>
-        </button>
+        <div className="mt-auto">
+          {/* retail */}
+          <div className="text-607D8B pt-2 text-sm flex items-center">
+            Retail MSRP :
+            <span className="line-through text-455A64 pl-2 text-base">
+              $12569.00
+            </span>
+          </div>
+          {/* sale price */}
+          <div className="text-607D8B pt-2 text-sm flex items-center">
+            Sale Price :
+            <span className="text-xl font-bold text-263238 pl-2">
+              ${sale_price}
+            </span>
+          </div>
+
+          <button className="mt-6 primary-button w-full text-0053A6 font-semibold py-4">
+            <Link href={`/vehicle/${id}`}>View Details</Link>
+          </button>
+        </div>
       </div>
     </div>
   );
