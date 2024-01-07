@@ -1202,7 +1202,7 @@ export interface ApiImageImage extends Schema.CollectionType {
     position: Attribute.String;
     description: Attribute.Text;
     public: Attribute.Integer;
-    image: Attribute.String;
+    image: Attribute.String & Attribute.Required;
     group: Attribute.Relation<
       'api::image.image',
       'oneToOne',

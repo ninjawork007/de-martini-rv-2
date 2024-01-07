@@ -28,7 +28,8 @@
       "type": "integer"
     },
     "image": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "group": {
       "type": "relation",
