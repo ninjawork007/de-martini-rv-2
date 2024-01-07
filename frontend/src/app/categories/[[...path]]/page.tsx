@@ -1,5 +1,6 @@
 "use client";
 
+import VehicleCard from "@/components/categories/VehicleCard";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import {
@@ -12,12 +13,25 @@ import {
 } from "react-accessible-accordion";
 import ReactSelect from "react-select";
 
-import VehicleCard from "@/components/categories/VehicleCard";
 import { accordionData, options } from "../../../constants";
+import service from "../../../services";
+import { urls } from "../../../services/urls";
+import { Vehicle } from "../../../types/vehicle";
 
 const Page = ({ params }: { params: { path: string[] } }) => {
   const paths = params.path;
+
   const [title, setTitle] = useState("");
+  const [vehicles, setVehicles] = useState([]);
+
+  useEffect(() => {
+    const getVehicles = async () => {
+      const res = await service.get(`${urls.vehicles}?populate=*`);
+      setVehicles(res?.data?.data);
+    };
+
+    getVehicles();
+  }, []);
 
   useEffect(() => {
     switch (paths?.[0]) {
@@ -79,7 +93,7 @@ const Page = ({ params }: { params: { path: string[] } }) => {
   return (
     <div>
       <div className="bg-F2F4F5 flex justify-center items-center px-48 py-5 my-10">
-        <h2 className="mr-auto font-medium text-2xl">Newmar King Aire</h2>
+        <h2 className="mr-auto font-medium text-2xl">All Vehicles</h2>
         <div className="flex items-center gap-5">
           <div>Sort By</div>
           <ReactSelect
@@ -162,11 +176,9 @@ const Page = ({ params }: { params: { path: string[] } }) => {
         </div>
         <div>
           <div className="grid grid-cols-2 gap-4">
-            <VehicleCard id={1} />
-            <VehicleCard id={1} />
-            <VehicleCard id={1} />
-            <VehicleCard id={1} />
-            <VehicleCard id={1} />
+            {vehicles?.map((vehicle: Vehicle) => (
+              <VehicleCard key={vehicle.id} {...vehicle} />
+            ))}
           </div>
         </div>
       </div>

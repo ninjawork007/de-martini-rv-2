@@ -1,14 +1,29 @@
+"use client";
+
+import Tabs from "@/components/vehicle/Tabs";
+import classNames from "classnames";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { v4 as uuid } from "uuid";
 
 import styles from "./styles.module.css";
-import classNames from "classnames";
-import Tabs from "@/components/vehicle/Tabs";
-import Link from "next/link";
+import service from "../../../services";
+import { urls } from "../../../services/urls";
+import { Vehicle } from "../../../types/vehicle";
 
 const Vehicle = ({ params }: { params: { id: string } }) => {
   const id = params.id;
+
+  const [vehicle, setVehicle] = useState<Vehicle>();
+
+  useEffect(() => {
+    const getVehicle = async () => {
+      const res = await service.get(`${urls.vehicles}/${id}?populate=*`);
+      setVehicle(res?.data?.data);
+    };
+
+    if (id) getVehicle();
+  }, [id]);
 
   return (
     <div className="px-48">
@@ -24,7 +39,7 @@ const Vehicle = ({ params }: { params: { id: string } }) => {
         </div>
 
         <div>
-          <h2>Title</h2>
+          <h2>{vehicle?.attributes.title}</h2>
           <div className="text-3xl font-bold">RETAIL MSRP: $1,698,507</div>
           <div>
             <span className="text-039754 font-bold text-lg">
@@ -54,43 +69,43 @@ const Vehicle = ({ params }: { params: { id: string } }) => {
             <tbody>
               <tr>
                 <td>Chassis</td>
-                <td>Spartan K3</td>
+                <td>{vehicle?.attributes?.chassis}</td>
               </tr>
               <tr className="bg-ECEFF1">
                 <td>Generator</td>
-                <td>Onan 12.5 KW Diesel</td>
+                <td>{vehicle?.attributes?.generator_type}</td>
               </tr>
               <tr>
                 <td>Engine</td>
-                <td>Cummins X15 605HP Diesel</td>
+                <td>{vehicle?.attributes?.engine?.data?.attributes?.name}</td>
               </tr>
               <tr className="bg-ECEFF1">
                 <td>Category</td>
-                <td>Class A - Diesel</td>
+                <td>{vehicle?.attributes?.category?.data?.attributes?.name}</td>
               </tr>
               <tr>
                 <td>Mileage</td>
-                <td>New</td>
+                <td>{vehicle?.attributes.mileage}</td>
               </tr>
               <tr className="bg-ECEFF1">
                 <td>Slide Out</td>
-                <td>Full Wall/3</td>
+                <td>{vehicle?.attributes?.slide?.data?.attributes?.name}</td>
               </tr>
               <tr>
                 <td>Fuel</td>
-                <td>Diesel</td>
+                <td>{vehicle?.attributes?.fuel_type}</td>
               </tr>
               <tr className="bg-ECEFF1">
                 <td>Condition</td>
-                <td>New</td>
+                <td>{vehicle?.attributes?.vehicle_condition}</td>
               </tr>
               <tr>
                 <td>Interior Color</td>
-                <td>Wickham</td>
+                <td>{vehicle?.attributes?.interior_color}</td>
               </tr>
               <tr className="bg-ECEFF1">
                 <td>Exterior Color</td>
-                <td>Bates</td>
+                <td>{vehicle?.attributes?.exterior_color}</td>
               </tr>
             </tbody>
           </table>

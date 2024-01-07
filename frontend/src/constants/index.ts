@@ -99,3 +99,5 @@ export const vehiclePageTabsArray = [
   "Financing",
   "Insurance & Warranty",
 ];
+
+export const MAX_DESCRIPTION_LENGTH = 230;

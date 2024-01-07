@@ -4,12 +4,23 @@ import Link from "next/link";
 import React from "react";
 
 import styles from "./styles.module.css";
+import { MAX_DESCRIPTION_LENGTH } from "../../constants";
+import { Vehicle } from "../../types/vehicle";
+import { htmlDecode } from "../../utils";
 
-interface VehicleCardProps {
-  id: number;
-}
-
-const VehicleCard: React.FC<VehicleCardProps> = ({ id }) => {
+const VehicleCard: React.FC<Vehicle> = ({
+  id,
+  attributes: {
+    year,
+    make,
+    model,
+    series,
+    item_number,
+    short_description,
+    description,
+    sale_price,
+  },
+}) => {
   return (
     <div className={classNames(styles.card, "p-4", "max-w-[500px] rounded-md")}>
       <Image
@@ -26,20 +37,25 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ id }) => {
           <button className="secondary-button text-sm px-4">
             Make An Offer
           </button>
-          <div className="text-12B669 font-bold text-base">Stock #D2730</div>
+          <div className="text-12B669 font-bold text-base">
+            Stock #{item_number}
+          </div>
         </div>
         {/* title and desc */}
         <div>
           <h4 className="font-bold my-3 text-lg text-37474F">
-            2024 Newmar King Aire 4596
+            {year} {make} {model} {series}
           </h4>
-          <p className="text-607D8B text-sm mb-3">
-            2024 Newmar King Aire 4596 Full Wall/3 Slide-Out Luxury Diesel
-            Motorhome. <br />
-            FOR THE MOST DISCERNING OF TRAVELERS. The 2024 King Aire, as our
-            most luxurious coach, doesn’t hold anything back. There’s not a
-            single detail overlooked. Every feature,…
-          </p>
+          <div className="text-607D8B text-sm mb-3">
+            <div
+              dangerouslySetInnerHTML={{
+                __html: htmlDecode(short_description || description)?.slice(
+                  0,
+                  MAX_DESCRIPTION_LENGTH
+                ),
+              }}
+            />
+          </div>
         </div>
         {/* retail */}
         <div className="text-607D8B pt-2 text-sm flex items-center">
@@ -51,7 +67,9 @@ const VehicleCard: React.FC<VehicleCardProps> = ({ id }) => {
         {/* sale price */}
         <div className="text-607D8B pt-2 text-sm flex items-center">
           Sale Price :
-          <span className="text-xl font-bold text-263238 pl-2">$11569.00</span>
+          <span className="text-xl font-bold text-263238 pl-2">
+            ${sale_price}
+          </span>
         </div>
 
         <button className="primary-button w-full text-0053A6 font-semibold mt-6 py-4">
