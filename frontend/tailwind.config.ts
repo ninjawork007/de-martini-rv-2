@@ -26,6 +26,7 @@ const config: Config = {
       ECEFF1: "#ECEFF1",
       B23DEB: "#B23DEB",
       "039754": "#039754",
+      FFD323: "#FFD323",
     },
     extend: {
       backgroundImage: {

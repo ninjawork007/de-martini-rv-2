@@ -1,14 +1,39 @@
+"use client";
+
 import Image from "next/image";
-import React from "react";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+
+import RenderHTML from "../RenderHTML";
+import service from "../../services";
+import { urls } from "../../services/urls";
+import { Category } from "../../types/vehicle";
 
 const ShopByCategory = () => {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const getCategories = async () => {
+      try {
+        const res = await service.get(`${urls.categories}/?populate=*`);
+        setCategories(res?.data?.data);
+      } catch (error) {}
+    };
+
+    getCategories();
+  }, []);
+
   return (
     <div className="px-10 md:px-40 lg:px-60 mb-20">
       <h3 className="font-bold text-2xl py-8">Shop By Category</h3>
 
-      <div className="flex flex-wrap justify-center md:justify-normal gap-3">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item, index) => (
-          <div key={index}>
+      <div className="flex flex-wrap justify-center gap-6">
+        {categories.map((item: Category) => (
+          <Link
+            className="flex flex-col items-center"
+            href="/categories"
+            key={item?.id}
+          >
             <Image
               className="mx-auto"
               src="/images/rv.png"
@@ -17,16 +42,8 @@ const ShopByCategory = () => {
               height={50}
             />
 
-            <span className="flex gap-1">
-              Class A Diesel
-              <Image
-                src="/icons/RightArrow.svg"
-                height={10}
-                width={10}
-                alt=""
-              />
-            </span>
-          </div>
+            <RenderHTML html={item?.attributes?.name} />
+          </Link>
         ))}
       </div>
     </div>

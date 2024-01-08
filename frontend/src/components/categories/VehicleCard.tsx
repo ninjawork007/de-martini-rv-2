@@ -25,7 +25,7 @@ const VehicleCard: React.FC<Vehicle> = ({
     <div
       className={classNames(
         styles.card,
-        "flex flex-col p-4 max-w-[500px] rounded-md"
+        "flex flex-col p-4 w-full max-w-[500px] max-h-[730px] rounded-md"
       )}
     >
       <Image
@@ -51,16 +51,15 @@ const VehicleCard: React.FC<Vehicle> = ({
           <h4 className="font-bold my-3 text-lg text-37474F">
             {year} {make} {model} {series}
           </h4>
-          <div className="text-607D8B text-sm mb-3">
-            <div
-              dangerouslySetInnerHTML={{
-                __html: htmlDecode(short_description || description)?.slice(
-                  0,
-                  MAX_DESCRIPTION_LENGTH
-                ),
-              }}
-            />
-          </div>
+          <div
+            className="text-607D8B text-sm mb-3"
+            dangerouslySetInnerHTML={{
+              __html: htmlDecode(short_description || description)?.slice(
+                0,
+                MAX_DESCRIPTION_LENGTH
+              ),
+            }}
+          />
         </div>
 
         <div className="mt-auto">
@@ -79,9 +78,11 @@ const VehicleCard: React.FC<Vehicle> = ({
             </span>
           </div>
 
-          <button className="mt-6 primary-button w-full text-0053A6 font-semibold py-4">
-            <Link href={`/vehicle/${id}`}>View Details</Link>
-          </button>
+          <Link href={`/vehicle/${id}`}>
+            <button className="mt-6 primary-button w-full text-0053A6 font-semibold py-4">
+              View Details
+            </button>
+          </Link>
         </div>
       </div>
     </div>

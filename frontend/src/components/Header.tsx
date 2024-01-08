@@ -2,6 +2,7 @@
 
 import classNames from "classnames";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import React from "react";
 import ReactSelect from "react-select";
 
@@ -9,7 +10,6 @@ import { options } from "../constants";
 import styles from "./styles.module.css";
 
 interface HeaderProps {
-  showCompanyName?: boolean;
   showSearchForm?: boolean;
 }
 
@@ -30,10 +30,11 @@ const Select = () => (
   />
 );
 
-const Header: React.FC<HeaderProps> = ({
-  showCompanyName = true,
-  showSearchForm = true,
-}) => {
+const Header: React.FC<HeaderProps> = ({ showSearchForm = true }) => {
+  const pathname = usePathname();
+
+  const isHomepage = pathname === "/";
+
   return (
     <div className="relative mb-20">
       <div className="relative w-full h-[60vh]">
@@ -45,7 +46,7 @@ const Header: React.FC<HeaderProps> = ({
           alt=""
         />
 
-        {showCompanyName && (
+        {isHomepage && (
           <h1
             className={classNames(
               "absolute text-center top-16 left-0 right-0 text-white text-4xl md:text-7xl font-extrabold flex justify-center uppercase drop-shadow-md",

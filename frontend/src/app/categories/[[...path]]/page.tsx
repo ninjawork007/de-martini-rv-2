@@ -1,7 +1,10 @@
 "use client";
 
+import CategoryVehicles from "@/components/categories/CategoryVehicles";
+import RenderHTML from "@/components/RenderHTML";
 import VehicleCard from "@/components/categories/VehicleCard";
 import Image from "next/image";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import {
   Accordion,
@@ -13,10 +16,10 @@ import {
 } from "react-accessible-accordion";
 import ReactSelect from "react-select";
 
-import { accordionData, options } from "../../../constants";
+import { options } from "../../../constants";
 import service from "../../../services";
 import { urls } from "../../../services/urls";
-import { Vehicle } from "../../../types/vehicle";
+import { Category, Vehicle } from "../../../types/vehicle";
 
 const Page = ({ params }: { params: { path: string[] } }) => {
   const paths = params.path;
@@ -24,13 +27,26 @@ const Page = ({ params }: { params: { path: string[] } }) => {
   const [title, setTitle] = useState("");
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [categories, setCategories] = useState([]);
 
-  // get vehicle information
+  // get categories
   useEffect(() => {
-    const getVehicles = async () => {
+    const getCategories = async () => {
+      try {
+        const res = await service.get(`${urls.categories}/?populate=*`);
+        setCategories(res?.data?.data);
+      } catch (error) {}
+    };
+
+    getCategories();
+  }, []);
+
+  // get vehicles
+  useEffect(() => {
+    const getVehicles = async (query: string) => {
       try {
         setLoading(true);
-        const res = await service.get(`${urls.vehicles}?populate=*`);
+        const res = await service.get(`${query}&publicationState=live`);
         setVehicles(res?.data?.data);
         setLoading(false);
       } catch (error) {
@@ -39,60 +55,87 @@ const Page = ({ params }: { params: { path: string[] } }) => {
       }
     };
 
-    getVehicles();
-  }, []);
-
-  useEffect(() => {
     switch (paths?.[0]) {
       case "type":
         if (paths?.[1] === "new") {
           // show New RV's
+          getVehicles(
+            `${urls.vehicles}?filters[vehicle_condition]=new&populate=*`
+          );
+
           setTitle("New RVs");
         }
         if (paths?.[1] === "used") {
           // show Used RV's
+          getVehicles(
+            `${urls.vehicles}?filters[vehicle_condition]=used&populate=*`
+          );
+
           setTitle("Used RVs");
         }
         break;
 
       case "clearance":
         // show Clearance
+        getVehicles(`${urls.vehicles}?filters[clearance]=1&populate=*`);
+
         setTitle("Clearance RVs");
 
         break;
 
       case "web_specials":
         // show Web Specials
+        getVehicles(`${urls.vehicles}?filters[web_special]=1&populate=*`);
+
         setTitle("Web Specials");
 
         break;
 
       case "used_rvs":
         // show Used Diesel using /categories/used_rvs/90/class-a-diesel
+        getVehicles(
+          `${urls.vehicles}?filters[category][id]=${paths?.[1]}&populate=*`
+        );
+
         setTitle("Class A - Diesel");
 
         break;
 
       case "all":
         // show Shop by Category using /categories/all/103/toyhaulers
-        setTitle("All Categories");
+        getVehicles(
+          `${urls.vehicles}?filters[category][id]=${paths?.[1]}&populate=*`
+        );
+
+        setTitle("Category Name");
 
         break;
 
       case "model_new":
         // show Shop by Brand using /categories/model_new/Forest-River-r_pod
+
+        const makeModel = paths?.[1]?.replaceAll("%20", " ")?.split("-");
+        getVehicles(
+          `${urls.vehicles}?filters[make][$eq]=${makeModel?.[0]}&filters[model][$eq]=${makeModel?.[1]}&populate=*`
+        );
+
         setTitle("Model New");
 
         break;
 
       case "search":
-        // show Search using /vehicles/search?query=...
+        // show Search using /categories/search?query=&condition=used&category=101&from_year=2023&to_year=2024&make=Audi&price=0-50000&length=31-33&advanced-search=SEARCH
+        getVehicles(
+          `${urls.vehicles}?filters[make][$eq]=${paths?.[0]}&filters[model][$eq]=${paths?.[1]}&populate=*`
+        );
         setTitle("Search Results");
 
         break;
 
       default:
         // show all vehicles
+        getVehicles(`${urls.vehicles}?populate=*`);
+
         setTitle("All Categories");
 
         break;
@@ -122,7 +165,7 @@ const Page = ({ params }: { params: { path: string[] } }) => {
         </div>
       </div>
 
-      <div className="flex flex-wrap sm:flex-nowrap justify-center gap-8 mx-auto">
+      <div className="flex flex-wrap sm:flex-nowrap justify-center gap-8">
         {/* categories with accordion */}
         <div className="lg:min-w-[300px]">
           <div className="font-bold py-4 px-6 mb-4 bg-CFD8DC text-263238 text-lg">
@@ -130,13 +173,15 @@ const Page = ({ params }: { params: { path: string[] } }) => {
           </div>
           <Accordion
             allowZeroExpanded
-            preExpanded={accordionData.map((item) => item.uuid)}
+            preExpanded={categories.map((category: Category) => category?.id)}
           >
-            {accordionData.map((item) => (
-              <AccordionItem uuid={item.uuid} key={item.uuid}>
+            {categories.map((category: Category) => (
+              <AccordionItem uuid={category?.id} key={category?.id}>
                 <AccordionItemHeading>
                   <AccordionItemButton className="flex justify-between py-4 text-37474F text-lg font-bold px-2">
-                    {item.title}
+                    <Link href={`/categories/all/${category?.id}`}>
+                      <RenderHTML html={category?.attributes?.name} />
+                    </Link>
                     <AccordionItemState>
                       {({ expanded }) => (
                         <Image
@@ -152,14 +197,10 @@ const Page = ({ params }: { params: { path: string[] } }) => {
                 </AccordionItemHeading>
                 <AccordionItemPanel>
                   <ul>
-                    {item.data.map((item) => (
-                      <li
-                        className="p-2 text-base text-455A64 cursor-pointer hover:text-263238"
-                        key={item}
-                      >
-                        {item}
-                      </li>
-                    ))}
+                    <CategoryVehicles
+                      id={category?.id}
+                      className="p-2 text-base text-455A64 cursor-pointer hover:text-263238"
+                    />
                   </ul>
                 </AccordionItemPanel>
               </AccordionItem>
@@ -187,7 +228,7 @@ const Page = ({ params }: { params: { path: string[] } }) => {
           </div>
         </div>
         {/* vehicle list */}
-        <div className="w-full grid md:grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4">
           {loading && <div>Loading..</div>}
           {vehicles?.map((vehicle: Vehicle) => (
             <VehicleCard key={vehicle.id} {...vehicle} />

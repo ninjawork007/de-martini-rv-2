@@ -1,7 +1,29 @@
+"use client";
+
+import classNames from "classnames";
 import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import React from "react";
 
+const links = [
+  { id: 0, title: "Home", url: "/" },
+  { id: 1, title: "New RV’s", url: "/categories/type/new" },
+  { id: 2, title: "Used RV’s", url: "/categories/type/used" },
+  {
+    id: 3,
+    title: "Used Diesels",
+    url: "/categories/used_rvs/90/class-a-diesel",
+  },
+  { id: 4, title: "Web Special", url: "/categories/web-special" },
+  { id: 5, title: "Clearance", url: "/categories/clearance" },
+  { id: 6, title: "Parts & Service", url: "/parts-service" },
+  { id: 7, title: "Contact Us", url: "/contact" },
+];
+
 const Navbar = () => {
+  const pathname = usePathname();
+
   return (
     <div className="flex flex-col">
       <div className="flex justify-center p-3 bg-C8E4FF">
@@ -42,14 +64,18 @@ const Navbar = () => {
       </div>
 
       <div>
-        <ul className="flex flex-wrap justify-center bg-00669E text-white gap-8 py-5">
-          <li>New RV’s</li>
-          <li>Used RV’s</li>
-          <li>Used Diesels</li>
-          <li>Web Special</li>
-          <li>Clearance</li>
-          <li>Parts & Service</li>
-          <li>Contact Us</li>
+        <ul className="flex flex-wrap justify-center bg-00669E text-white text-lg gap-8 py-5">
+          {links.map((link) => (
+            <Link
+              key={link.id}
+              href={link.url}
+              className={classNames({
+                "border-b-2 text-FFD323": pathname === link.url,
+              })}
+            >
+              <li>{link.title}</li>
+            </Link>
+          ))}
         </ul>
       </div>
     </div>

@@ -1,118 +1,100 @@
-interface Category {
-  data: {
-    id: number;
-    attributes: {
-      name: string;
-      order: number;
-      createdAt: string;
-      updatedAt: string;
-      publishedAt: string;
-      original_created_at: string | null;
-      category_id: number | null;
-    };
+export interface Category {
+  id: number;
+  attributes: {
+    name: string;
+    order: number;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+    original_created_at: string | null;
+    category_id: number | null;
   };
 }
 
-interface Status {
-  data: {
-    id: number;
-    attributes: {
-      name: string;
-      public: number;
-      createdAt: string;
-      updatedAt: string;
-      publishedAt: string;
-    };
+export interface Status {
+  id: number;
+  attributes: {
+    name: string;
+    public: number;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
   };
 }
 
-interface Engine {
-  data: {
-    id: number;
-    attributes: {
-      name: string;
-      createdAt: string;
-      updatedAt: string;
-      publishedAt: string;
-    };
+export interface Engine {
+  id: number;
+  attributes: {
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
   };
 }
 
-interface CockpitOption {
-  data: {
-    id: number;
-    attributes: {
-      name: string;
-      createdAt: string;
-      updatedAt: string;
-      publishedAt: string;
-    };
+export interface CockpitOption {
+  id: number;
+  attributes: {
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
   };
 }
 
-interface BedroomLayout {
-  data: {
-    id: number;
-    attributes: {
-      name: string;
-      createdAt: string;
-      updatedAt: string | null;
-      publishedAt: string;
-      original_created_at: string | null;
-    };
+export interface BedroomLayout {
+  id: number;
+  attributes: {
+    name: string;
+    createdAt: string;
+    updatedAt: string | null;
+    publishedAt: string;
+    original_created_at: string | null;
   };
 }
 
-interface Furniture {
-  data: {
-    id: number;
-    attributes: {
-      name: string;
-      createdAt: string;
-      updatedAt: string;
-      publishedAt: string;
-    };
+export interface Furniture {
+  id: number;
+  attributes: {
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
   };
 }
 
-interface Flooring {
-  data: {
-    id: number;
-    attributes: {
-      name: string;
-      createdAt: string;
-      updatedAt: string;
-      publishedAt: string;
-    };
+export interface Flooring {
+  id: number;
+  attributes: {
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
   };
 }
 
-interface Slide {
-  data: {
-    id: number;
-    attributes: {
-      name: string;
-      createdAt: string;
-      updatedAt: string;
-      publishedAt: string;
-    };
+export interface Slide {
+  id: number;
+  attributes: {
+    name: string;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
   };
 }
 
-interface Image {
-  data: {
-    id: number;
-    attributes: {
-      title: string;
-      is_front: number;
-      position: string;
-      description: string | null;
-      public: number;
-      image: string;
-      createdAt: string;
-      updatedAt: string;
-      publishedAt: string;
-    };
+export interface Image {
+  id: number;
+  attributes: {
+    title: string;
+    is_front: number;
+    position: string;
+    description: string | null;
+    public: number;
+    image: string;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
   };
 }
 
@@ -158,14 +140,14 @@ export interface Vehicle {
     createdAt: string;
     updatedAt: string;
     publishedAt: string | null;
-    category: Category;
-    status: Status;
-    engine: Engine;
-    cockpit_option: CockpitOption;
-    bedroom_layout: BedroomLayout;
-    furniture: Furniture;
-    flooring: Flooring;
-    slide: Slide;
-    image: Image;
+    category: { data: Category };
+    status: { data: Status };
+    engine: { data: Engine };
+    cockpit_option: { data: CockpitOption };
+    bedroom_layout: { data: BedroomLayout };
+    furniture: { data: Furniture };
+    flooring: { data: Flooring };
+    slide: { data: Slide };
+    image: { data: Image };
   };
 }
