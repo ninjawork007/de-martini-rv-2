@@ -2,6 +2,7 @@
 
 import CategoryVehicles from "@/components/categories/CategoryVehicles";
 import RenderHTML from "@/components/RenderHTML";
+import Title from "@/components/Title";
 import VehicleCard from "@/components/categories/VehicleCard";
 import Image from "next/image";
 // import Link from "next/link";
@@ -21,7 +22,6 @@ import { options } from "../../../constants";
 import service from "../../../services";
 import { urls } from "../../../services/urls";
 import { Category, Vehicle } from "../../../types/vehicle";
-
 import useCategories from "../../../hooks/useCategories";
 
 const Page = ({ params }: { params: { path: string[] } }) => {
@@ -150,8 +150,7 @@ const Page = ({ params }: { params: { path: string[] } }) => {
 
   return (
     <div>
-      <div className="bg-F2F4F5 flex flex-wrap justify-center items-center px-12 md:px-28 lg:px-48 py-5 my-10">
-        <h2 className="mr-auto font-medium text-2xl">{title}</h2>
+      <Title heading={title}>
         <div className="flex flex-wrap items-center gap-3 md:gap-5">
           <div>Sort By</div>
           <ReactSelect
@@ -169,7 +168,7 @@ const Page = ({ params }: { params: { path: string[] } }) => {
             </div>
           </div>
         </div>
-      </div>
+      </Title>
 
       <div className="flex flex-wrap sm:flex-nowrap justify-center gap-8 2xl:px-64">
         {/* categories with accordion */}

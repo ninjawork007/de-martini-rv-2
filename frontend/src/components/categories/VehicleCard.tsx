@@ -39,9 +39,11 @@ const VehicleCard: React.FC<Vehicle> = ({
       <div className="flex flex-grow flex-col mt-4">
         {/* make an offer */}
         <div className="flex justify-between items-center">
-          <button className="secondary-button text-sm px-4">
-            Make An Offer
-          </button>
+          <Link href={`/make-offer/${id}`}>
+            <button className="secondary-button text-sm px-4">
+              Make An Offer
+            </button>
+          </Link>
           <div className="text-12B669 font-bold text-base">
             Stock #{item_number}
           </div>

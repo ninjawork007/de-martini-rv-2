@@ -3,29 +3,17 @@
 import Tabs from "@/components/vehicle/Tabs";
 import classNames from "classnames";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import React from "react";
 import { v4 as uuid } from "uuid";
 
 import styles from "./styles.module.css";
-import service from "../../../services";
-import { urls } from "../../../services/urls";
-import { Vehicle } from "../../../types/vehicle";
+import useVehicle from "../../../hooks/useVehicle";
 
 const Vehicle = ({ params }: { params: { id: string } }) => {
   const id = params.id;
 
-  const [vehicle, setVehicle] = useState<Vehicle>();
-
-  useEffect(() => {
-    const getVehicle = async () => {
-      try {
-        const res = await service.get(`${urls.vehicles}/${id}?populate=*`);
-        setVehicle(res?.data?.data);
-      } catch (error) {}
-    };
-
-    if (id) getVehicle();
-  }, [id]);
+  const { vehicle } = useVehicle(id);
 
   return (
     <div className="px-10 lg:px-30 2xl:px-48">
@@ -114,14 +102,17 @@ const Vehicle = ({ params }: { params: { id: string } }) => {
 
           <div className="flex flex-col gap-3 my-7">
             <div className="flex gap-3">
-              <button
-                className={classNames(
-                  "bg-B23DEB text-white rounded-lg shadow-md p-2 font-bold w-full",
-                  styles.makeOfferButton
-                )}
-              >
-                Make An Offer!
-              </button>
+              <Link href={`/make-offer/${vehicle?.id}`}>
+                <button
+                  className={classNames(
+                    "bg-B23DEB text-white rounded-lg shadow-md p-2 font-bold w-full",
+                    styles.makeOfferButton
+                  )}
+                >
+                  Make An Offer!
+                </button>
+              </Link>
+
               <button className="bg-12B669 rounded-lg shadow-md p-2 font-bold w-full">
                 Make An Offer!
               </button>
