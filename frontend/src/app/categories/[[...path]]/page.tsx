@@ -5,6 +5,7 @@ import RenderHTML from "@/components/RenderHTML";
 import VehicleCard from "@/components/categories/VehicleCard";
 import Image from "next/image";
 // import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import {
   Accordion,
@@ -21,25 +22,17 @@ import service from "../../../services";
 import { urls } from "../../../services/urls";
 import { Category, Vehicle } from "../../../types/vehicle";
 
+import useCategories from "../../../hooks/useCategories";
+
 const Page = ({ params }: { params: { path: string[] } }) => {
   const paths = params.path;
+  const searchParams = useSearchParams();
+
+  const { categories } = useCategories();
 
   const [title, setTitle] = useState("");
   const [vehicles, setVehicles] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [categories, setCategories] = useState([]);
-
-  // get categories
-  useEffect(() => {
-    const getCategories = async () => {
-      try {
-        const res = await service.get(`${urls.categories}/?populate=*`);
-        setCategories(res?.data?.data);
-      } catch (error) {}
-    };
-
-    getCategories();
-  }, []);
+  const [loading, setLoading] = useState(true);
 
   // get vehicles
   useEffect(() => {
@@ -55,97 +48,110 @@ const Page = ({ params }: { params: { path: string[] } }) => {
       }
     };
 
+    // get title and vehicles based on page route
     switch (paths?.[0]) {
       case "type":
         if (paths?.[1] === "new") {
           // show New RV's
+          setTitle("New RVs");
+
           getVehicles(
             `${urls.vehicles}?filters[vehicle_condition]=new&populate=*`
           );
-
-          setTitle("New RVs");
         }
         if (paths?.[1] === "used") {
           // show Used RV's
+          setTitle("Used RVs");
+
           getVehicles(
             `${urls.vehicles}?filters[vehicle_condition]=used&populate=*`
           );
-
-          setTitle("Used RVs");
         }
         break;
 
       case "clearance":
         // show Clearance
-        getVehicles(`${urls.vehicles}?filters[clearance]=1&populate=*`);
-
         setTitle("Clearance RVs");
+
+        getVehicles(`${urls.vehicles}?filters[clearance]=1&populate=*`);
 
         break;
 
       case "web_specials":
         // show Web Specials
-        getVehicles(`${urls.vehicles}?filters[web_special]=1&populate=*`);
-
         setTitle("Web Specials");
+
+        getVehicles(`${urls.vehicles}?filters[web_special]=1&populate=*`);
 
         break;
 
       case "used_rvs":
         // show Used Diesel using /categories/used_rvs/90/class-a-diesel
+        setTitle("Class A - Diesel");
+
         getVehicles(
           `${urls.vehicles}?filters[category][id]=${paths?.[1]}&populate=*`
         );
-
-        setTitle("Class A - Diesel");
 
         break;
 
       case "all":
         // show Shop by Category using /categories/all/103/toyhaulers
+        setTitle(
+          categories.find((category) => category?.id === Number(paths?.[1]))
+            ?.attributes?.name || ""
+        );
+
         getVehicles(
           `${urls.vehicles}?filters[category][id]=${paths?.[1]}&populate=*`
         );
-
-        setTitle("Category Name");
 
         break;
 
       case "model_new":
         // show Shop by Brand using /categories/model_new/Forest-River-r_pod
-
         const makeModel = paths?.[1]?.replaceAll("%20", " ")?.split("-");
+        setTitle(makeModel.join(" "));
+
         getVehicles(
           `${urls.vehicles}?filters[make][$eq]=${makeModel?.[0]}&filters[model][$eq]=${makeModel?.[1]}&populate=*`
         );
 
-        setTitle("Model New");
-
         break;
 
       case "search":
-        // show Search using /categories/search?query=&condition=used&category=101&from_year=2023&to_year=2024&make=Audi&price=0-50000&length=31-33&advanced-search=SEARCH
-        getVehicles(
-          `${urls.vehicles}?filters[make][$eq]=${paths?.[0]}&filters[model][$eq]=${paths?.[1]}&populate=*`
-        );
         setTitle("Search Results");
+
+        const condition = searchParams.get("condition");
+        const brand = searchParams.get("brand");
+        const category = searchParams.get("category");
+        const stock = searchParams.get("stock");
+
+        const vehicleCondition =
+          condition === "all"
+            ? `filters[vehicle_condition][$eq]=used&filters[vehicle_condition][$eq]=new`
+            : `filters[vehicle_condition][$eq]=${condition}`;
+
+        getVehicles(
+          `${urls.vehicles}?${vehicleCondition}&filters[make][$eq]=${brand}&&filters[category][name][$eq]=${category}&filters[item_number][$eq]=${stock}&populate=*`
+        );
 
         break;
 
       default:
         // show all vehicles
-        getVehicles(`${urls.vehicles}?populate=*`);
-
         setTitle("All Categories");
+
+        getVehicles(`${urls.vehicles}?populate=*`);
 
         break;
     }
-  }, [paths]);
+  }, [categories, paths, searchParams]);
 
   return (
     <div>
       <div className="bg-F2F4F5 flex flex-wrap justify-center items-center px-12 md:px-28 lg:px-48 py-5 my-10">
-        <h2 className="mr-auto font-medium text-2xl">All Vehicles</h2>
+        <h2 className="mr-auto font-medium text-2xl">{title}</h2>
         <div className="flex flex-wrap items-center gap-3 md:gap-5">
           <div>Sort By</div>
           <ReactSelect
@@ -165,9 +171,9 @@ const Page = ({ params }: { params: { path: string[] } }) => {
         </div>
       </div>
 
-      <div className="flex flex-wrap sm:flex-nowrap justify-center gap-8">
+      <div className="flex flex-wrap sm:flex-nowrap justify-center gap-8 2xl:px-64">
         {/* categories with accordion */}
-        <div className="lg:min-w-[300px]">
+        <div className="w-full sm:w-auto lg:min-w-[300px]">
           <div className="font-bold py-4 px-6 mb-4 bg-CFD8DC text-263238 text-lg">
             Shop By Brand
           </div>
@@ -207,7 +213,7 @@ const Page = ({ params }: { params: { path: string[] } }) => {
             ))}
           </Accordion>
 
-          <div className="bg-0053A6 rounded-lg p-4 max-w-[300px] my-4">
+          <div className="bg-0053A6 rounded-lg p-4 w-full sm:max-w-[300px] my-4">
             <button className="primary-button text-left text-lg w-full text-263238 font-semibold py-3.5 px-6 rounded-[4px] mb-3">
               Make An Offer!
             </button>
@@ -228,8 +234,11 @@ const Page = ({ params }: { params: { path: string[] } }) => {
           </div>
         </div>
         {/* vehicle list */}
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="w-full grid md:grid-cols-2 gap-4">
           {loading && <div>Loading..</div>}
+          {!loading && !vehicles.length && (
+            <div className="">No Vehicles Found</div>
+          )}
           {vehicles?.map((vehicle: Vehicle) => (
             <VehicleCard key={vehicle.id} {...vehicle} />
           ))}

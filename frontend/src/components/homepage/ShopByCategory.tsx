@@ -28,11 +28,11 @@ const ShopByCategory = () => {
       <h3 className="font-bold text-2xl py-8">Shop By Category</h3>
 
       <div className="flex flex-wrap justify-center gap-6">
-        {categories.map((item: Category) => (
+        {categories.map((category: Category) => (
           <Link
             className="flex flex-col items-center"
-            href="/categories"
-            key={item?.id}
+            href={`/categories/all/${category?.id}/${category?.attributes?.name}`}
+            key={category?.id}
           >
             <Image
               className="mx-auto"
@@ -42,7 +42,7 @@ const ShopByCategory = () => {
               height={50}
             />
 
-            <RenderHTML html={item?.attributes?.name} />
+            <RenderHTML html={category?.attributes?.name} />
           </Link>
         ))}
       </div>

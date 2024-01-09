@@ -15,9 +15,9 @@ const links = [
     title: "Used Diesels",
     url: "/categories/used_rvs/90/class-a-diesel",
   },
-  { id: 4, title: "Web Special", url: "/categories/web-special" },
+  { id: 4, title: "Web Special", url: "/categories/web_specials" },
   { id: 5, title: "Clearance", url: "/categories/clearance" },
-  { id: 6, title: "Parts & Service", url: "/parts-service" },
+  { id: 6, title: "Parts & Service", url: "/parts_service" },
   { id: 7, title: "Contact Us", url: "/contact" },
 ];
 

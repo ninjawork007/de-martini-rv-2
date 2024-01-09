@@ -3,6 +3,7 @@
 import classNames from "classnames";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { useRouter } from "next/navigation";
 import React from "react";
 import ReactSelect, { GroupBase, OptionsOrGroups } from "react-select";
 
@@ -16,6 +17,7 @@ interface HeaderProps {
 }
 
 interface SelectProps {
+  name: string;
   options: OptionsOrGroups<any, GroupBase<any>>;
   placeholder?: string;
 }
@@ -26,7 +28,7 @@ const vehicleConditionOptions = [
   { label: "New", value: "new" },
 ];
 
-const Select: React.FC<SelectProps> = ({ options, placeholder }) => (
+const Select: React.FC<SelectProps> = ({ options, placeholder, name }) => (
   <ReactSelect
     className="h-10"
     components={{
@@ -42,11 +44,13 @@ const Select: React.FC<SelectProps> = ({ options, placeholder }) => (
       }),
     }}
     placeholder={placeholder}
+    name={name}
   />
 );
 
 const Header: React.FC<HeaderProps> = ({ showSearchForm = true }) => {
   const pathname = usePathname();
+  const router = useRouter();
 
   const isHomepage = pathname === "/";
 
@@ -55,13 +59,33 @@ const Header: React.FC<HeaderProps> = ({ showSearchForm = true }) => {
 
   const categoryOptions = categories.map((category) => ({
     label: category?.attributes?.name,
-    value: category?.id,
+    value: category?.attributes?.name,
   }));
 
   const brandOptions = getUniqueBrandVehicles(vehicles).map((vehicle) => ({
     label: `${vehicle?.attributes?.make} ${vehicle?.attributes?.model}`,
-    value: vehicle?.id,
+    value: vehicle?.attributes?.make,
   }));
+
+  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+
+    const form = new FormData(e.currentTarget);
+    const body: Record<string, any> = {};
+    for (const [key, value] of form.entries()) {
+      body[key] = value;
+    }
+
+    let str = [];
+    for (let p in body)
+      if (body.hasOwnProperty(p)) {
+        str.push(
+          encodeURIComponent(p) + "=" + encodeURIComponent((body as any)?.[p])
+        );
+      }
+
+    router.push(`/categories/search?${str.join("&")}`, { scroll: false });
+  }
 
   return (
     <div className="relative mb-20">
@@ -88,11 +112,26 @@ const Header: React.FC<HeaderProps> = ({ showSearchForm = true }) => {
 
       {showSearchForm && (
         <div className="absolute -bottom-14 left-0 right-0 flex justify-center">
-          <div className="bg-00669E p-8 flex flex-wrap gap-3 justify-center rounded-xl">
-            <Select options={vehicleConditionOptions} />
-            <Select placeholder="All Brands" options={brandOptions} />
-            <Select placeholder="All Types" options={categoryOptions} />
-            <input className="h-10 rounded-md px-2" placeholder="Stock #" />
+          <form
+            onSubmit={onSubmit}
+            className="bg-00669E p-8 flex flex-wrap gap-3 justify-center rounded-xl"
+          >
+            <Select options={vehicleConditionOptions} name="condition" />
+            <Select
+              placeholder="All Brands"
+              options={brandOptions}
+              name="brand"
+            />
+            <Select
+              placeholder="All Types"
+              options={categoryOptions}
+              name="category"
+            />
+            <input
+              className="h-10 rounded-md px-2"
+              placeholder="Stock #"
+              name="stock"
+            />
             <button className="primary-button">
               <Image
                 src="/icons/MagnifyingGlass.svg"
@@ -101,7 +140,7 @@ const Header: React.FC<HeaderProps> = ({ showSearchForm = true }) => {
                 width={25}
               />
             </button>
-          </div>
+          </form>
         </div>
       )}
     </div>
