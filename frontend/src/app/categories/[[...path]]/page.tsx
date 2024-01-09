@@ -4,7 +4,7 @@ import CategoryVehicles from "@/components/categories/CategoryVehicles";
 import RenderHTML from "@/components/RenderHTML";
 import VehicleCard from "@/components/categories/VehicleCard";
 import Image from "next/image";
-import Link from "next/link";
+// import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import {
   Accordion,
@@ -179,9 +179,9 @@ const Page = ({ params }: { params: { path: string[] } }) => {
               <AccordionItem uuid={category?.id} key={category?.id}>
                 <AccordionItemHeading>
                   <AccordionItemButton className="flex justify-between py-4 text-37474F text-lg font-bold px-2">
-                    <Link href={`/categories/all/${category?.id}`}>
-                      <RenderHTML html={category?.attributes?.name} />
-                    </Link>
+                    {/* <Link href={`/categories/all/${category?.id}`}> */}
+                    <RenderHTML html={category?.attributes?.name} />
+                    {/* </Link> */}
                     <AccordionItemState>
                       {({ expanded }) => (
                         <Image

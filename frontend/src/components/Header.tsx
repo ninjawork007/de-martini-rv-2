@@ -4,16 +4,29 @@ import classNames from "classnames";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import React from "react";
-import ReactSelect from "react-select";
+import ReactSelect, { GroupBase, OptionsOrGroups } from "react-select";
 
-import { options } from "../constants";
 import styles from "./styles.module.css";
+import useCategories from "../hooks/useCategories";
+import useVehicles from "../hooks/useVehicles";
+import { getUniqueBrandVehicles } from "../utils";
 
 interface HeaderProps {
   showSearchForm?: boolean;
 }
 
-const Select = () => (
+interface SelectProps {
+  options: OptionsOrGroups<any, GroupBase<any>>;
+  placeholder?: string;
+}
+
+const vehicleConditionOptions = [
+  { label: "Used and New", value: "all" },
+  { label: "Used", value: "used" },
+  { label: "New", value: "new" },
+];
+
+const Select: React.FC<SelectProps> = ({ options, placeholder }) => (
   <ReactSelect
     className="h-10"
     components={{
@@ -22,11 +35,13 @@ const Select = () => (
     options={options}
     defaultValue={options[0]}
     styles={{
-      control: (baseStyles, state) => ({
+      control: (baseStyles) => ({
         ...baseStyles,
         height: 40,
+        minWidth: 250,
       }),
     }}
+    placeholder={placeholder}
   />
 );
 
@@ -34,6 +49,19 @@ const Header: React.FC<HeaderProps> = ({ showSearchForm = true }) => {
   const pathname = usePathname();
 
   const isHomepage = pathname === "/";
+
+  const { categories } = useCategories();
+  const { vehicles } = useVehicles(`/all`);
+
+  const categoryOptions = categories.map((category) => ({
+    label: category?.attributes?.name,
+    value: category?.id,
+  }));
+
+  const brandOptions = getUniqueBrandVehicles(vehicles).map((vehicle) => ({
+    label: `${vehicle?.attributes?.make} ${vehicle?.attributes?.model}`,
+    value: vehicle?.id,
+  }));
 
   return (
     <div className="relative mb-20">
@@ -61,13 +89,9 @@ const Header: React.FC<HeaderProps> = ({ showSearchForm = true }) => {
       {showSearchForm && (
         <div className="absolute -bottom-14 left-0 right-0 flex justify-center">
           <div className="bg-00669E p-8 flex flex-wrap gap-3 justify-center rounded-xl">
-            {/* 1. vehicle_condition > NEW, USED, NEW AND USED */}
-            {/* 2. category */}
-            <div className="h-10">
-              <Select />
-            </div>
-            <Select />
-            <Select />
+            <Select options={vehicleConditionOptions} />
+            <Select placeholder="All Brands" options={brandOptions} />
+            <Select placeholder="All Types" options={categoryOptions} />
             <input className="h-10 rounded-md px-2" placeholder="Stock #" />
             <button className="primary-button">
               <Image
