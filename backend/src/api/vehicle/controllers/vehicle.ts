@@ -18,5 +18,16 @@ module.exports = factories.createCoreController(
       const sanitizedEntity = await this.sanitizeOutput(vehicles, ctx);
       return this.transformResponse(sanitizedEntity);
     },
+    async getImages(ctx) {
+      const images = await strapi.entityService.findMany(
+        "plugin::upload.file",
+        {
+          fields: ["url", "name", "alternativeText"],
+        }
+      );
+
+      const sanitizedEntity = await this.sanitizeOutput(images, ctx);
+      return this.transformResponse(sanitizedEntity);
+    },
   })
 );
