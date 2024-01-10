@@ -28,7 +28,8 @@ const Navbar = () => {
 
   const pathname = usePathname();
 
-  const onSearch = () => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     router.push(`/categories/search?brand=${searchTerm}`, { scroll: false });
   };
 
@@ -51,17 +52,17 @@ const Navbar = () => {
       </div>
 
       <div className="flex justify-center flex-wrap gap-5 px-2 py-5">
-        <div className="flex flex-wrap gap-2">
+        <form className="flex flex-wrap gap-2" onSubmit={onSubmit}>
           <input
             placeholder="What RV are you looking for?"
             className="input-box rounded-md p-4 md:min-w-[400px]"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button onClick={onSearch} className="primary-button w-32">
+          <button type="submit" className="primary-button w-32">
             Search
           </button>
-        </div>
+        </form>
         <div className="flex flex-wrap gap-3">
           <div className="flex items-center gap-2">
             <Image src="/icons/Phone.svg" height={30} width={30} alt="" />
