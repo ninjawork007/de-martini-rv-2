@@ -125,18 +125,26 @@ const Page = ({ params }: { params: { path: string[] } }) => {
       case "search":
         setTitle("Search Results");
 
-        const condition = searchParams.get("condition");
-        const brand = searchParams.get("brand");
-        const category = searchParams.get("category");
-        const stock = searchParams.get("stock");
+        const condition = searchParams.get("condition") || "";
+        const brand = searchParams.get("brand") || "";
+        const category = searchParams.get("category") || "";
+        const stock = searchParams.get("stock") || "";
 
         const vehicleCondition =
           condition === "all"
             ? `filters[vehicle_condition][$eq]=used&filters[vehicle_condition][$eq]=new`
-            : `filters[vehicle_condition][$eq]=${condition}`;
+            : condition
+            ? `filters[vehicle_condition][$eq]=${condition}`
+            : "";
+
+        const vehicleBrand = brand ? `&filters[make][$eq]=${brand}` : "";
+        const vehicleCategory = category
+          ? `&filters[category][name][$eq]=${category}`
+          : "";
+        const vehicleStock = stock ? `&filters[item_number][$eq]=${stock}` : "";
 
         getVehicles(
-          `${urls.vehicles}?${vehicleCondition}&filters[make][$eq]=${brand}&&filters[category][name][$eq]=${category}&filters[item_number][$eq]=${stock}&populate=*`
+          `${urls.vehicles}?${vehicleCondition}${vehicleBrand}${vehicleCategory}${vehicleStock}&populate=*`
         );
 
         break;

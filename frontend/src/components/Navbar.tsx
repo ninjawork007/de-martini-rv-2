@@ -3,8 +3,8 @@
 import classNames from "classnames";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React from "react";
+import { usePathname, useRouter } from "next/navigation";
+import React, { useState } from "react";
 
 const links = [
   { id: 0, title: "Home", url: "/" },
@@ -22,7 +22,15 @@ const links = [
 ];
 
 const Navbar = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const router = useRouter();
+
   const pathname = usePathname();
+
+  const onSearch = () => {
+    router.push(`/categories/search?brand=${searchTerm}`, { scroll: false });
+  };
 
   return (
     <div className="flex flex-col">
@@ -47,8 +55,12 @@ const Navbar = () => {
           <input
             placeholder="What RV are you looking for?"
             className="input-box rounded-md p-4 md:min-w-[400px]"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button className="primary-button w-32">Search</button>
+          <button onClick={onSearch} className="primary-button w-32">
+            Search
+          </button>
         </div>
         <div className="flex flex-wrap gap-3">
           <div className="flex items-center gap-2">
