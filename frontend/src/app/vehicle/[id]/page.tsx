@@ -9,18 +9,32 @@ import { v4 as uuid } from "uuid";
 
 import styles from "./styles.module.css";
 import useVehicle from "../../../hooks/useVehicle";
+import useImages from "../../../hooks/useImages";
+import { ADMIN_URL } from "../../../services/urls";
 
 const Vehicle = ({ params }: { params: { id: string } }) => {
   const id = params.id;
 
   const { vehicle } = useVehicle(id);
 
+  const { images } = useImages();
+
+  const imageData = images?.find(
+    (mediaImage) =>
+      mediaImage?.attributes?.name ===
+      vehicle?.attributes?.image?.data?.attributes?.image
+  );
+
   return (
     <div className="px-10 lg:px-30 2xl:px-48">
       <div className="flex flex-wrap lg:flex-nowrap justify-center gap-10">
         <div className="w-full lg:w-[60%] 2xl:w-[70%]">
           <Image
-            src="/images/vehicle.png"
+            src={
+              imageData
+                ? `${ADMIN_URL}/${imageData?.attributes?.url}`
+                : "/images/vehicle.png"
+            }
             height={450}
             width={800}
             alt=""

@@ -23,12 +23,15 @@ import service from "../../../services";
 import { urls } from "../../../services/urls";
 import { Category, Vehicle } from "../../../types/vehicle";
 import useCategories from "../../../hooks/useCategories";
+import useImages from "../../../hooks/useImages";
 
 const Page = ({ params }: { params: { path: string[] } }) => {
   const paths = params.path;
   const searchParams = useSearchParams();
 
   const { categories } = useCategories();
+
+  const { images } = useImages();
 
   const [title, setTitle] = useState("");
   const [vehicles, setVehicles] = useState([]);
@@ -239,7 +242,7 @@ const Page = ({ params }: { params: { path: string[] } }) => {
             <div className="">No Vehicles Found</div>
           )}
           {vehicles?.map((vehicle: Vehicle) => (
-            <VehicleCard key={vehicle.id} {...vehicle} />
+            <VehicleCard key={vehicle.id} images={images} {...vehicle} />
           ))}
         </div>
       </div>

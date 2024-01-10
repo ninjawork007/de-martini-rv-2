@@ -7,8 +7,10 @@ import styles from "./styles.module.css";
 import { MAX_DESCRIPTION_LENGTH } from "../../constants";
 import { Vehicle } from "../../types/vehicle";
 import { htmlDecode } from "../../utils";
+import { ImageMedia } from "../../types/image";
+import { ADMIN_URL } from "../../services/urls";
 
-const VehicleCard: React.FC<Vehicle> = ({
+const VehicleCard: React.FC<Vehicle & { images?: ImageMedia[] }> = ({
   id,
   attributes: {
     year,
@@ -19,8 +21,15 @@ const VehicleCard: React.FC<Vehicle> = ({
     short_description,
     description,
     sale_price,
+    image,
   },
+  images,
 }) => {
+  const imageData = images?.find(
+    (mediaImage) =>
+      mediaImage?.attributes?.name === image?.data?.attributes?.image
+  );
+
   return (
     <div
       className={classNames(
@@ -29,7 +38,11 @@ const VehicleCard: React.FC<Vehicle> = ({
       )}
     >
       <Image
-        src="/images/van.png"
+        src={
+          imageData
+            ? `${ADMIN_URL}/${imageData?.attributes?.url}`
+            : "/images/van.png"
+        }
         width={450}
         height={350}
         quality={100}
