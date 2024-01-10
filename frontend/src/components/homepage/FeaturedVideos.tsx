@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import classNames from "classnames";
+import styles from '../styles.module.css';
 
 interface CardProps {
   showFeatured?: boolean;
@@ -10,10 +11,7 @@ interface CardProps {
 const Card: React.FC<CardProps> = ({ showFeatured, showSubscribe }) => {
   return (
     <div
-      className="p-4 rounded-md bg-white max-w-[550px] 2xl:max-w-[650px]"
-      style={{
-        boxShadow: "0px 4px 19px 0px rgba(0, 0, 0, 0.12)",
-      }}
+      className={classNames(styles.cardShadow, "p-4 rounded-md bg-white max-w-[550px] 2xl:max-w-[650px]")}
     >
       <Image
         className="w-full max-h-[450px]"

@@ -1,6 +1,9 @@
 "use client";
 
+import Partners from "@/components/Partners";
+import RvSaleSlider from "@/components/RvSaleSlider";
 import Tabs from "@/components/vehicle/Tabs";
+
 import classNames from "classnames";
 import Image from "next/image";
 import Link from "next/link";
@@ -149,6 +152,8 @@ const Vehicle = ({ params }: { params: { id: string } }) => {
           <Image key={uuid()} src={image} height={450} width={800} alt="" />
         ))}
       </div>
+      <RvSaleSlider />
+      <Partners />
     </div>
   );
 };

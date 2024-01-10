@@ -1,6 +1,8 @@
 "use client";
 
 import CategoryVehicles from "@/components/categories/CategoryVehicles";
+import Partners from "@/components/Partners";
+import RvSaleSlider from "@/components/RvSaleSlider";
 import RenderHTML from "@/components/RenderHTML";
 import Title from "@/components/Title";
 import VehicleCard from "@/components/categories/VehicleCard";
@@ -134,8 +136,8 @@ const Page = ({ params }: { params: { path: string[] } }) => {
           condition === "all"
             ? `filters[vehicle_condition][$eq]=used&filters[vehicle_condition][$eq]=new`
             : condition
-            ? `filters[vehicle_condition][$eq]=${condition}`
-            : "";
+              ? `filters[vehicle_condition][$eq]=${condition}`
+              : "";
 
         const vehicleBrand = brand ? `&filters[make][$eq]=${brand}` : "";
         const vehicleCategory = category
@@ -254,6 +256,8 @@ const Page = ({ params }: { params: { path: string[] } }) => {
           ))}
         </div>
       </div>
+      <RvSaleSlider />
+      <Partners />
     </div>
   );
 };

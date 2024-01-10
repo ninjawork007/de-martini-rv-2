@@ -28,6 +28,7 @@ const config: Config = {
       "039754": "#039754",
       FFD323: "#FFD323",
       FF4000: "#FF4000",
+      "0538FF": "#0538FF",
     },
     extend: {
       backgroundImage: {
