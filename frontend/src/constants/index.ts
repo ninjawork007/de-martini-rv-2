@@ -9,3 +9,5 @@ export const vehiclePageTabsArray = [
 ];
 
 export const MAX_DESCRIPTION_LENGTH = 230;
+
+export const AUTH_TOKEN_NAME = "d_auth_token";

@@ -20,15 +20,20 @@ interface FormData {
   city: string;
   state: string;
   phoneNumber: string;
+  contactMe: boolean;
 }
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
   bidAmount: yup.number().required("Bid Amount is required"),
-  cashOffer: yup.boolean().required(""),
+  cashOffer: yup.boolean().required("Cash Offer is required"),
   needFinancing: yup.boolean().required("Need Financing is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
-  downPayment: yup.number().required("Down Payment is required"),
+  downPayment: yup
+    .number()
+    .nullable()
+    .min(0, "Must be a positive number")
+    .required("Down Payment is required"),
   address: yup.string().required("Address is required"),
   questionsOrComments: yup
     .string()
@@ -36,6 +41,7 @@ const schema = yup.object().shape({
   city: yup.string().required("City is required"),
   state: yup.string().required("State is required"),
   phoneNumber: yup.string().required("Phone Number is required"),
+  contactMe: yup.boolean().required(""),
 });
 
 const MakeOffer = ({ params }: { params: { id: string } }) => {
@@ -65,7 +71,7 @@ const MakeOffer = ({ params }: { params: { id: string } }) => {
     type,
     ...rest
   }: {
-    label: string;
+    label: React.ReactNode;
     name: keyof FormData;
     type?: string;
     error?: string;
@@ -96,16 +102,16 @@ const MakeOffer = ({ params }: { params: { id: string } }) => {
           </div>
         )}
 
-        <p>{error}</p>
+        <p className="text-FF4000">{error}</p>
       </div>
     );
   };
 
   return (
-    <div>
+    <form onSubmit={handleSubmit(onSubmit)}>
       <Title heading="DeMartini RV Sales - Bid Form" />
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <div>
         <div className="grid grid-cols-2 px-64 gap-6">
           {/* left part */}
 
@@ -191,11 +197,16 @@ const MakeOffer = ({ params }: { params: { id: string } }) => {
 
         <div className="flex justify-center my-9">
           <div className="flex flex-col gap-5">
-            <div className="flex gap-3">
-              <input type="checkbox" {...register("cashOffer")} />
-              <label className="text-0053A6">
-                Please Contact Me as Soon as Possible
-              </label>
+            <div className="flex items-center gap-1">
+              <Field
+                label={
+                  <span className="text-0053A6">
+                    Please Contact Me as Soon as Possible
+                  </span>
+                }
+                name="contactMe"
+                type="checkbox"
+              />
             </div>
 
             <div className="2xl:min-w-[600px]">
@@ -205,8 +216,8 @@ const MakeOffer = ({ params }: { params: { id: string } }) => {
             </div>
           </div>
         </div>
-      </form>
-    </div>
+      </div>
+    </form>
   );
 };
 

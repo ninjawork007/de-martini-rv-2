@@ -1,19 +1,21 @@
+import { AUTH_TOKEN_NAME } from "../constants";
+
 export function saveToken(authInfo: any) {
-  return localStorage.setItem("auth", authInfo);
+  return localStorage.setItem(AUTH_TOKEN_NAME, authInfo);
 }
 
 export const getToken = () => {
-  if (sessionStorage.getItem("auth")) {
-    return sessionStorage.getItem("auth");
+  if (sessionStorage.getItem(AUTH_TOKEN_NAME)) {
+    return sessionStorage.getItem(AUTH_TOKEN_NAME);
   } else {
-    return localStorage.getItem("auth");
+    return localStorage.getItem(AUTH_TOKEN_NAME);
   }
 };
 
 export const removeToken = () => {
-  if (sessionStorage.getItem("auth")) {
-    return sessionStorage.removeItem("auth");
+  if (sessionStorage.getItem(AUTH_TOKEN_NAME)) {
+    return sessionStorage.removeItem(AUTH_TOKEN_NAME);
   } else {
-    return localStorage.removeItem("auth");
+    return localStorage.removeItem(AUTH_TOKEN_NAME);
   }
 };
