@@ -37,3 +37,30 @@ export interface ImageFormat {
   width: number;
   height: number;
 }
+
+export interface VehicleImage {
+  id: number;
+  attributes: {
+    title: string;
+    is_front: number;
+    position: string;
+    description: string;
+    public: number;
+    image: string;
+    createdAt: string;
+    updatedAt: string;
+    publishedAt: string;
+    group: {
+      data: {
+        id: number;
+        attributes: {
+          name: string;
+          description: string;
+          createdAt: string | null;
+          updatedAt: string | null;
+          publishedAt: string;
+        };
+      };
+    };
+  };
+}
