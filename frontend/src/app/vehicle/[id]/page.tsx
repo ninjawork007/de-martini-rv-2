@@ -5,44 +5,62 @@ import RvSaleSlider from "@/components/RvSaleSlider";
 import Tabs from "@/components/vehicle/Tabs";
 
 import classNames from "classnames";
+import compact from "lodash/compact";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useMemo } from "react";
 import { v4 as uuid } from "uuid";
 
-import styles from "./styles.module.css";
 import useVehicle from "../../../hooks/useVehicle";
 import useImages from "../../../hooks/useImages";
 import { ADMIN_URL } from "../../../services/urls";
+import useVehicleImages from "../../../hooks/useVehicleImages";
+import ImageGallery from "./ImageGallery";
+import styles from "./styles.module.css";
 
 const Vehicle = ({ params }: { params: { id: string } }) => {
   const id = params.id;
 
   const { vehicle } = useVehicle(id);
 
-  const { images } = useImages();
+  const { images: allImages } = useImages(`?populate=*`);
 
-  const imageData = images?.find(
-    (mediaImage) =>
-      mediaImage?.attributes?.name ===
-      vehicle?.attributes?.image?.data?.attributes?.image
+  const { images: vehicleImages } = useVehicleImages(
+    `?filters[title]=${vehicle?.attributes?.tagline}&populate=*`
   );
+
+  const images = useMemo(() => {
+    return compact(
+      vehicleImages?.map((image) => {
+        const original = allImages?.find(
+          (mediaImage) =>
+            mediaImage?.attributes?.name === image?.attributes?.image
+        );
+
+        if (!original) return null;
+
+        const url = `${ADMIN_URL}${original?.attributes?.url}`;
+
+        return {
+          original: url,
+          thumbnail: url,
+        };
+      })
+    );
+  }, [allImages, vehicleImages]);
+
+  const defaultImages = [
+    {
+      original: "/images/vehicle.png",
+      thumbnail: "/images/vehicle.png",
+    },
+  ];
 
   return (
     <div className="px-10 lg:px-30 2xl:px-48">
       <div className="flex flex-wrap lg:flex-nowrap justify-center gap-10">
         <div className="w-full lg:w-[60%] 2xl:w-[70%]">
-          <Image
-            src={
-              imageData
-                ? `${ADMIN_URL}/${imageData?.attributes?.url}`
-                : "/images/vehicle.png"
-            }
-            height={450}
-            width={800}
-            alt=""
-            className="rounded-lg w-full"
-          />
+          <ImageGallery images={images.length > 0 ? images : defaultImages} />
         </div>
 
         <div className="w-full lg:w-[40%] 2xl:w-[30%]">
@@ -148,8 +166,14 @@ const Vehicle = ({ params }: { params: { id: string } }) => {
       <Tabs />
 
       <div className="flex flex-col items-center gap-4 mb-10">
-        {["/images/vehicle.png", "/images/vehicle.png"].map((image) => (
-          <Image key={uuid()} src={image} height={450} width={800} alt="" />
+        {images?.map((image) => (
+          <Image
+            key={uuid()}
+            src={image.original}
+            height={450}
+            width={800}
+            alt=""
+          />
         ))}
       </div>
       <RvSaleSlider />

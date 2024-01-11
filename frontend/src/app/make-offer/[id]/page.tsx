@@ -7,6 +7,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 
 import useVehicle from "../../../hooks/useVehicle";
+import { stateOptions } from "../../../constants";
 
 interface FormData {
   name: string;
@@ -51,7 +52,6 @@ const MakeOffer = ({ params }: { params: { id: string } }) => {
 
   const {
     handleSubmit,
-    control,
     register,
     formState: { errors },
   } = useForm<FormData>({
@@ -69,6 +69,7 @@ const MakeOffer = ({ params }: { params: { id: string } }) => {
     placeholder,
     label,
     type,
+    options,
     ...rest
   }: {
     label: React.ReactNode;
@@ -76,6 +77,10 @@ const MakeOffer = ({ params }: { params: { id: string } }) => {
     type?: string;
     error?: string;
     placeholder?: string;
+    options?: {
+      label: string;
+      value: string;
+    }[];
   }) => {
     return (
       <div className="my-3">
@@ -88,6 +93,21 @@ const MakeOffer = ({ params }: { params: { id: string } }) => {
               {...rest}
             />
             <label className="text-black">{label}</label>
+          </div>
+        ) : type === "select" ? (
+          <div className="flex flex-col gap-1">
+            <label className="text-607D8B text-sm">{label}</label>
+            <select
+              className="input-box px-4 py-3"
+              {...register(name)}
+              {...rest}
+            >
+              {options?.map(({ value, label }) => (
+                <option key={label} value={value}>
+                  {label}
+                </option>
+              ))}
+            </select>
           </div>
         ) : (
           <div className="flex flex-col gap-1">
@@ -143,6 +163,8 @@ const MakeOffer = ({ params }: { params: { id: string } }) => {
               name="state"
               placeholder="Select State"
               error={errors.state?.message}
+              type="select"
+              options={stateOptions}
             />
             <Field
               label="Phone Number"

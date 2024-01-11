@@ -33,7 +33,7 @@ const Page = ({ params }: { params: { path: string[] } }) => {
 
   const { categories } = useCategories();
 
-  const { images } = useImages();
+  const { images } = useImages("?populate=*");
 
   const [title, setTitle] = useState("");
   const [vehicles, setVehicles] = useState([]);
@@ -136,8 +136,8 @@ const Page = ({ params }: { params: { path: string[] } }) => {
           condition === "all"
             ? `filters[vehicle_condition][$eq]=used&filters[vehicle_condition][$eq]=new`
             : condition
-              ? `filters[vehicle_condition][$eq]=${condition}`
-              : "";
+            ? `filters[vehicle_condition][$eq]=${condition}`
+            : "";
 
         const vehicleBrand = brand ? `&filters[make][$eq]=${brand}` : "";
         const vehicleCategory = category

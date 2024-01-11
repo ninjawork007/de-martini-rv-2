@@ -23,6 +23,8 @@ const ShopByCategory = () => {
     getCategories();
   }, []);
 
+  if (!categories?.length) return null;
+
   return (
     <div className="px-10 md:px-40 lg:px-60 mb-20">
       <h3 className="font-bold text-2xl py-8">Shop By Category</h3>

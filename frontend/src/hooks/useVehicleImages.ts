@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 
 import service from "../services";
 import { urls } from "../services/urls";
-import { ImageMedia } from "../types/image";
+import { VehicleImage } from "../types/image";
 
-const useImages = (query: string) => {
-  const [images, setImages] = useState<ImageMedia[]>([]);
+const useVehicleImages = (query: string) => {
+  const [images, setImages] = useState<VehicleImage[]>([]);
 
   useEffect(() => {
     const getImages = async () => {
       try {
-        const res = await service.get(`${urls.images}${query}`);
+        const res = await service.get(`${urls.vehicleImages}${query}`);
         setImages(res?.data?.data);
       } catch (error) {}
     };
@@ -23,4 +23,4 @@ const useImages = (query: string) => {
   };
 };
 
-export default useImages;
+export default useVehicleImages;

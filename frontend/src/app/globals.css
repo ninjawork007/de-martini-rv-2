@@ -43,3 +43,8 @@
     border-radius: 4px;
   }
 }
+
+/* vehicle detail page images */
+.image-gallery-image {
+  @apply rounded-lg w-full;
+}
