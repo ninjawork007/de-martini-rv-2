@@ -1,6 +1,7 @@
 "use client";
 
 import CategoryVehicles from "@/components/categories/CategoryVehicles";
+import Pagination from "@/components/Pagination";
 import Partners from "@/components/Partners";
 import RvSaleSlider from "@/components/RvSaleSlider";
 import RenderHTML from "@/components/RenderHTML";
@@ -20,7 +21,7 @@ import {
 } from "react-accessible-accordion";
 import ReactSelect from "react-select";
 
-import { options } from "../../../constants";
+import { ITEMS_PER_PAGE, options } from "../../../constants";
 import service from "../../../services";
 import { urls } from "../../../services/urls";
 import { Category, Vehicle } from "../../../types/vehicle";
@@ -38,14 +39,19 @@ const Page = ({ params }: { params: { path: string[] } }) => {
   const [title, setTitle] = useState("");
   const [vehicles, setVehicles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [itemOffset, setItemOffset] = useState(0);
+  const [totalVehicles, setTotalVehicles] = useState(0);
 
   // get vehicles
   useEffect(() => {
     const getVehicles = async (query: string) => {
       try {
         setLoading(true);
-        const res = await service.get(`${query}&publicationState=live`);
+        const res = await service.get(
+          `${query}&publicationState=live&pagination[start]=${itemOffset}&pagination[limit]=${ITEMS_PER_PAGE}`
+        );
         setVehicles(res?.data?.data);
+        setTotalVehicles(res?.data?.meta?.pagination?.total);
         setLoading(false);
       } catch (error) {
         setLoading(false);
@@ -159,7 +165,7 @@ const Page = ({ params }: { params: { path: string[] } }) => {
 
         break;
     }
-  }, [categories, paths, searchParams]);
+  }, [categories, itemOffset, paths, searchParams]);
 
   return (
     <div>
@@ -256,6 +262,13 @@ const Page = ({ params }: { params: { path: string[] } }) => {
           ))}
         </div>
       </div>
+
+      <Pagination
+        totalPages={totalVehicles}
+        itemOffset={itemOffset}
+        setItemOffset={setItemOffset}
+      />
+
       <RvSaleSlider />
       <Partners />
     </div>

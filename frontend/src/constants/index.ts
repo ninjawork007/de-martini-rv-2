@@ -64,3 +64,5 @@ export const stateOptions = [
   { label: "Wisconsin", value: "WI" },
   { label: "Wyoming", value: "WY" },
 ];
+
+export const ITEMS_PER_PAGE = 6;

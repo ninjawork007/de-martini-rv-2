@@ -1,5 +1,8 @@
+"use client";
+
+import Pagination from "@/components/Pagination";
 import Title from "@/components/Title";
-import React from "react";
+import React, { useState } from "react";
 
 const Card = () => {
   return (
@@ -33,6 +36,9 @@ const Card = () => {
 };
 
 const Testimonials = () => {
+  const [itemOffset, setItemOffset] = useState(0);
+  const [total, setTotal] = useState(20);
+
   return (
     <div>
       <Title heading="Testimonials" />
@@ -43,6 +49,12 @@ const Testimonials = () => {
         <Card />
         <Card />
       </div>
+
+      <Pagination
+        totalPages={total}
+        itemOffset={itemOffset}
+        setItemOffset={setItemOffset}
+      />
 
       <div className="text-center my-20">
         <button className="uppercase primary-button min-w-[300px] lg:min-w-[420px]">
