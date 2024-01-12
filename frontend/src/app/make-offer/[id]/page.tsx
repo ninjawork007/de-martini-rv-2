@@ -1,13 +1,16 @@
 "use client";
 
 import Title from "@/components/Title";
-import React from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import React, { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import Link from "next/link";
 import * as yup from "yup";
 
 import useVehicle from "../../../hooks/useVehicle";
 import { stateOptions } from "../../../constants";
+import service from "../../../services";
+import { urls } from "../../../services/urls";
 
 interface FormData {
   name: string;
@@ -20,19 +23,23 @@ interface FormData {
   questionsOrComments: string;
   city: string;
   state: string;
-  phoneNumber: string;
+  phoneNumber: number;
   contactMe: boolean;
 }
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
-  bidAmount: yup.number().required("Bid Amount is required"),
+  bidAmount: yup
+    .number()
+    .required("Bid Amount is required")
+    .typeError("Must be a positive number")
+    .min(0, "Must be a positive number"),
   cashOffer: yup.boolean().required("Cash Offer is required"),
   needFinancing: yup.boolean().required("Need Financing is required"),
   email: yup.string().email("Invalid email").required("Email is required"),
   downPayment: yup
     .number()
-    .nullable()
+    .typeError("Must be a positive number")
     .min(0, "Must be a positive number")
     .required("Down Payment is required"),
   address: yup.string().required("Address is required"),
@@ -41,7 +48,10 @@ const schema = yup.object().shape({
     .required("Questions or comments are required"),
   city: yup.string().required("City is required"),
   state: yup.string().required("State is required"),
-  phoneNumber: yup.string().required("Phone Number is required"),
+  phoneNumber: yup
+    .number()
+    .typeError("Must be a number")
+    .required("Phone Number is required"),
   contactMe: yup.boolean().required(""),
 });
 
@@ -49,6 +59,8 @@ const MakeOffer = ({ params }: { params: { id: string } }) => {
   const id = params.id;
 
   const { vehicle } = useVehicle(id);
+
+  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const {
     handleSubmit,
@@ -58,9 +70,19 @@ const MakeOffer = ({ params }: { params: { id: string } }) => {
     resolver: yupResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<FormData> = (data) => {
-    console.log(data);
-    // Handle form submission logic here
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    const payload = {
+      data: {
+        title: "Bid Form",
+        submission: data,
+        vehicle: vehicle?.id,
+      },
+    };
+
+    try {
+      await service.post(urls.formSubmission, payload);
+      setIsSubmitted(true);
+    } catch (error) {}
   };
 
   const Field = ({
@@ -131,114 +153,143 @@ const MakeOffer = ({ params }: { params: { id: string } }) => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <Title heading="DeMartini RV Sales - Bid Form" />
 
-      <div>
-        <div className="grid grid-cols-2 px-64 gap-6">
-          {/* left part */}
+      {!isSubmitted && (
+        <div>
+          <div className="grid sm:grid-cols-2 px-12 md:px-44 2xl:px-64 gap-6">
+            {/* left part */}
 
-          <div className="flex flex-col">
-            <h3 className="text-2xl mb-7 font-medium">Customer Information:</h3>
+            <div className="flex flex-col">
+              <h3 className="text-2xl mb-7 font-medium">
+                Customer Information:
+              </h3>
 
-            <Field label="Name" name="name" placeholder="Enter Name" />
-            <Field
-              label="Email Address"
-              name="email"
-              type="email"
-              placeholder="Enter Email Address"
-              error={errors.email?.message}
-            />
-            <Field
-              label="Address"
-              name="address"
-              placeholder="Enter Address"
-              error={errors.address?.message}
-            />
-            <Field
-              label="City"
-              name="city"
-              placeholder="Enter City"
-              error={errors.city?.message}
-            />
-            <Field
-              label="State"
-              name="state"
-              placeholder="Select State"
-              error={errors.state?.message}
-              type="select"
-              options={stateOptions}
-            />
-            <Field
-              label="Phone Number"
-              name="phoneNumber"
-              type="tel"
-              placeholder="Enter Phone Number"
-              error={errors.phoneNumber?.message}
-            />
-          </div>
-
-          {/* right part */}
-
-          <div className="flex flex-col">
-            <h3 className="text-2xl mb-7 font-semibold">
-              Vehicle: Item #D{vehicle?.attributes?.item_number}{" "}
-              {vehicle?.attributes?.year} {vehicle?.attributes?.make}{" "}
-              {vehicle?.attributes?.model}
-            </h3>
-
-            <Field
-              label="Bid Amount"
-              name="bidAmount"
-              type="number"
-              placeholder="Enter Bid Amount"
-            />
-
-            <div className="flex gap-3">
-              <Field label="Cash Offer" name="cashOffer" type="checkbox" />
               <Field
-                label="Need Financing"
-                name="needFinancing"
-                type="checkbox"
+                label="Name"
+                name="name"
+                placeholder="Enter Name"
+                error={errors.name?.message}
+              />
+              <Field
+                label="Email Address"
+                name="email"
+                type="email"
+                placeholder="Enter Email Address"
+                error={errors.email?.message}
+              />
+              <Field
+                label="Address"
+                name="address"
+                placeholder="Enter Address"
+                error={errors.address?.message}
+              />
+              <Field
+                label="City"
+                name="city"
+                placeholder="Enter City"
+                error={errors.city?.message}
+              />
+              <Field
+                label="State"
+                name="state"
+                placeholder="Select State"
+                error={errors.state?.message}
+                type="select"
+                options={stateOptions}
+              />
+              <Field
+                label="Phone Number"
+                name="phoneNumber"
+                type="tel"
+                placeholder="Enter Phone Number"
+                error={errors.phoneNumber?.message}
               />
             </div>
 
-            <Field
-              label="Down Payment"
-              name="downPayment"
-              type="number"
-              placeholder="What amount would you like to put down?"
-              error={errors.downPayment?.message}
-            />
-            <Field
-              label="Questions or Comments"
-              name="questionsOrComments"
-              type="textarea"
-              placeholder="Questions or Comments"
-              error={errors.questionsOrComments?.message}
-            />
-          </div>
-        </div>
+            {/* right part */}
 
-        <div className="flex justify-center my-9">
-          <div className="flex flex-col gap-5">
-            <div className="flex items-center gap-1">
+            <div className="flex flex-col">
+              <h3 className="text-2xl mb-7 font-semibold">
+                Vehicle: Item #D{vehicle?.attributes?.item_number}{" "}
+                {vehicle?.attributes?.year} {vehicle?.attributes?.make}{" "}
+                {vehicle?.attributes?.model}
+              </h3>
+
               <Field
-                label={
-                  <span className="text-0053A6">
-                    Please Contact Me as Soon as Possible
-                  </span>
-                }
-                name="contactMe"
-                type="checkbox"
+                label="Bid Amount"
+                name="bidAmount"
+                type="number"
+                placeholder="Enter Bid Amount"
+                error={errors.bidAmount?.message}
+              />
+
+              <div className="flex gap-3">
+                <Field label="Cash Offer" name="cashOffer" type="checkbox" />
+                <Field
+                  label="Need Financing"
+                  name="needFinancing"
+                  type="checkbox"
+                />
+              </div>
+
+              <Field
+                label="Down Payment"
+                name="downPayment"
+                type="number"
+                placeholder="What amount would you like to put down?"
+                error={errors.downPayment?.message}
+              />
+              <Field
+                label="Questions or Comments"
+                name="questionsOrComments"
+                type="textarea"
+                placeholder="Questions or Comments"
+                error={errors.questionsOrComments?.message}
               />
             </div>
+          </div>
 
-            <div className="2xl:min-w-[600px]">
-              <button className="primary-button w-full" type="submit">
-                Submit
-              </button>
+          <div className="flex justify-center my-9">
+            <div className="flex flex-col gap-5">
+              <div className="flex items-center gap-1">
+                <Field
+                  label={
+                    <span className="text-0053A6">
+                      Please Contact Me as Soon as Possible
+                    </span>
+                  }
+                  name="contactMe"
+                  type="checkbox"
+                />
+              </div>
+
+              <div className="2xl:min-w-[600px]">
+                <button className="primary-button w-full" type="submit">
+                  Submit
+                </button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      )}
+
+      {isSubmitted && (
+        <div className="mx-auto px-12 md:px-44 2xl:px-64 py-4 md:py-12 2xl:py-20 gap-6">
+          <p>
+            Thank you for submitting our form. We have received your response.
+          </p>
+          <br />
+          <p>
+            Please let us know if you have any questions. You&apos;re welcome to
+            contact us any time (800) 576-1921 or sales@demartini.com
+            <div className="my-5">
+              <Link href="/" className="text-0053A6 font-bold ">
+                Click here{" "}
+              </Link>
+              to return to our homepage.
+            </div>
+          </p>
+        </div>
+      )}
     </form>
   );
 };

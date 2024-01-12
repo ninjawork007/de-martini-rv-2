@@ -2,26 +2,14 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import RenderHTML from "../RenderHTML";
-import service from "../../services";
-import { urls } from "../../services/urls";
 import { Category } from "../../types/vehicle";
+import useCategories from "../../hooks/useCategories";
 
 const ShopByCategory = () => {
-  const [categories, setCategories] = useState([]);
-
-  useEffect(() => {
-    const getCategories = async () => {
-      try {
-        const res = await service.get(`${urls.categories}/?populate=*`);
-        setCategories(res?.data?.data);
-      } catch (error) {}
-    };
-
-    getCategories();
-  }, []);
+  const { categories } = useCategories();
 
   if (!categories?.length) return null;
 

@@ -7,4 +7,5 @@ export const urls = {
   categories: "categories",
   images: "vehicles/image",
   vehicleImages: "/images",
+  formSubmission: "/form-submissions",
 };
