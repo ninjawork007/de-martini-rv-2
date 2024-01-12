@@ -19,7 +19,7 @@ import {
   AccordionItemPanel,
   AccordionItemState,
 } from "react-accessible-accordion";
-import ReactSelect from "react-select";
+import ReactSelect, { SingleValue } from "react-select";
 
 import { ITEMS_PER_PAGE, options } from "../../../constants";
 import service from "../../../services";
@@ -27,6 +27,28 @@ import { urls } from "../../../services/urls";
 import { Category, Vehicle } from "../../../types/vehicle";
 import useCategories from "../../../hooks/useCategories";
 import useImages from "../../../hooks/useImages";
+
+type Sort =
+  | "Recent"
+  | "Price Low to High"
+  | "Price High to Low"
+  | "Length Long to Short"
+  | "Length Short to Long"
+  | "Make A-Z"
+  | "Make Z-A";
+
+const sortingOptions: {
+  label: Sort;
+  value: Sort;
+}[] = [
+  { label: "Recent", value: "Recent" },
+  { label: "Price Low to High", value: "Price Low to High" },
+  { label: "Price High to Low", value: "Price High to Low" },
+  { label: "Length Long to Short", value: "Length Long to Short" },
+  { label: "Length Short to Long", value: "Length Short to Long" },
+  { label: "Make A-Z", value: "Make A-Z" },
+  { label: "Make Z-A", value: "Make Z-A" },
+];
 
 const Page = ({ params }: { params: { path: string[] } }) => {
   const paths = params.path;
@@ -41,14 +63,29 @@ const Page = ({ params }: { params: { path: string[] } }) => {
   const [loading, setLoading] = useState(true);
   const [itemOffset, setItemOffset] = useState(0);
   const [totalVehicles, setTotalVehicles] = useState(0);
+  const [sortBy, setSortBy] = useState<Sort>("Recent");
+
+  const handleSort = (newValue: SingleValue<{ label: Sort; value: Sort }>) => {
+    if (newValue?.value) setSortBy(newValue?.value);
+  };
 
   // get vehicles
   useEffect(() => {
+    const getSortCondition = () => {
+      if (sortBy === "Recent") return "sort[0]=id:desc";
+      if (sortBy === "Price High to Low") return "sort[0]=sale_price:desc";
+      if (sortBy === "Price Low to High") return "sort[0]=sale_price:asc";
+      if (sortBy === "Make A-Z") return "sort[0]=make:asc";
+      if (sortBy === "Make Z-A") return "sort[0]=make:desc";
+      if (sortBy === "Length Long to Short") return "sort[0]=length:desc";
+      if (sortBy === "Length Short to Long") return "sort[0]=length:asc";
+    };
+
     const getVehicles = async (query: string) => {
       try {
         setLoading(true);
         const res = await service.get(
-          `${query}&publicationState=live&pagination[start]=${itemOffset}&pagination[limit]=${ITEMS_PER_PAGE}`
+          `${query}&publicationState=live&pagination[start]=${itemOffset}&pagination[limit]=${ITEMS_PER_PAGE}&${getSortCondition()}`
         );
         setVehicles(res?.data?.data);
         setTotalVehicles(res?.data?.meta?.pagination?.total);
@@ -165,27 +202,29 @@ const Page = ({ params }: { params: { path: string[] } }) => {
 
         break;
     }
-  }, [categories, itemOffset, paths, searchParams]);
+  }, [categories, itemOffset, paths, searchParams, sortBy]);
 
+  console.log(sortBy);
   return (
     <div>
       <Title heading={title}>
         <div className="flex flex-wrap items-center gap-3 md:gap-5">
           <div>Sort By</div>
           <ReactSelect
-            options={options}
-            defaultValue={options[0]}
+            options={sortingOptions}
+            defaultValue={sortingOptions[0]}
             components={{
               IndicatorSeparator: () => null,
             }}
+            onChange={handleSort}
           />
-          <div className="flex items-center gap-3">
+          {/* <div className="flex items-center gap-3">
             Favorites
             <div className="flex justify-center items-center px-3 py-1 rounded-3xl border-[1px] border-B0BEC5">
               <Image src="/icons/Heart.svg" height={20} width={20} alt="" />
               <div>(01)</div>
             </div>
-          </div>
+          </div> */}
         </div>
       </Title>
 
