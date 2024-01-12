@@ -1124,6 +1124,42 @@ export interface ApiFormFieldFormField extends Schema.CollectionType {
   };
 }
 
+export interface ApiFormSubmissionFormSubmission extends Schema.CollectionType {
+  collectionName: 'form_submissions';
+  info: {
+    singularName: 'form-submission';
+    pluralName: 'form-submissions';
+    displayName: 'form submission';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    title: Attribute.String;
+    submission: Attribute.JSON;
+    vehicle: Attribute.Relation<
+      'api::form-submission.form-submission',
+      'oneToOne',
+      'api::vehicle.vehicle'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::form-submission.form-submission',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::form-submission.form-submission',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiFurnitureFurniture extends Schema.CollectionType {
   collectionName: 'furnitures';
   info: {
@@ -2400,6 +2436,7 @@ declare module '@strapi/types' {
       'api::flooring.flooring': ApiFlooringFlooring;
       'api::form.form': ApiFormForm;
       'api::form-field.form-field': ApiFormFieldFormField;
+      'api::form-submission.form-submission': ApiFormSubmissionFormSubmission;
       'api::furniture.furniture': ApiFurnitureFurniture;
       'api::group.group': ApiGroupGroup;
       'api::image.image': ApiImageImage;
