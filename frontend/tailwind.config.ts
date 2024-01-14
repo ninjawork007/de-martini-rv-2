@@ -33,6 +33,7 @@ const config: Config = {
       "546E7A": "#546E7A",
       F4F5F7: "#F4F5F7",
       "78909C": "#78909C",
+      "2A649A": "#2A649A",
     },
     extend: {
       backgroundImage: {

@@ -14,7 +14,7 @@ const ShopByCategory = () => {
   if (!categories?.length) return null;
 
   return (
-    <div className="px-10 md:px-40 lg:px-60 mb-20">
+    <div className="px-10 md:px-40 lg:px-60 mb-10">
       <h3 className="font-bold text-2xl py-8">Shop By Category</h3>
 
       <div className="flex flex-wrap justify-center gap-6">

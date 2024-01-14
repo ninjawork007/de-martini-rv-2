@@ -6,15 +6,24 @@ import React from "react";
 import Slider from "react-slick";
 import classNames from "classnames";
 
-import styles from './styles.module.css'
+import styles from "./styles.module.css";
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import useVehicles from "../hooks/useVehicles";
+import { Vehicle } from "../types/vehicle";
 
-const SliderCard = () => {
+interface SliderCardProps {
+  vehicle: Vehicle;
+}
+
+const SliderCard: React.FC<SliderCardProps> = ({ vehicle }) => {
   return (
     <div
-      className={classNames(styles.cardShadow, "bg-white rounded-md p-4 w-[95%] flex flex-col items-center mx-4 mb-6")}
+      className={classNames(
+        styles.sliderCard,
+        "bg-white rounded-md p-4 w-[95%] flex flex-col items-center mx-4 mb-6 sm:min-h-[520px]"
+      )}
     >
       <Image
         src="/images/sample.png"
@@ -23,26 +32,36 @@ const SliderCard = () => {
         height={500}
         className="w-full h-72 rounded-lg"
       />
-      <div className="py-4 flex flex-col items-center">
+      <div className="py-4 flex flex-col items-center flex-grow">
         <h3 className="text-263238 font-mono text-center text-lg lg:text-2xl font-semibold">
-          2024 Newmar King Aire 4596
+          {vehicle?.attributes?.tagline}
         </h3>
         <div className="text-black text-lg">Retail MSRP: $1,698,507</div>
-        <div className="text-455A64 text-lg">For this week's lowest price</div>
+
+        <Link
+          href={`mailto:sales@demartini.com?subject=${vehicle?.attributes?.item_number}&body=${vehicle?.attributes?.tagline} Just%20press%20%27Send%27%20and%20we%27ll%20reply%20with%20this%20week%27s%20lowest%20price%20on%20this%20coach!`}
+        >
+          <div className="text-455A64 text-lg">
+            For this week&apos;s lowest price
+          </div>
+        </Link>
       </div>
       <button className="primary-button px-9 py-3.5">Contact Dealer</button>
     </div>
   );
 };
 
-function Arrow(props: { onClick?: () => void, direction: 'left' | 'right' }) {
+function Arrow(props: { onClick?: () => void; direction: "left" | "right" }) {
   const { onClick, direction } = props;
 
-  const arrowImage = direction === 'left' ? '/icons/CaretLeft.svg' : '/icons/CaretRight.svg';
+  const arrowImage =
+    direction === "left" ? "/icons/CaretLeft.svg" : "/icons/CaretRight.svg";
 
   return (
     <button
-      className={`bg-white rounded-md absolute top-64 ${direction === 'right' ? 'right-0' : ''} h-fit p-2`}
+      className={`bg-white rounded-md absolute top-64 ${
+        direction === "right" ? "right-0" : ""
+      } h-fit p-2`}
       style={{
         boxShadow: "0px 2px 6px 0px rgba(0, 0, 0, 0.25)",
         zIndex: 1,
@@ -92,6 +111,8 @@ const settings = {
 };
 
 const RvSaleSlider = () => {
+  const { vehicles } = useVehicles(`?filters[featured_special]=1`);
+
   return (
     <div className="my-20 2xl:mx-20">
       {/* title */}
@@ -111,8 +132,8 @@ const RvSaleSlider = () => {
       </div>
       {/* slider */}
       <Slider {...settings}>
-        {[...Array(5)].map((_, index) => (
-          <SliderCard key={index} />
+        {vehicles?.map((vehicle) => (
+          <SliderCard key={vehicle?.id} vehicle={vehicle} />
         ))}
       </Slider>
     </div>

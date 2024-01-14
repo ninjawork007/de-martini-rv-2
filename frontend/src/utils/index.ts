@@ -9,6 +9,8 @@ export const showMoreDots = (input: string, length: number) => {
 };
 
 export const htmlDecode = (input: string) => {
+  if (document === undefined) return "";
+
   let e = document.createElement("div");
   e.innerHTML = input;
   return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue || "";

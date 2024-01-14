@@ -37,17 +37,23 @@ const Navbar = () => {
     <div className="flex flex-col">
       <div className="flex justify-center p-3 bg-C8E4FF">
         <div className="flex gap-3 ">
-          <div className="underline font-semibold text-01294A">
-            Testimonials
-          </div>
+          <Link href="/testimonials">
+            <div className="underline font-semibold text-01294A">
+              Testimonials
+            </div>
+          </Link>
           |
-          <div className="underline font-semibold text-01294A">
-            Sell Your RV
-          </div>
+          <Link href="/sell-rv">
+            <div className="underline font-semibold text-01294A">
+              Sell Your RV
+            </div>
+          </Link>
           |
-          <div className="underline font-semibold text-01294A">
-            RV Wanted Form
-          </div>
+          <Link href="/rv-wanted-form">
+            <div className="underline font-semibold text-01294A">
+              RV Wanted Form
+            </div>
+          </Link>
         </div>
       </div>
 

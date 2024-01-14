@@ -45,6 +45,6 @@
 }
 
 /* vehicle detail page images */
-.image-gallery-image {
-  @apply rounded-lg w-full;
+.image-gallery-thumbnail {
+  @apply rounded-lg overflow-hidden h-full w-52 !important;
 }

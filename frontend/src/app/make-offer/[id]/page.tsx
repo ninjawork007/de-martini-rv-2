@@ -1,10 +1,11 @@
 "use client";
 
+import FormField from "@/components/FormField";
+import FormSubmissionMessage from "@/components/FormSubmissionMessage";
 import Title from "@/components/Title";
 import { yupResolver } from "@hookform/resolvers/yup";
 import React, { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
-import Link from "next/link";
+import { useForm, SubmitHandler, FormProvider } from "react-hook-form";
 import * as yup from "yup";
 
 import useVehicle from "../../../hooks/useVehicle";
@@ -12,7 +13,7 @@ import { stateOptions } from "../../../constants";
 import service from "../../../services";
 import { urls } from "../../../services/urls";
 
-interface FormData {
+interface FormDataProps {
   name: string;
   bidAmount: number;
   cashOffer: boolean;
@@ -62,15 +63,16 @@ const MakeOffer = ({ params }: { params: { id: string } }) => {
 
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const {
-    handleSubmit,
-    register,
-    formState: { errors },
-  } = useForm<FormData>({
+  const methods = useForm<FormDataProps>({
     resolver: yupResolver(schema),
   });
 
-  const onSubmit: SubmitHandler<FormData> = async (data) => {
+  const {
+    handleSubmit,
+    formState: { errors },
+  } = methods;
+
+  const onSubmit: SubmitHandler<FormDataProps> = async (data) => {
     const payload = {
       data: {
         title: "Bid Form",
@@ -85,212 +87,137 @@ const MakeOffer = ({ params }: { params: { id: string } }) => {
     } catch (error) {}
   };
 
-  const Field = ({
-    name,
-    error,
-    placeholder,
-    label,
-    type,
-    options,
-    ...rest
-  }: {
-    label: React.ReactNode;
-    name: keyof FormData;
-    type?: string;
-    error?: string;
-    placeholder?: string;
-    options?: {
-      label: string;
-      value: string;
-    }[];
-  }) => {
-    return (
-      <div className="my-3">
-        {type === "checkbox" ? (
-          <div className="flex gap-1">
-            <input
-              placeholder={placeholder}
-              type={type}
-              {...register(name)}
-              {...rest}
-            />
-            <label className="text-black">{label}</label>
-          </div>
-        ) : type === "select" ? (
-          <div className="flex flex-col gap-1">
-            <label className="text-607D8B text-sm">{label}</label>
-            <select
-              className="input-box px-4 py-3"
-              {...register(name)}
-              {...rest}
-            >
-              {options?.map(({ value, label }) => (
-                <option key={label} value={value}>
-                  {label}
-                </option>
-              ))}
-            </select>
-          </div>
-        ) : (
-          <div className="flex flex-col gap-1">
-            <label className="text-607D8B text-sm">{label}</label>
-            <input
-              className="input-box px-4 py-3"
-              placeholder={placeholder}
-              type={type}
-              {...register(name)}
-              {...rest}
-            />
+  return (
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Title heading="DeMartini RV Sales - Bid Form" />
+
+        {!isSubmitted && (
+          <div>
+            <div className="grid sm:grid-cols-2 px-12 md:px-44 2xl:px-64 gap-6">
+              {/* left part */}
+
+              <div className="flex flex-col">
+                <h3 className="text-2xl mb-7 font-medium">
+                  Customer Information:
+                </h3>
+
+                <FormField
+                  label="Name"
+                  name="name"
+                  placeholder="Enter Name"
+                  error={errors.name?.message}
+                />
+                <FormField
+                  label="Email Address"
+                  name="email"
+                  type="email"
+                  placeholder="Enter Email Address"
+                  error={errors.email?.message}
+                />
+                <FormField
+                  label="Address"
+                  name="address"
+                  placeholder="Enter Address"
+                  error={errors.address?.message}
+                />
+                <FormField
+                  label="City"
+                  name="city"
+                  placeholder="Enter City"
+                  error={errors.city?.message}
+                />
+                <FormField
+                  label="State"
+                  name="state"
+                  placeholder="Select State"
+                  error={errors.state?.message}
+                  type="select"
+                  options={stateOptions}
+                />
+                <FormField
+                  label="Phone Number"
+                  name="phoneNumber"
+                  type="tel"
+                  placeholder="Enter Phone Number"
+                  error={errors.phoneNumber?.message}
+                />
+              </div>
+
+              {/* right part */}
+
+              <div className="flex flex-col">
+                <h3 className="text-2xl mb-7 font-semibold">
+                  Vehicle: Item #D{vehicle?.attributes?.item_number}{" "}
+                  {vehicle?.attributes?.year} {vehicle?.attributes?.make}{" "}
+                  {vehicle?.attributes?.model}
+                </h3>
+
+                <FormField
+                  label="Bid Amount"
+                  name="bidAmount"
+                  type="number"
+                  placeholder="Enter Bid Amount"
+                  error={errors.bidAmount?.message}
+                />
+
+                <div className="flex gap-3">
+                  <FormField
+                    label="Cash Offer"
+                    name="cashOffer"
+                    type="checkbox"
+                  />
+                  <FormField
+                    label="Need Financing"
+                    name="needFinancing"
+                    type="checkbox"
+                  />
+                </div>
+
+                <FormField
+                  label="Down Payment"
+                  name="downPayment"
+                  type="number"
+                  placeholder="What amount would you like to put down?"
+                  error={errors.downPayment?.message}
+                />
+                <FormField
+                  label="Questions or Comments"
+                  name="questionsOrComments"
+                  type="textarea"
+                  placeholder="Questions or Comments"
+                  error={errors.questionsOrComments?.message}
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-center my-9">
+              <div className="flex flex-col gap-5">
+                <div className="flex items-center gap-1">
+                  <FormField
+                    label={
+                      <span className="text-0053A6">
+                        Please Contact Me as Soon as Possible
+                      </span>
+                    }
+                    name="contactMe"
+                    type="checkbox"
+                  />
+                </div>
+
+                <div className="2xl:min-w-[600px]">
+                  <button className="primary-button w-full" type="submit">
+                    Submit
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         )}
 
-        <p className="text-FF4000">{error}</p>
-      </div>
-    );
-  };
-
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Title heading="DeMartini RV Sales - Bid Form" />
-
-      {!isSubmitted && (
-        <div>
-          <div className="grid sm:grid-cols-2 px-12 md:px-44 2xl:px-64 gap-6">
-            {/* left part */}
-
-            <div className="flex flex-col">
-              <h3 className="text-2xl mb-7 font-medium">
-                Customer Information:
-              </h3>
-
-              <Field
-                label="Name"
-                name="name"
-                placeholder="Enter Name"
-                error={errors.name?.message}
-              />
-              <Field
-                label="Email Address"
-                name="email"
-                type="email"
-                placeholder="Enter Email Address"
-                error={errors.email?.message}
-              />
-              <Field
-                label="Address"
-                name="address"
-                placeholder="Enter Address"
-                error={errors.address?.message}
-              />
-              <Field
-                label="City"
-                name="city"
-                placeholder="Enter City"
-                error={errors.city?.message}
-              />
-              <Field
-                label="State"
-                name="state"
-                placeholder="Select State"
-                error={errors.state?.message}
-                type="select"
-                options={stateOptions}
-              />
-              <Field
-                label="Phone Number"
-                name="phoneNumber"
-                type="tel"
-                placeholder="Enter Phone Number"
-                error={errors.phoneNumber?.message}
-              />
-            </div>
-
-            {/* right part */}
-
-            <div className="flex flex-col">
-              <h3 className="text-2xl mb-7 font-semibold">
-                Vehicle: Item #D{vehicle?.attributes?.item_number}{" "}
-                {vehicle?.attributes?.year} {vehicle?.attributes?.make}{" "}
-                {vehicle?.attributes?.model}
-              </h3>
-
-              <Field
-                label="Bid Amount"
-                name="bidAmount"
-                type="number"
-                placeholder="Enter Bid Amount"
-                error={errors.bidAmount?.message}
-              />
-
-              <div className="flex gap-3">
-                <Field label="Cash Offer" name="cashOffer" type="checkbox" />
-                <Field
-                  label="Need Financing"
-                  name="needFinancing"
-                  type="checkbox"
-                />
-              </div>
-
-              <Field
-                label="Down Payment"
-                name="downPayment"
-                type="number"
-                placeholder="What amount would you like to put down?"
-                error={errors.downPayment?.message}
-              />
-              <Field
-                label="Questions or Comments"
-                name="questionsOrComments"
-                type="textarea"
-                placeholder="Questions or Comments"
-                error={errors.questionsOrComments?.message}
-              />
-            </div>
-          </div>
-
-          <div className="flex justify-center my-9">
-            <div className="flex flex-col gap-5">
-              <div className="flex items-center gap-1">
-                <Field
-                  label={
-                    <span className="text-0053A6">
-                      Please Contact Me as Soon as Possible
-                    </span>
-                  }
-                  name="contactMe"
-                  type="checkbox"
-                />
-              </div>
-
-              <div className="2xl:min-w-[600px]">
-                <button className="primary-button w-full" type="submit">
-                  Submit
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {isSubmitted && (
-        <div className="mx-auto px-12 md:px-44 2xl:px-64 py-4 md:py-12 2xl:py-20 gap-6">
-          <p>
-            Thank you for submitting our form. We have received your response.
-          </p>
-          <br />
-          <p>
-            Please let us know if you have any questions. You&apos;re welcome to
-            contact us any time (800) 576-1921 or sales@demartini.com
-            <div className="my-5">
-              <Link href="/" className="text-0053A6 font-bold ">
-                Click here{" "}
-              </Link>
-              to return to our homepage.
-            </div>
-          </p>
-        </div>
-      )}
-    </form>
+        {isSubmitted && <FormSubmissionMessage />}
+      </form>
+    </FormProvider>
   );
 };
 

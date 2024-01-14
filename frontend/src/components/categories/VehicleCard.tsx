@@ -57,7 +57,7 @@ const VehicleCard: React.FC<Vehicle & { images?: ImageMedia[] }> = ({
               Make An Offer
             </button>
           </Link>
-          <div className="text-12B669 font-bold text-base">
+          <div className="text-2A649A font-bold text-base">
             Stock #{item_number}
           </div>
         </div>

@@ -59,20 +59,24 @@ const Vehicle = ({ params }: { params: { id: string } }) => {
   return (
     <div className="px-10 lg:px-30 2xl:px-48">
       <div className="flex flex-wrap lg:flex-nowrap justify-center gap-10">
-        <div className="w-full lg:w-[60%] 2xl:w-[70%]">
+        <div className="w-full lg:w-[60%] 2xl:w-[70%] mb-10">
           <ImageGallery images={images.length > 0 ? images : defaultImages} />
         </div>
 
         <div className="w-full lg:w-[40%] 2xl:w-[30%]">
           <h2>{vehicle?.attributes.title}</h2>
-          <div className="text-3xl font-bold">RETAIL MSRP: $1,698,507</div>
+          <div className="text-3xl font-bold">
+            {vehicle?.attributes?.tagline}
+          </div>
+          <div className="text-0053A6 font-bold text-lg">
+            Stock #: D{vehicle?.attributes?.item_number}
+          </div>
+
+          <div className="text-xl font-bold">RETAIL MSRP: $1,698,507</div>
           <div>
-            <span className="text-039754 font-bold text-lg">
-              Make an Offer!
-            </span>{" "}
             For this week&apos;s lowest price,{" "}
             <a
-              href="mailto:sales@demartini.com"
+              href={`mailto:sales@demartini.com?subject=${vehicle?.attributes?.item_number}&body=${vehicle?.attributes?.tagline} Just%20press%20%27Send%27%20and%20we%27ll%20reply%20with%20this%20week%27s%20lowest%20price%20on%20this%20coach!`}
               className="text-0053A6 underline font-bold text-lg"
             >
               Click Here
@@ -81,7 +85,7 @@ const Vehicle = ({ params }: { params: { id: string } }) => {
 
           <table
             className={classNames(
-              "table-fixed border border-ECEFF1 rounded-md overflow-hidden w-full",
+              "table-fixed border border-ECEFF1 rounded-md overflow-hidden w-full my-4",
               styles.table
             )}
           >
@@ -136,11 +140,11 @@ const Vehicle = ({ params }: { params: { id: string } }) => {
           </table>
 
           <div className="flex flex-col gap-3 my-7">
-            <div className="flex gap-3">
+            <div className="grid grid-cols-2 gap-3">
               <Link href={`/make-offer/${vehicle?.id}`}>
                 <button
                   className={classNames(
-                    "bg-B23DEB text-white rounded-lg shadow-md p-2 font-bold w-full",
+                    "primary-button bg-B23DEB text-white w-full",
                     styles.makeOfferButton
                   )}
                 >
@@ -148,22 +152,32 @@ const Vehicle = ({ params }: { params: { id: string } }) => {
                 </button>
               </Link>
 
-              <button className="bg-12B669 rounded-lg shadow-md p-2 font-bold w-full">
-                Make An Offer!
-              </button>
+              <Link
+                href={`mailto:?subject=Check%20out%20this%20RV:${vehicle?.attributes?.item_number}&body=${vehicle?.attributes?.tagline}%0D%0AURL:${ADMIN_URL}/vehicles/detail/${vehicle?.id}`}
+              >
+                <button className="primary-button w-full">
+                  Send To Friend
+                </button>
+              </Link>
             </div>
 
-            <div className="flex gap-3">
-              <button className="primary-button w-full">Email Us</button>
-              <button className="primary-button w-full">
-                Request More Info
-              </button>
+            <div className="grid grid-cols-2 gap-3">
+              <Link href="mailto:sales@demartini.com">
+                <button className="primary-button w-full">Email Us</button>
+              </Link>
+              <Link
+                href={`mailto:sales@demartini.com?subject=Request%20More%20Info:%20${vehicle?.attributes?.item_number}&body=${vehicle?.attributes?.tagline}`}
+              >
+                <button className="primary-button w-full">
+                  Request More Info
+                </button>
+              </Link>
             </div>
           </div>
         </div>
       </div>
 
-      <Tabs />
+      <Tabs vehicle={vehicle} />
 
       <div className="flex flex-col items-center gap-4 mb-10">
         {images?.map((image) => (
@@ -172,6 +186,7 @@ const Vehicle = ({ params }: { params: { id: string } }) => {
             src={image.original}
             height={450}
             width={800}
+            className="w-full"
             alt=""
           />
         ))}

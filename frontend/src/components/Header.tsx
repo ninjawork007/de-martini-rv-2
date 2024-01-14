@@ -114,7 +114,7 @@ const Header: React.FC<HeaderProps> = ({ showSearchForm = true }) => {
         <div className="absolute -bottom-14 left-0 right-0 flex justify-center">
           <form
             onSubmit={onSubmit}
-            className="bg-00669E p-8 flex flex-wrap gap-3 justify-center rounded-xl"
+            className="bg-00669E p-8 flex flex-wrap gap-3 items-center justify-center rounded-xl"
           >
             <Select options={vehicleConditionOptions} name="condition" />
             <Select
@@ -136,8 +136,8 @@ const Header: React.FC<HeaderProps> = ({ showSearchForm = true }) => {
               <Image
                 src="/icons/MagnifyingGlass.svg"
                 alt="Search"
-                height={25}
-                width={25}
+                height={20}
+                width={20}
               />
             </button>
           </form>
