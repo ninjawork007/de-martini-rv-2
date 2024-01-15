@@ -129,8 +129,6 @@ const RVWanted = () => {
     formState: { errors },
   } = methods;
 
-  console.log(errors);
-
   const onSubmit: SubmitHandler<FormDataProps> = async (data) => {
     const payload = {
       data: {

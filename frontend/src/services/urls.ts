@@ -8,4 +8,5 @@ export const urls = {
   images: "vehicles/image",
   vehicleImages: "/images",
   formSubmission: "/form-submissions",
+  upload: "/upload",
 };

@@ -1130,6 +1130,7 @@ export interface ApiFormSubmissionFormSubmission extends Schema.CollectionType {
     singularName: 'form-submission';
     pluralName: 'form-submissions';
     displayName: 'form submission';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -1142,6 +1143,7 @@ export interface ApiFormSubmissionFormSubmission extends Schema.CollectionType {
       'oneToOne',
       'api::vehicle.vehicle'
     >;
+    files: Attribute.Media;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

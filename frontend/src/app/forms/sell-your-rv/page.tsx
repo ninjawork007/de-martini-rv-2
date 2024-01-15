@@ -147,6 +147,10 @@ const schema = yup.object().shape({
 
 const SellYourRV = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [file1, setFile1] = useState<File | null>(null);
+  const [file2, setFile2] = useState<File | null>(null);
+  const [file3, setFile3] = useState<File | null>(null);
+  const [file4, setFile4] = useState<File | null>(null);
 
   const methods = useForm<FormDataProps>({
     resolver: yupResolver(schema),
@@ -157,18 +161,29 @@ const SellYourRV = () => {
     formState: { errors },
   } = methods;
 
-  console.log(errors);
+  const handleFileChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    setFile: React.Dispatch<React.SetStateAction<File | null>>
+  ) => {
+    const selectedFile = event.target.files?.[0];
+    setFile(selectedFile || null);
+  };
 
   const onSubmit: SubmitHandler<FormDataProps> = async (data) => {
-    const payload = {
-      data: {
-        title: "Sell Your RV Form",
-        submission: data,
-      },
+    const formValues = {
+      title: "Sell Your RV Form",
+      submission: data,
     };
+    const formData = new FormData();
+    formData.append("data", JSON.stringify(formValues));
+
+    if (file1) formData.append(`files.files`, file1, file1.name);
+    if (file2) formData.append(`files.files`, file2, file2.name);
+    if (file3) formData.append(`files.files`, file3, file3.name);
+    if (file4) formData.append(`files.files`, file4, file4.name);
 
     try {
-      await service.post(urls.formSubmission, payload);
+      await service.post(urls.formSubmission, formData);
       setIsSubmitted(true);
     } catch (error) {}
   };
@@ -444,10 +459,26 @@ const SellYourRV = () => {
                   />
                 ))}
                 <b className="mt-2">Upload Photos of your coach:</b>
-                <input name="" type="file" />
-                <input name="" type="file" />
-                <input name="" type="file" />
-                <input name="" type="file" />
+                <input
+                  name="file1"
+                  type="file"
+                  onChange={(e) => handleFileChange(e, setFile1)}
+                />
+                <input
+                  name="file2"
+                  type="file"
+                  onChange={(e) => handleFileChange(e, setFile2)}
+                />
+                <input
+                  name="file3"
+                  type="file"
+                  onChange={(e) => handleFileChange(e, setFile3)}
+                />
+                <input
+                  name="file4"
+                  type="file"
+                  onChange={(e) => handleFileChange(e, setFile4)}
+                />
               </div>
             </div>
 
