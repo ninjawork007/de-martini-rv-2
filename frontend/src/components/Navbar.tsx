@@ -17,7 +17,7 @@ const links = [
   },
   { id: 4, title: "Web Special", url: "/categories/web_specials" },
   { id: 5, title: "Clearance", url: "/categories/clearance" },
-  { id: 6, title: "Parts & Service", url: "/parts_service" },
+  { id: 6, title: "Parts & Service", url: "/parts-service" },
   { id: 7, title: "Contact Us", url: "/contact" },
 ];
 
@@ -43,13 +43,13 @@ const Navbar = () => {
             </div>
           </Link>
           |
-          <Link href="/sell-rv">
+          <Link href="/forms/sell-your-rv">
             <div className="underline font-semibold text-01294A">
               Sell Your RV
             </div>
           </Link>
           |
-          <Link href="/rv-wanted-form">
+          <Link href="/forms/rv-wanted">
             <div className="underline font-semibold text-01294A">
               RV Wanted Form
             </div>

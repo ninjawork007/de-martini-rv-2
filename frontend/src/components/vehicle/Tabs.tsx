@@ -137,7 +137,7 @@ const Tabs: React.FC<TabsProps> = ({ vehicle }) => {
             <div className="font-bold">RV Insurance Quote</div>
             Fill out our online insurance quote form and we will get back to you
             with a competitive quote from the best RV Insurance providers.
-            <Link href="/forms/insurance_quote">
+            <Link href="/forms/insurance-quote">
               <button className="primary-button">
                 Get an RV Insurance Quote
               </button>
@@ -148,7 +148,7 @@ const Tabs: React.FC<TabsProps> = ({ vehicle }) => {
               YOUR FUN! Click below for a free quote on an Extended Service
               Contract and Tire & Wheel Protection for your RV.
             </p>
-            <Link href="/forms/extended_service">
+            <Link href="/forms/extended-service">
               <button className="primary-button">
                 Get an Extended Service Quote
               </button>
