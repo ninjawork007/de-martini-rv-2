@@ -1,32 +1,20 @@
 "use client";
 
-import CategoryVehicles from "@/components/categories/CategoryVehicles";
 import Pagination from "@/components/Pagination";
-import Partners from "@/components/Partners";
-import RvSaleSlider from "@/components/RvSaleSlider";
-import RenderHTML from "@/components/RenderHTML";
 import Title from "@/components/Title";
 import VehicleCard from "@/components/categories/VehicleCard";
-import Image from "next/image";
 // import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionItemButton,
-  AccordionItemHeading,
-  AccordionItemPanel,
-  AccordionItemState,
-} from "react-accessible-accordion";
 import ReactSelect, { SingleValue } from "react-select";
 
 import { ITEMS_PER_PAGE, options } from "../../../constants";
 import service from "../../../services";
 import { urls } from "../../../services/urls";
-import { Category, Vehicle } from "../../../types/vehicle";
+import { Vehicle } from "../../../types/vehicle";
 import useCategories from "../../../hooks/useCategories";
 import useImages from "../../../hooks/useImages";
+import Sidebar from "@/components/categories/Sidebar";
 
 type Sort =
   | "Recent"
@@ -204,12 +192,11 @@ const Page = ({ params }: { params: { path: string[] } }) => {
     }
   }, [categories, itemOffset, paths, searchParams, sortBy]);
 
-  console.log(sortBy);
   return (
     <div>
       <Title heading={title}>
         <div className="flex flex-wrap items-center gap-3 md:gap-5">
-          <div>Sort By</div>
+          <div className="text-lg">Sort By</div>
           <ReactSelect
             options={sortingOptions}
             defaultValue={sortingOptions[0]}
@@ -217,6 +204,15 @@ const Page = ({ params }: { params: { path: string[] } }) => {
               IndicatorSeparator: () => null,
             }}
             onChange={handleSort}
+            styles={{
+              control: (baseStyles) => ({
+                ...baseStyles,
+                height: 40,
+                minWidth: 400,
+                fontSize: 14,
+                color: "#37474F",
+              }),
+            }}
           />
           {/* <div className="flex items-center gap-3">
             Favorites
@@ -228,68 +224,9 @@ const Page = ({ params }: { params: { path: string[] } }) => {
         </div>
       </Title>
 
-      <div className="flex flex-wrap sm:flex-nowrap justify-center gap-8 2xl:px-64">
+      <div className="flex flex-wrap sm:flex-nowrap justify-center gap-8 container-padding-x">
         {/* categories with accordion */}
-        <div className="w-full sm:w-auto lg:min-w-[300px]">
-          <div className="font-bold py-4 px-6 mb-4 bg-CFD8DC text-263238 text-lg">
-            Shop By Brand
-          </div>
-          <Accordion
-            allowZeroExpanded
-            preExpanded={categories.map((category: Category) => category?.id)}
-          >
-            {categories.map((category: Category) => (
-              <AccordionItem uuid={category?.id} key={category?.id}>
-                <AccordionItemHeading>
-                  <AccordionItemButton className="flex justify-between py-4 text-37474F text-lg font-bold px-2">
-                    {/* <Link href={`/categories/all/${category?.id}`}> */}
-                    <RenderHTML html={category?.attributes?.name} />
-                    {/* </Link> */}
-                    <AccordionItemState>
-                      {({ expanded }) => (
-                        <Image
-                          src="/icons/CaretUp.svg"
-                          height={20}
-                          width={20}
-                          alt=""
-                          className={expanded ? "" : "rotate-180"}
-                        />
-                      )}
-                    </AccordionItemState>
-                  </AccordionItemButton>
-                </AccordionItemHeading>
-                <AccordionItemPanel>
-                  <ul>
-                    <CategoryVehicles
-                      id={category?.id}
-                      className="p-2 text-base text-455A64 cursor-pointer hover:text-263238"
-                    />
-                  </ul>
-                </AccordionItemPanel>
-              </AccordionItem>
-            ))}
-          </Accordion>
-
-          <div className="bg-0053A6 rounded-lg p-4 w-full sm:max-w-[300px] my-4">
-            <button className="primary-button text-left text-lg w-full text-263238 font-semibold py-3.5 px-6 rounded-[4px] mb-3">
-              Make An Offer!
-            </button>
-            <ul className="text-ECEFF1 py-2.5 px-3 pl-5">
-              <li className="list-disc">Click the Make An Offer button</li>
-              <li className="list-disc">
-                On the form, just enter a price that’ll work for you and we’ll
-                get back to you as soon as possible and let you know if we are
-                willing to sell you that coach at your price or we may give you
-                a counter-offer.
-              </li>
-              <li className="list-disc">
-                Offers are not binding until we mutually agree upon price, terms
-                and conditions between customer and dealership and a contract is
-                signed.
-              </li>
-            </ul>
-          </div>
-        </div>
+        <Sidebar />
         {/* vehicle list */}
         <div className="w-full grid md:grid-cols-2 gap-4">
           {loading && <div>Loading..</div>}
@@ -307,9 +244,6 @@ const Page = ({ params }: { params: { path: string[] } }) => {
         itemOffset={itemOffset}
         setItemOffset={setItemOffset}
       />
-
-      <RvSaleSlider />
-      <Partners />
     </div>
   );
 };

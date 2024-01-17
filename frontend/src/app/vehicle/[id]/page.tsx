@@ -57,7 +57,7 @@ const Vehicle = ({ params }: { params: { id: string } }) => {
   ];
 
   return (
-    <div className="px-10 lg:px-30 2xl:px-48">
+    <div className="container-padding-x">
       <div className="flex flex-wrap lg:flex-nowrap justify-center gap-10">
         <div className="w-full lg:w-[60%] 2xl:w-[70%] mb-10">
           <ImageGallery images={images.length > 0 ? images : defaultImages} />
@@ -191,8 +191,6 @@ const Vehicle = ({ params }: { params: { id: string } }) => {
           />
         ))}
       </div>
-      <RvSaleSlider />
-      <Partners />
     </div>
   );
 };

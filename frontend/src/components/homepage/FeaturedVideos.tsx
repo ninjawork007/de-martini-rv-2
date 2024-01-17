@@ -1,27 +1,59 @@
-import React from "react";
-import Image from "next/image";
+"use client";
+
+import React, { useRef, useState } from "react";
 import classNames from "classnames";
-import styles from '../styles.module.css';
+
+import styles from "../styles.module.css";
+import Video from "./Video";
+import Image from "next/image";
 
 interface CardProps {
   showFeatured?: boolean;
   showSubscribe?: boolean;
+  title?: string;
+  description?: string;
 }
 
-const Card: React.FC<CardProps> = ({ showFeatured, showSubscribe }) => {
+const Card: React.FC<CardProps> = ({
+  showFeatured,
+  showSubscribe,
+  title,
+  description,
+}) => {
+  const ref = useRef();
+
+  const [playing, setPlaying] = useState(false);
+
   return (
     <div
-      className={classNames(styles.cardShadow, "p-4 rounded-md bg-white max-w-[550px] 2xl:max-w-[650px]")}
+      className={classNames(
+        styles.featuredCardShadow,
+        "p-4 rounded-md bg-white max-w-[550px] 2xl:max-w-[650px]"
+      )}
     >
-      <Image
-        className="w-full max-h-[450px]"
-        src="/images/van.png"
-        alt=""
-        height={468}
-        width={800}
-      />
+      <div className="relative" onClick={() => setPlaying((prev) => !prev)}>
+        {!playing && (
+          <Image
+            className={styles.play}
+            src="/icons/Play.svg"
+            height={70}
+            width={70}
+            alt=""
+            onClick={() => setPlaying((prev) => !prev)}
+          />
+        )}
+        <Video
+          url="/videos/intro.mp4"
+          width="100%"
+          height="100%"
+          controls={false}
+          playing={playing}
+          ref={ref}
+        />
+      </div>
+
       {showFeatured && (
-        <p className="text-lg text-12B669 font-bold mt-4 text-center">
+        <p className="text-lg text-12B669 font-bold mt-4 text-center font-roboto">
           Featured Video
         </p>
       )}
@@ -30,14 +62,11 @@ const Card: React.FC<CardProps> = ({ showFeatured, showSubscribe }) => {
           "mt-4": !showFeatured,
         })}
       >
-        NEW! 2023 Newmar Dutch Star 4369
+        {title}
       </h3>
-      <p className="text-lg text-center">
-        See what&apos;s new in the best selling luxury diesel RV! Full Walk
-        through Video!
-      </p>
+      <p className="text-lg text-center text-455A64 leading-6">{description}</p>
       {showSubscribe && (
-        <p className="text-xl text-center">
+        <p className="text-lg text-center leading-[30px] mt-[18px]">
           Subscribe to our{" "}
           <a
             href="https://www.youtube.com/demartinirv"
@@ -53,12 +82,20 @@ const Card: React.FC<CardProps> = ({ showFeatured, showSubscribe }) => {
 };
 
 const FeaturedVideos = () => (
-  <div className="flex justify-center">
-    <div className="grid lg:grid-cols-2 gap-4 my-20">
+  <div className="flex justify-center container-margin-x my-20">
+    <div className="grid lg:grid-cols-2 gap-6">
       {/* card 1 */}
-      <Card />
+      <Card
+        title="NEW! 2024 Dynamax Europa 31SS"
+        description="Check out all the new features and selling points on the SHORTEST Super C!"
+      />
       {/* card 2 */}
-      <Card showFeatured showSubscribe />
+      <Card
+        title="NEW! 2023 Newmar Dutch Star 4369"
+        description="See what's new in the best selling luxury diesel RV! Full Walk through Video!"
+        showFeatured
+        showSubscribe
+      />
     </div>
   </div>
 );
