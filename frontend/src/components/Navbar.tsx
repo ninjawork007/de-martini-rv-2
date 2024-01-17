@@ -6,6 +6,8 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState } from "react";
 
+import styles from "./styles.module.css";
+
 const links = [
   { id: 0, title: "Home", url: "/" },
   { id: 1, title: "New RV’s", url: "/categories/type/new" },
@@ -30,13 +32,15 @@ const Navbar = () => {
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    router.push(`/categories/search?brand=${searchTerm}`, { scroll: false });
+    router.push(`/categories/search?brand=${searchTerm}&term=${searchTerm}`, {
+      scroll: false,
+    });
   };
 
   return (
     <div className="flex flex-col">
       <div className="flex justify-center p-3 bg-C8E4FF">
-        <div className="flex gap-3 ">
+        <div className="flex gap-3 font-mona-sans">
           <Link href="/testimonials">
             <div className="underline font-semibold text-01294A">
               Testimonials
@@ -57,40 +61,51 @@ const Navbar = () => {
         </div>
       </div>
 
-      <div className="flex justify-center flex-wrap gap-5 px-2 py-5">
+      <div className="flex justify-center flex-wrap gap-5 px-2 py-5 font-oswald">
         <form className="flex flex-wrap gap-2" onSubmit={onSubmit}>
           <input
             placeholder="What RV are you looking for?"
-            className="input-box rounded-md p-4 md:min-w-[400px]"
+            className="input-box rounded-md p-4 md:min-w-[400px] placeholder-37474F"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          <button type="submit" className="primary-button w-32">
+          <button
+            type="submit"
+            className="primary-button py-2 2xl:py-4 px-4 2xl:px-9 w-32"
+          >
             Search
           </button>
         </form>
-        <div className="flex flex-wrap gap-3">
+        <div className="flex flex-wrap gap-3 text-lg">
           <div className="flex items-center gap-2">
-            <Image src="/icons/Phone.svg" height={30} width={30} alt="" />
+            <Image src="/icons/Phone.svg" height={44} width={44} alt="" />
             (800)576-1921
           </div>
           <div className="my-auto text-B0BEC5 text-2xl">|</div>
           <div className="flex items-center gap-2">
-            <Image src="/icons/Email.svg" height={30} width={30} alt="" />
+            <Image src="/icons/Email.svg" height={44} width={44} alt="" />
             sales@demartini.com
           </div>
         </div>
       </div>
 
       <div>
-        <ul className="flex flex-wrap justify-center bg-00669E text-white text-lg gap-8 py-5">
+        <ul
+          className={classNames(
+            styles.navbarGradient,
+            "flex flex-wrap justify-center text-white text-lg gap-4 2xl:gap-8 py-5"
+          )}
+        >
           {links.map((link) => (
             <Link
               key={link.id}
               href={link.url}
-              className={classNames({
-                "border-b-2 text-FFD323": pathname === link.url,
-              })}
+              className={classNames(
+                {
+                  "text-FFD323": pathname === link.url,
+                },
+                "font-oswald text-lg"
+              )}
             >
               <li>{link.title}</li>
             </Link>

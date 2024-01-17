@@ -38,7 +38,7 @@ const FormField: React.FC<FormFieldProps> = ({
           <label className="text-black">{label}</label>
         </div>
       ) : type === "select" ? (
-        <div className="flex flex-col gap-1">
+        <div className="flex select-wrapper flex-col gap-1">
           <label className="text-607D8B text-sm">{label}</label>
           <select className="input-box px-4 py-3" {...register(name)} {...rest}>
             {options?.map(({ value, label }) => (

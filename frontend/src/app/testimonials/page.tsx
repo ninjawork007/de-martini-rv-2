@@ -1,34 +1,46 @@
 "use client";
 
 import Pagination from "@/components/Pagination";
+import RenderHTML from "@/components/RenderHTML";
 import Title from "@/components/Title";
-import React, { useState } from "react";
+import dayjs from "dayjs";
+import React, { useEffect, useState } from "react";
 
-const Card = () => {
+import { urls } from "../../services/urls";
+import service from "../../services";
+import { Testimonial } from "../../types/testimonial";
+
+interface CardProps {
+  from: string;
+  date: string;
+  testimonial: string;
+}
+
+const Card: React.FC<CardProps> = ({ date, from, testimonial }) => {
   return (
     <div className="flex flex-col rounded-lg border-[1px] bg-F4F5F7 border-CFD8DC">
       <div className="p-4 flex flex-col gap-3">
         <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center text-3xl rounded-full w-20 h-20 text-white bg-0A7194">
-            G
+          <div
+            style={{
+              backgroundColor:
+                "#" +
+                ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, "0"),
+            }}
+            className="flex items-center justify-center text-3xl rounded-full w-20 h-20 text-white"
+          >
+            {from.slice(0, 1)}
           </div>
           <div className="flex flex-col">
-            <div className="text-263238 text-lg">Steve and Jennifer W.</div>
-            <div className="text-546E7A">15 December 2023</div>
+            <div className="text-263238 text-lg">{from}</div>
+            <div className="text-546E7A">
+              {dayjs(date).format("DD MMM YYYY")}
+            </div>
           </div>
         </div>
 
         <div className="text-78909C">
-          Brent, Just wanted to thank you for all the help getting us into our
-          new RV. We are so lucky to have gone to DeMartini to buy our DX3. We
-          are so happy! I believe any place else would have sold it to the
-          highest bidder. You went out of your way to hold it for us, that shows
-          integrity, going above and beyond. That is an extremely hard thing to
-          come by these days. You and everyone we worked with made us feel
-          comfortable like we were part of the family and that was really nice.
-          Jennifer and I would like you to know we really appreciate all you did
-          for us. We wish you and everyone that works at DeMartini all the very
-          best!
+          <RenderHTML html={testimonial} />
         </div>
       </div>
     </div>
@@ -37,21 +49,40 @@ const Card = () => {
 
 const Testimonials = () => {
   const [itemOffset, setItemOffset] = useState(0);
-  const [total, setTotal] = useState(20);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [totalTestimonials, setTotalTestimonials] = useState(0);
+
+  // get testimonials
+  useEffect(() => {
+    const getTestimonials = async () => {
+      try {
+        const res = await service.get(
+          `${urls.testimonials}?pagination[start]=${itemOffset}&populate=*`
+        );
+        setTestimonials(res?.data?.data);
+        setTotalTestimonials(res?.data?.meta?.pagination?.total);
+      } catch (error) {}
+    };
+
+    getTestimonials();
+  }, [itemOffset]);
 
   return (
     <div>
       <Title heading="Testimonials" />
-      <div className="grid grid-cols-2 gap-5 px-10 lg:px-30 2xl:px-48">
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+      <div className="grid grid-cols-2 gap-5 container-padding-x">
+        {testimonials?.map((testimonial) => (
+          <Card
+            key={testimonial?.id}
+            from={testimonial?.attributes?.citation}
+            date={testimonial?.attributes?.display_date}
+            testimonial={testimonial?.attributes?.testimonial}
+          />
+        ))}
       </div>
 
       <Pagination
-        totalPages={total}
+        totalPages={totalTestimonials}
         itemOffset={itemOffset}
         setItemOffset={setItemOffset}
       />

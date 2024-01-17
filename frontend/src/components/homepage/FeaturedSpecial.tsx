@@ -44,7 +44,7 @@ const FeaturedSpecial = () => {
   }, [allImages, vehicleImages]);
 
   return (
-    <div className="w-full flex flex-wrap xl:flex-nowrap justify-center">
+    <div className="w-full flex flex-wrap xl:flex-nowrap justify-center min-h-[450px] bg-[url('/images/feature-bg.png')] bg-no-repeat bg-cover">
       <div className="w-full xl:w-1/2">
         <Image
           src={images[0]?.original || "/images/featured_special.png"}
@@ -54,32 +54,32 @@ const FeaturedSpecial = () => {
           className="w-full h-full"
         />
       </div>
-      <div className="bg-0053A6 w-full xl:w-1/2 px-16 py-8 xl:py-0 flex flex-col justify-center">
+      <div className="w-full xl:w-1/2 px-16 py-28 flex flex-col justify-center">
         <div
-          className="text-white bg-12B669 rounded-md p-2 xl:p-4 font-bold text-base xl:text-xl w-fit mb-3"
+          className="text-white bg-12B669 rounded-md px-6 py-3 font-bold text-2xl w-fit mb-5"
           style={{
             boxShadow: "0px 2px 9px 0px rgba(0, 0, 0, 0.25) inset",
           }}
         >
           Featured Special
         </div>
-        <h3 className="text-white text-xl xl:text-2xl 2xl:text-[48px] font-semibold">
-          <div className="flex flex-col gap-2 2xl:gap-5">
+        <h3 className="text-white text-2xl 2xl:text-[48px] font-semibold 2xl:leading-[100%]">
+          <div className="flex flex-col gap-2 font-medium 2xl:gap-5">
             <p>{vehicle?.attributes?.tagline}</p>
             <p>Xplorer Edition</p>
           </div>
         </h3>
-        <p className="text-md xl:text-lg 2xl:text-xl font-bold text-CFD8DC my-4">
+        <p className="text-xl xl:text-xl 2xl:text-[28px] font-bold text-CFD8DC 2xl:leading-[42px] my-4 2xl:my-8">
           Xplorer Package, New Floorplan Only 32&#39;!
         </p>
-        <h4 className="text-white text-xl xl:text-2xl 2xl:text-[32px] font-semibold">
+        <h4 className="text-white text-2xl 2xl:text-[48px] font-semibold 2xl:leading-[100%] mt-3">
           MSRP: $1,698,507
         </h4>
         <Link
           href={`mailto:sales@demartini.com?subject=Request%20More%20Info:%20${vehicle?.attributes?.item_number}&body=${vehicle?.attributes?.tagline}`}
         >
           <button
-            className="primary-button px-9 py-4 mt-8 w-fit"
+            className="primary-button px-9 py-4 mt-10 w-fit"
             style={{
               boxShadow: "0px 2px 9px 0px rgba(0, 0, 0, 0.25) inset",
             }}

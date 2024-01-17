@@ -154,7 +154,7 @@ const RVWanted = () => {
               {/* left part */}
 
               <div className="flex flex-col">
-                <h3 className="text-2xl mb-7 font-medium">
+                <h3 className="text-2xl mb-7 font-semibold">
                   Customer Information:
                 </h3>
 

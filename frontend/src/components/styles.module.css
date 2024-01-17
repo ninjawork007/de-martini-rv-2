@@ -1,3 +1,14 @@
+.navbarGradient {
+  background: var(--1256, linear-gradient(180deg, #447dad 0%, #0f3760 100%));
+}
+
+.formGradient {
+  background: #00669e;
+
+  /* Box */
+  box-shadow: 0px 4px 19px 0px rgba(0, 0, 0, 0.12);
+}
+
 .title {
   text-shadow: 0px 7px 3px rgba(0, 0, 0, 0.8);
 }
@@ -14,4 +25,21 @@
 .active {
   background: #0053a6;
   color: #fff;
+}
+
+.featuredCardShadow {
+  border-radius: 6px;
+  background: #fff;
+
+  /* Box */
+  box-shadow: 0px 4px 19px 0px rgba(0, 0, 0, 0.12);
+}
+
+.play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  z-index: 10;
 }
