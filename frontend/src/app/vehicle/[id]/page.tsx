@@ -57,9 +57,9 @@ const Vehicle = ({ params }: { params: { id: string } }) => {
   ];
 
   return (
-    <div className="container-padding-x">
+    <div className="container-padding-x mt-10 sm:mt-20">
       <div className="flex flex-wrap lg:flex-nowrap justify-center gap-10">
-        <div className="w-full lg:w-[60%] 2xl:w-[70%] mb-10">
+        <div className="w-full lg:w-[60%] 2xl:w-[70%] sm:mb-10">
           <ImageGallery images={images.length > 0 ? images : defaultImages} />
         </div>
 

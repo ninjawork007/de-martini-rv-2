@@ -2,9 +2,9 @@
 
 import classNames from "classnames";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ReactSelect, { GroupBase, OptionsOrGroups } from "react-select";
 
 import styles from "./styles.module.css";
@@ -29,6 +29,17 @@ const vehicleConditionOptions = [
 ];
 
 const Select: React.FC<SelectProps> = ({ options, placeholder, name }) => {
+  const [selected, setSelected] = useState(options[0]);
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const page = searchParams.get("page") || "";
+
+    if (page !== "search") {
+      setSelected(options[0]);
+    }
+  }, [options, searchParams]);
+
   return (
     <ReactSelect
       className="h-10"
@@ -47,6 +58,8 @@ const Select: React.FC<SelectProps> = ({ options, placeholder, name }) => {
       }}
       placeholder={placeholder}
       name={name}
+      value={selected}
+      onChange={(newValue) => setSelected(newValue)}
     />
   );
 };
@@ -54,6 +67,9 @@ const Select: React.FC<SelectProps> = ({ options, placeholder, name }) => {
 const Header: React.FC<HeaderProps> = ({ showSearchForm = true }) => {
   const pathname = usePathname();
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const ref = useRef<HTMLFormElement>(null);
 
   const isHomepage = pathname === "/";
 
@@ -67,8 +83,16 @@ const Header: React.FC<HeaderProps> = ({ showSearchForm = true }) => {
 
   const brandOptions = getUniqueBrandVehicles(vehicles).map((vehicle) => ({
     label: `${vehicle?.attributes?.make} ${vehicle?.attributes?.model}`,
-    value: vehicle?.attributes?.make,
+    value: `${vehicle?.attributes?.make}$${vehicle?.attributes?.model}`,
   }));
+
+  useEffect(() => {
+    const page = searchParams.get("page") || "";
+
+    if (page !== "search") {
+      ref.current?.reset();
+    }
+  }, [searchParams]);
 
   function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -87,7 +111,7 @@ const Header: React.FC<HeaderProps> = ({ showSearchForm = true }) => {
         );
       }
 
-    router.push(`/categories/search?${str.join("&")}`, { scroll: false });
+    router.push(`/categories?page=search&${str.join("&")}`, { scroll: false });
   }
 
   return (
@@ -122,10 +146,11 @@ const Header: React.FC<HeaderProps> = ({ showSearchForm = true }) => {
       {showSearchForm && (
         <div className="md:absolute md:-bottom-3 2xl:-bottom-6 left-0 right-0 flex justify-center">
           <form
+            ref={ref}
             onSubmit={onSubmit}
             className={classNames(
               styles.formGradient,
-              "p-6 2xl:p-[36px] grid grid-cols-1 md:flex flex-wrap gap-[17px] items-center justify-center rounded-xl w-full md:w-fit"
+              "p-6 2xl:p-[36px] grid grid-cols-1 md:flex flex-wrap gap-[17px] items-center justify-center sm:rounded-xl w-full md:w-fit"
             )}
           >
             <div className="w-full md:w-48 2xl:w-60">
@@ -141,7 +166,7 @@ const Header: React.FC<HeaderProps> = ({ showSearchForm = true }) => {
                   },
                   ...brandOptions,
                 ]}
-                name="brand"
+                name="make"
               />
             </div>
             <div className="w-full md:w-48 2xl:w-60">

@@ -2,19 +2,9 @@
 
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-import ReactPlayer from "react-player/lazy";
+import ReactPlayer, { ReactPlayerProps } from "react-player/lazy";
 
-interface VideoProps {
-  url: string;
-  width: string;
-  height: string;
-  autoplay?: boolean;
-  loop?: boolean;
-  controls?: boolean;
-  playing?: boolean;
-  ref?: any;
-}
-const Video: React.FC<VideoProps> = ({
+const Video: React.FC<ReactPlayerProps> = ({
   url,
   width,
   height,
@@ -23,6 +13,7 @@ const Video: React.FC<VideoProps> = ({
   controls,
   playing,
   ref,
+  fallback,
 }) => {
   const [hasWindow, setHasWindow] = useState(false);
   useEffect(() => {
@@ -34,7 +25,7 @@ const Video: React.FC<VideoProps> = ({
   if (!hasWindow) return null;
 
   return (
-    <div className="w-full rounded-lg overflow-hidden">
+    <div className="w-full overflow-hidden">
       <ReactPlayer
         ref={ref}
         width={width}
@@ -48,8 +39,9 @@ const Video: React.FC<VideoProps> = ({
         muted={autoplay ? true : false}
         playing={playing}
         loop={loop}
-        cal
+        fallback={fallback}
       />
+      {/* @ts-ignore */}
       <source src={url} type="video/mp4" />
     </div>
   );

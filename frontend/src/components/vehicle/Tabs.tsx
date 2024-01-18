@@ -66,8 +66,8 @@ const Tabs: React.FC<TabsProps> = ({ vehicle }) => {
   };
 
   return (
-    <div>
-      <div className="flex flex-wrap gap-3">
+    <>
+      <div className="flex gap-3 overflow-auto">
         {vehiclePageTabsArray.map((tab) => (
           <button
             key={tab}
@@ -76,7 +76,7 @@ const Tabs: React.FC<TabsProps> = ({ vehicle }) => {
                 "secondary-button": activeTab === tab,
                 "tertiary-button": activeTab !== tab,
               },
-              "rounded-t-[4px] rounded-b-none px-6"
+              "rounded-t-[4px] rounded-b-none px-6 min-w-fit"
             )}
             onClick={() => handleTabClick(tab)}
           >
@@ -84,6 +84,7 @@ const Tabs: React.FC<TabsProps> = ({ vehicle }) => {
           </button>
         ))}
       </div>
+
       <hr className="h-[1px] text-CFD8DC" />
 
       <div className="pb-10">
@@ -156,7 +157,7 @@ const Tabs: React.FC<TabsProps> = ({ vehicle }) => {
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 };
 

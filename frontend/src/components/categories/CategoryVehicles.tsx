@@ -39,7 +39,7 @@ const CategoryVehicles: React.FC<CategoryVehiclesProps> = ({
       {vehicles?.map((item: Vehicle) => (
         <li className={className} key={item?.id}>
           <Link
-            href={`/categories/model_new/${item?.attributes?.make}-${item?.attributes?.model}`}
+            href={`/categories?page=model&make=${item?.attributes?.make}&model=${item?.attributes?.model}`}
           >
             {item?.attributes?.make} {item?.attributes?.model}{" "}
             {item?.attributes?.series}

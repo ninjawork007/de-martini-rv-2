@@ -30,7 +30,7 @@ const Sidebar = () => {
           <AccordionItem uuid={category?.id} key={category?.id}>
             <AccordionItemHeading>
               <AccordionItemButton className="flex justify-between py-4 text-37474F text-lg font-bold px-2">
-                {/* <Link href={`/categories/all/${category?.id}`}> */}
+                {/* <Link href={`/categories?page=all&category_id=${category?.id}`}> */}
                 <RenderHTML html={category?.attributes?.name} />
                 {/* </Link> */}
                 <AccordionItemState>

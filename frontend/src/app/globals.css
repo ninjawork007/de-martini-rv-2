@@ -18,7 +18,7 @@
 
 @layer components {
   .primary-button {
-    @apply rounded-lg shadow-md font-bold py-3 px-6 font-oswald;
+    @apply rounded-lg shadow-md font-bold py-3 px-4 sm:px-6 font-oswald;
 
     background: linear-gradient(101deg, #fff5d1 -158.65%, #ffd323 134.31%);
     color: #0053a6;
@@ -54,7 +54,7 @@
 
 /* vehicle detail page images */
 .image-gallery-thumbnail {
-  @apply rounded-lg overflow-hidden h-full w-52 !important;
+  @apply rounded-lg overflow-hidden h-full sm:w-52 !important;
 }
 
 .image-gallery-image {

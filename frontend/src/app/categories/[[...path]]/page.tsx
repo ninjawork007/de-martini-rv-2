@@ -3,6 +3,7 @@
 import Pagination from "@/components/Pagination";
 import Title from "@/components/Title";
 import VehicleCard from "@/components/categories/VehicleCard";
+import Sidebar from "@/components/categories/Sidebar";
 // import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -14,7 +15,6 @@ import { urls } from "../../../services/urls";
 import { Vehicle } from "../../../types/vehicle";
 import useCategories from "../../../hooks/useCategories";
 import useImages from "../../../hooks/useImages";
-import Sidebar from "@/components/categories/Sidebar";
 
 type Sort =
   | "Recent"
@@ -38,9 +38,9 @@ const sortingOptions: {
   { label: "Make Z-A", value: "Make Z-A" },
 ];
 
-const Page = ({ params }: { params: { path: string[] } }) => {
-  const paths = params.path;
+const Page = () => {
   const searchParams = useSearchParams();
+  const page = searchParams.get("page") || "";
 
   const { categories } = useCategories();
 
@@ -56,6 +56,10 @@ const Page = ({ params }: { params: { path: string[] } }) => {
   const handleSort = (newValue: SingleValue<{ label: Sort; value: Sort }>) => {
     if (newValue?.value) setSortBy(newValue?.value);
   };
+
+  useEffect(() => {
+    setItemOffset(0);
+  }, [page]);
 
   // get vehicles
   useEffect(() => {
@@ -85,24 +89,25 @@ const Page = ({ params }: { params: { path: string[] } }) => {
     };
 
     // get title and vehicles based on page route
-    switch (paths?.[0]) {
-      case "type":
-        if (paths?.[1] === "new") {
-          // show New RV's
-          setTitle("New RVs");
+    switch (page) {
+      case "new":
+        // show New RV's
+        setTitle("New RVs");
 
-          getVehicles(
-            `${urls.vehicles}?filters[vehicle_condition]=new&populate=*`
-          );
-        }
-        if (paths?.[1] === "used") {
-          // show Used RV's
-          setTitle("Used RVs");
+        getVehicles(
+          `${urls.vehicles}?filters[vehicle_condition]=new&populate=*`
+        );
 
-          getVehicles(
-            `${urls.vehicles}?filters[vehicle_condition]=used&populate=*`
-          );
-        }
+        break;
+
+      case "used":
+        // show Used RV's
+        setTitle("Used RVs");
+
+        getVehicles(
+          `${urls.vehicles}?filters[vehicle_condition]=used&populate=*`
+        );
+
         break;
 
       case "clearance":
@@ -121,45 +126,52 @@ const Page = ({ params }: { params: { path: string[] } }) => {
 
         break;
 
-      case "used_rvs":
-        // show Used Diesel using /categories/used_rvs/90/class-a-diesel
-        setTitle("Class A - Diesel");
+      case "diesels":
+        // show Used Diesel
+        setTitle("Used Diesel");
 
         getVehicles(
-          `${urls.vehicles}?filters[category][id]=${paths?.[1]}&populate=*`
+          `${urls.vehicles}?filters[category][id]=${
+            searchParams.get("category_id") || ""
+          }&populate=*`
         );
 
         break;
 
       case "all":
-        // show Shop by Category using /categories/all/103/toyhaulers
+        const categoryId = searchParams.get("category_id") || "";
+        // show Shop by Category
         setTitle(
-          categories.find((category) => category?.id === Number(paths?.[1]))
+          categories.find((category) => category?.id === Number(categoryId))
             ?.attributes?.name || ""
         );
 
         getVehicles(
-          `${urls.vehicles}?filters[category][id]=${paths?.[1]}&populate=*`
+          `${urls.vehicles}?filters[category][id]=${categoryId}&populate=*`
         );
 
         break;
 
-      case "model_new":
-        // show Shop by Brand using /categories/model_new/Forest-River-r_pod
-        const makeModel = paths?.[1]?.replaceAll("%20", " ")?.split("-");
-        setTitle(makeModel.join(" "));
+      case "model": {
+        const make = searchParams.get("make") || "";
+        const model = searchParams.get("model") || "";
+
+        // show Shop by Brand
+        setTitle(`${make} ${model}`);
 
         getVehicles(
-          `${urls.vehicles}?filters[make][$eq]=${makeModel?.[0]}&filters[model][$eq]=${makeModel?.[1]}&populate=*`
+          `${urls.vehicles}?filters[make][$eq]=${make}&filters[model][$eq]=${model}&populate=*`
         );
 
         break;
+      }
 
       case "search":
         setTitle("Search Results");
 
         const condition = searchParams.get("condition") || "";
-        const brand = searchParams.get("brand") || "";
+        const make = searchParams.get("make")?.split("$")?.[0] || "";
+        const model = searchParams.get("make")?.split("$")?.[1] || "";
         const category = searchParams.get("category") || "";
         const stock = searchParams.get("stock") || "";
 
@@ -170,14 +182,15 @@ const Page = ({ params }: { params: { path: string[] } }) => {
             ? `filters[vehicle_condition][$eq]=${condition}`
             : "";
 
-        const vehicleBrand = brand ? `&filters[make][$eq]=${brand}` : "";
+        const vehicleMake = make ? `&filters[make][$eq]=${make}` : "";
+        const vehicleModel = model ? `&filters[model][$eq]=${model}` : "";
         const vehicleCategory = category
           ? `&filters[category][name][$eq]=${category}`
           : "";
         const vehicleStock = stock ? `&filters[item_number][$eq]=${stock}` : "";
 
         getVehicles(
-          `${urls.vehicles}?${vehicleCondition}${vehicleBrand}${vehicleCategory}${vehicleStock}&populate=*`
+          `${urls.vehicles}?${vehicleCondition}${vehicleMake}${vehicleModel}${vehicleCategory}${vehicleStock}&populate=*`
         );
 
         break;
@@ -190,30 +203,32 @@ const Page = ({ params }: { params: { path: string[] } }) => {
 
         break;
     }
-  }, [categories, itemOffset, paths, searchParams, sortBy]);
+  }, [categories, itemOffset, page, searchParams, sortBy]);
 
   return (
     <div>
       <Title heading={title}>
         <div className="flex flex-wrap items-center gap-3 md:gap-5">
-          <div className="text-lg">Sort By</div>
-          <ReactSelect
-            options={sortingOptions}
-            defaultValue={sortingOptions[0]}
-            components={{
-              IndicatorSeparator: () => null,
-            }}
-            onChange={handleSort}
-            styles={{
-              control: (baseStyles) => ({
-                ...baseStyles,
-                height: 40,
-                minWidth: 400,
-                fontSize: 14,
-                color: "#37474F",
-              }),
-            }}
-          />
+          <div className="text-md sm:text-lg">Sort By</div>
+          <div className="min-w-[150px] sm:min-w-[400px]">
+            <ReactSelect
+              options={sortingOptions}
+              defaultValue={sortingOptions[0]}
+              components={{
+                IndicatorSeparator: () => null,
+              }}
+              onChange={handleSort}
+              styles={{
+                control: (baseStyles) => ({
+                  ...baseStyles,
+                  height: 40,
+                  fontSize: 14,
+                  color: "#37474F",
+                }),
+              }}
+            />
+          </div>
+
           {/* <div className="flex items-center gap-3">
             Favorites
             <div className="flex justify-center items-center px-3 py-1 rounded-3xl border-[1px] border-B0BEC5">
@@ -229,7 +244,7 @@ const Page = ({ params }: { params: { path: string[] } }) => {
         <Sidebar />
         {/* vehicle list */}
         <div className="w-full grid md:grid-cols-2 gap-4">
-          {loading && <div>Loading..</div>}
+          {/* {loading && <div>Loading..</div>} */}
           {!loading && !vehicles.length && (
             <div className="">No Vehicles Found</div>
           )}
@@ -239,11 +254,13 @@ const Page = ({ params }: { params: { path: string[] } }) => {
         </div>
       </div>
 
-      <Pagination
-        totalPages={totalVehicles}
-        itemOffset={itemOffset}
-        setItemOffset={setItemOffset}
-      />
+      {vehicles.length > 0 && (
+        <Pagination
+          totalPages={totalVehicles}
+          itemOffset={itemOffset}
+          setItemOffset={setItemOffset}
+        />
+      )}
     </div>
   );
 };

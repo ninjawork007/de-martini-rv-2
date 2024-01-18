@@ -31,7 +31,10 @@ const Card: React.FC<CardProps> = ({
         "p-4 rounded-md bg-white max-w-[550px] 2xl:max-w-[650px]"
       )}
     >
-      <div className="relative" onClick={() => setPlaying((prev) => !prev)}>
+      <div
+        className="relative rounded-lg overflow-hidden"
+        onClick={() => setPlaying((prev) => !prev)}
+      >
         {!playing && (
           <Image
             className={styles.play}

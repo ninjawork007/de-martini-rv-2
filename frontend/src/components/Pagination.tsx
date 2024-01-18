@@ -46,7 +46,7 @@ const Pagination: React.FC<PaginateProps> = ({
         </div>
       }
       onPageChange={handlePageClick}
-      pageRangeDisplayed={5}
+      pageRangeDisplayed={2}
       pageCount={pageCount}
       previousLabel={
         <div className="flex gap-1">
@@ -63,7 +63,7 @@ const Pagination: React.FC<PaginateProps> = ({
       renderOnZeroPageCount={null}
       className="flex justify-center items-center my-5"
       activeClassName={styles.active}
-      pageClassName={classNames("px-5 py-3", styles.page)}
+      pageClassName={classNames("px-2 sm:px-5 py-1 sm:py-3", styles.page)}
       nextClassName="ml-3 text-sm"
       previousClassName="mr-3 text-sm"
     />
