@@ -851,6 +851,7 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
     order: Attribute.Integer;
     original_created_at: Attribute.DateTime;
     category_id: Attribute.String;
+    image: Attribute.Media;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

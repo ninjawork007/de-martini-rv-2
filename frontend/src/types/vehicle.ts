@@ -1,3 +1,5 @@
+import { ImageMedia } from "./image";
+
 export interface Category {
   id: number;
   attributes: {
@@ -8,6 +10,7 @@ export interface Category {
     publishedAt: string;
     original_created_at: string | null;
     category_id: number | null;
+    image?: { data: ImageMedia };
   };
 }
 

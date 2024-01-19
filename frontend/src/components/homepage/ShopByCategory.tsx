@@ -7,6 +7,7 @@ import React from "react";
 import RenderHTML from "../RenderHTML";
 import { Category } from "../../types/vehicle";
 import useCategories from "../../hooks/useCategories";
+import { ADMIN_URL } from "../../services/urls";
 
 const ShopByCategory = () => {
   const { categories } = useCategories();
@@ -20,24 +21,30 @@ const ShopByCategory = () => {
       </h3>
 
       <div className="flex flex-wrap justify-center md:justify-start gap-6 sm:text-lg">
-        {categories.map((category: Category) => (
-          <Link
-            className="flex flex-col items-center"
-            href={`/categories?page=all&category_id=${category?.id}&category_name=${category?.attributes?.name}`}
-            key={category?.id}
-          >
-            <Image
-              className="mx-auto"
-              src="/images/rv.png"
-              alt=""
-              width={100}
-              height={50}
-            />
-            <div className="max-w-32 sm:max-w-full text-center">
-              <RenderHTML html={category?.attributes?.name} />
-            </div>
-          </Link>
-        ))}
+        {categories
+          ?.sort((a, b) => a?.attributes?.order - b?.attributes?.order)
+          .map((category: Category) => (
+            <Link
+              className="flex flex-col items-center"
+              href={`/categories?page=all&category_id=${category?.id}&category_name=${category?.attributes?.name}`}
+              key={category?.id}
+            >
+              <Image
+                className="mx-auto h-[36px]"
+                src={
+                  category?.attributes?.image?.data?.attributes?.url
+                    ? `${ADMIN_URL}${category?.attributes?.image?.data?.attributes?.url}`
+                    : "/images/rv.png"
+                }
+                alt=""
+                width={100}
+                height={150}
+              />
+              <div className="max-w-32 sm:max-w-full text-center">
+                <RenderHTML html={category?.attributes?.name} />
+              </div>
+            </Link>
+          ))}
       </div>
     </div>
   );
