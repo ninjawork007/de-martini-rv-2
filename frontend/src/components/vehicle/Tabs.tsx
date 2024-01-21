@@ -66,8 +66,8 @@ const Tabs: React.FC<TabsProps> = ({ vehicle }) => {
   };
 
   return (
-    <div>
-      <div className="flex flex-wrap gap-3">
+    <>
+      <div className="flex gap-3 overflow-auto">
         {vehiclePageTabsArray.map((tab) => (
           <button
             key={tab}
@@ -76,7 +76,7 @@ const Tabs: React.FC<TabsProps> = ({ vehicle }) => {
                 "secondary-button": activeTab === tab,
                 "tertiary-button": activeTab !== tab,
               },
-              "rounded-t-[4px] rounded-b-none px-6"
+              "rounded-t-[4px] rounded-b-none px-6 min-w-fit"
             )}
             onClick={() => handleTabClick(tab)}
           >
@@ -84,6 +84,7 @@ const Tabs: React.FC<TabsProps> = ({ vehicle }) => {
           </button>
         ))}
       </div>
+
       <hr className="h-[1px] text-CFD8DC" />
 
       <div className="pb-10">
@@ -137,7 +138,7 @@ const Tabs: React.FC<TabsProps> = ({ vehicle }) => {
             <div className="font-bold">RV Insurance Quote</div>
             Fill out our online insurance quote form and we will get back to you
             with a competitive quote from the best RV Insurance providers.
-            <Link href="/forms/insurance_quote">
+            <Link href="/forms/insurance-quote">
               <button className="primary-button">
                 Get an RV Insurance Quote
               </button>
@@ -148,7 +149,7 @@ const Tabs: React.FC<TabsProps> = ({ vehicle }) => {
               YOUR FUN! Click below for a free quote on an Extended Service
               Contract and Tire & Wheel Protection for your RV.
             </p>
-            <Link href="/forms/extended_service">
+            <Link href="/forms/extended-service">
               <button className="primary-button">
                 Get an Extended Service Quote
               </button>
@@ -156,7 +157,7 @@ const Tabs: React.FC<TabsProps> = ({ vehicle }) => {
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 };
 

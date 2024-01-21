@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 import { useFormContext } from "react-hook-form";
 
@@ -29,16 +30,34 @@ const FormField: React.FC<FormFieldProps> = ({
       {type === "checkbox" ? (
         <div className="flex gap-1">
           <input
+            id={`${name}-checkbox_id`}
             placeholder={placeholder}
+            className="relative peer shrink-0 appearance-none w-4 h-4 rounded-sm bg-white mt-1"
             type={type}
             {...register(name)}
             onChange={(e) => setValue(name, e.target.checked)}
             {...rest}
           />
-          <label className="text-black">{label}</label>
+          <label htmlFor={`${name}-checkbox_id`}>{label}</label>
+          <Image
+            className="absolute w-4 h-4 mt-1 block peer-checked:hidden"
+            src="/icons/CheckSquare.svg"
+            height={44}
+            width={44}
+            alt=""
+            onClick={() => setValue(name, true)}
+          />
+          <Image
+            className="absolute w-4 h-4 mt-1 hidden peer-checked:block"
+            src="/icons/Checked.svg"
+            height={44}
+            width={44}
+            alt=""
+            onClick={() => setValue(name, false)}
+          />
         </div>
       ) : type === "select" ? (
-        <div className="flex flex-col gap-1">
+        <div className="flex select-wrapper flex-col gap-1">
           <label className="text-607D8B text-sm">{label}</label>
           <select className="input-box px-4 py-3" {...register(name)} {...rest}>
             {options?.map(({ value, label }) => (

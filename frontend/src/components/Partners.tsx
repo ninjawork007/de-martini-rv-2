@@ -2,13 +2,13 @@ import Image from "next/image";
 import React from "react";
 
 const Partners = () => (
-  <div className="flex flex-wrap items-center justify-center gap-16 my-8">
+  <div className="flex flex-wrap items-center justify-center gap-20 my-8 container-margin-x">
     <Image
       src="/images/demartini-logo.png"
       alt=""
       height={100}
       width={100}
-      className="2xl:w-40"
+      className="2xl:w-28"
     />
     <Image
       src="/images/jayco-logo.png"

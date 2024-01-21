@@ -1,30 +1,18 @@
 "use client";
 
-import CategoryVehicles from "@/components/categories/CategoryVehicles";
 import Pagination from "@/components/Pagination";
-import Partners from "@/components/Partners";
-import RvSaleSlider from "@/components/RvSaleSlider";
-import RenderHTML from "@/components/RenderHTML";
 import Title from "@/components/Title";
 import VehicleCard from "@/components/categories/VehicleCard";
-import Image from "next/image";
+import Sidebar from "@/components/categories/Sidebar";
 // import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import {
-  Accordion,
-  AccordionItem,
-  AccordionItemButton,
-  AccordionItemHeading,
-  AccordionItemPanel,
-  AccordionItemState,
-} from "react-accessible-accordion";
 import ReactSelect, { SingleValue } from "react-select";
 
 import { ITEMS_PER_PAGE, options } from "../../../constants";
 import service from "../../../services";
 import { urls } from "../../../services/urls";
-import { Category, Vehicle } from "../../../types/vehicle";
+import { Vehicle } from "../../../types/vehicle";
 import useCategories from "../../../hooks/useCategories";
 import useImages from "../../../hooks/useImages";
 
@@ -50,9 +38,9 @@ const sortingOptions: {
   { label: "Make Z-A", value: "Make Z-A" },
 ];
 
-const Page = ({ params }: { params: { path: string[] } }) => {
-  const paths = params.path;
+const Page = () => {
   const searchParams = useSearchParams();
+  const page = searchParams.get("page") || "";
 
   const { categories } = useCategories();
 
@@ -68,6 +56,10 @@ const Page = ({ params }: { params: { path: string[] } }) => {
   const handleSort = (newValue: SingleValue<{ label: Sort; value: Sort }>) => {
     if (newValue?.value) setSortBy(newValue?.value);
   };
+
+  useEffect(() => {
+    setItemOffset(0);
+  }, [page]);
 
   // get vehicles
   useEffect(() => {
@@ -97,24 +89,25 @@ const Page = ({ params }: { params: { path: string[] } }) => {
     };
 
     // get title and vehicles based on page route
-    switch (paths?.[0]) {
-      case "type":
-        if (paths?.[1] === "new") {
-          // show New RV's
-          setTitle("New RVs");
+    switch (page) {
+      case "new":
+        // show New RV's
+        setTitle("New RVs");
 
-          getVehicles(
-            `${urls.vehicles}?filters[vehicle_condition]=new&populate=*`
-          );
-        }
-        if (paths?.[1] === "used") {
-          // show Used RV's
-          setTitle("Used RVs");
+        getVehicles(
+          `${urls.vehicles}?filters[vehicle_condition]=new&populate=*`
+        );
 
-          getVehicles(
-            `${urls.vehicles}?filters[vehicle_condition]=used&populate=*`
-          );
-        }
+        break;
+
+      case "used":
+        // show Used RV's
+        setTitle("Used RVs");
+
+        getVehicles(
+          `${urls.vehicles}?filters[vehicle_condition]=used&populate=*`
+        );
+
         break;
 
       case "clearance":
@@ -133,45 +126,52 @@ const Page = ({ params }: { params: { path: string[] } }) => {
 
         break;
 
-      case "used_rvs":
-        // show Used Diesel using /categories/used_rvs/90/class-a-diesel
-        setTitle("Class A - Diesel");
+      case "diesels":
+        // show Used Diesel
+        setTitle("Used Diesel");
 
         getVehicles(
-          `${urls.vehicles}?filters[category][id]=${paths?.[1]}&populate=*`
+          `${urls.vehicles}?filters[category][id]=${
+            searchParams.get("category_id") || ""
+          }&populate=*`
         );
 
         break;
 
       case "all":
-        // show Shop by Category using /categories/all/103/toyhaulers
+        const categoryId = searchParams.get("category_id") || "";
+        // show Shop by Category
         setTitle(
-          categories.find((category) => category?.id === Number(paths?.[1]))
+          categories.find((category) => category?.id === Number(categoryId))
             ?.attributes?.name || ""
         );
 
         getVehicles(
-          `${urls.vehicles}?filters[category][id]=${paths?.[1]}&populate=*`
+          `${urls.vehicles}?filters[category][id]=${categoryId}&populate=*`
         );
 
         break;
 
-      case "model_new":
-        // show Shop by Brand using /categories/model_new/Forest-River-r_pod
-        const makeModel = paths?.[1]?.replaceAll("%20", " ")?.split("-");
-        setTitle(makeModel.join(" "));
+      case "model": {
+        const make = searchParams.get("make") || "";
+        const model = searchParams.get("model") || "";
+
+        // show Shop by Brand
+        setTitle(`${make} ${model}`);
 
         getVehicles(
-          `${urls.vehicles}?filters[make][$eq]=${makeModel?.[0]}&filters[model][$eq]=${makeModel?.[1]}&populate=*`
+          `${urls.vehicles}?filters[make][$eq]=${make}&filters[model][$eq]=${model}&populate=*`
         );
 
         break;
+      }
 
       case "search":
         setTitle("Search Results");
 
         const condition = searchParams.get("condition") || "";
-        const brand = searchParams.get("brand") || "";
+        const make = searchParams.get("make")?.split("$")?.[0] || "";
+        const model = searchParams.get("make")?.split("$")?.[1] || "";
         const category = searchParams.get("category") || "";
         const stock = searchParams.get("stock") || "";
 
@@ -182,14 +182,15 @@ const Page = ({ params }: { params: { path: string[] } }) => {
             ? `filters[vehicle_condition][$eq]=${condition}`
             : "";
 
-        const vehicleBrand = brand ? `&filters[make][$eq]=${brand}` : "";
+        const vehicleMake = make ? `&filters[make][$eq]=${make}` : "";
+        const vehicleModel = model ? `&filters[model][$eq]=${model}` : "";
         const vehicleCategory = category
           ? `&filters[category][name][$eq]=${category}`
           : "";
         const vehicleStock = stock ? `&filters[item_number][$eq]=${stock}` : "";
 
         getVehicles(
-          `${urls.vehicles}?${vehicleCondition}${vehicleBrand}${vehicleCategory}${vehicleStock}&populate=*`
+          `${urls.vehicles}?${vehicleCondition}${vehicleMake}${vehicleModel}${vehicleCategory}${vehicleStock}&populate=*`
         );
 
         break;
@@ -202,22 +203,32 @@ const Page = ({ params }: { params: { path: string[] } }) => {
 
         break;
     }
-  }, [categories, itemOffset, paths, searchParams, sortBy]);
+  }, [categories, itemOffset, page, searchParams, sortBy]);
 
-  console.log(sortBy);
   return (
     <div>
       <Title heading={title}>
         <div className="flex flex-wrap items-center gap-3 md:gap-5">
-          <div>Sort By</div>
-          <ReactSelect
-            options={sortingOptions}
-            defaultValue={sortingOptions[0]}
-            components={{
-              IndicatorSeparator: () => null,
-            }}
-            onChange={handleSort}
-          />
+          <div className="text-md sm:text-lg">Sort By</div>
+          <div className="min-w-[150px] sm:min-w-[400px]">
+            <ReactSelect
+              options={sortingOptions}
+              defaultValue={sortingOptions[0]}
+              components={{
+                IndicatorSeparator: () => null,
+              }}
+              onChange={handleSort}
+              styles={{
+                control: (baseStyles) => ({
+                  ...baseStyles,
+                  height: 40,
+                  fontSize: 14,
+                  color: "#37474F",
+                }),
+              }}
+            />
+          </div>
+
           {/* <div className="flex items-center gap-3">
             Favorites
             <div className="flex justify-center items-center px-3 py-1 rounded-3xl border-[1px] border-B0BEC5">
@@ -228,71 +239,12 @@ const Page = ({ params }: { params: { path: string[] } }) => {
         </div>
       </Title>
 
-      <div className="flex flex-wrap sm:flex-nowrap justify-center gap-8 2xl:px-64">
+      <div className="flex flex-wrap sm:flex-nowrap justify-center gap-8 container-padding-x">
         {/* categories with accordion */}
-        <div className="w-full sm:w-auto lg:min-w-[300px]">
-          <div className="font-bold py-4 px-6 mb-4 bg-CFD8DC text-263238 text-lg">
-            Shop By Brand
-          </div>
-          <Accordion
-            allowZeroExpanded
-            preExpanded={categories.map((category: Category) => category?.id)}
-          >
-            {categories.map((category: Category) => (
-              <AccordionItem uuid={category?.id} key={category?.id}>
-                <AccordionItemHeading>
-                  <AccordionItemButton className="flex justify-between py-4 text-37474F text-lg font-bold px-2">
-                    {/* <Link href={`/categories/all/${category?.id}`}> */}
-                    <RenderHTML html={category?.attributes?.name} />
-                    {/* </Link> */}
-                    <AccordionItemState>
-                      {({ expanded }) => (
-                        <Image
-                          src="/icons/CaretUp.svg"
-                          height={20}
-                          width={20}
-                          alt=""
-                          className={expanded ? "" : "rotate-180"}
-                        />
-                      )}
-                    </AccordionItemState>
-                  </AccordionItemButton>
-                </AccordionItemHeading>
-                <AccordionItemPanel>
-                  <ul>
-                    <CategoryVehicles
-                      id={category?.id}
-                      className="p-2 text-base text-455A64 cursor-pointer hover:text-263238"
-                    />
-                  </ul>
-                </AccordionItemPanel>
-              </AccordionItem>
-            ))}
-          </Accordion>
-
-          <div className="bg-0053A6 rounded-lg p-4 w-full sm:max-w-[300px] my-4">
-            <button className="primary-button text-left text-lg w-full text-263238 font-semibold py-3.5 px-6 rounded-[4px] mb-3">
-              Make An Offer!
-            </button>
-            <ul className="text-ECEFF1 py-2.5 px-3 pl-5">
-              <li className="list-disc">Click the Make An Offer button</li>
-              <li className="list-disc">
-                On the form, just enter a price that’ll work for you and we’ll
-                get back to you as soon as possible and let you know if we are
-                willing to sell you that coach at your price or we may give you
-                a counter-offer.
-              </li>
-              <li className="list-disc">
-                Offers are not binding until we mutually agree upon price, terms
-                and conditions between customer and dealership and a contract is
-                signed.
-              </li>
-            </ul>
-          </div>
-        </div>
+        <Sidebar />
         {/* vehicle list */}
         <div className="w-full grid md:grid-cols-2 gap-4">
-          {loading && <div>Loading..</div>}
+          {/* {loading && <div>Loading..</div>} */}
           {!loading && !vehicles.length && (
             <div className="">No Vehicles Found</div>
           )}
@@ -302,14 +254,13 @@ const Page = ({ params }: { params: { path: string[] } }) => {
         </div>
       </div>
 
-      <Pagination
-        totalPages={totalVehicles}
-        itemOffset={itemOffset}
-        setItemOffset={setItemOffset}
-      />
-
-      <RvSaleSlider />
-      <Partners />
+      {vehicles.length > 0 && (
+        <Pagination
+          totalPages={totalVehicles}
+          itemOffset={itemOffset}
+          setItemOffset={setItemOffset}
+        />
+      )}
     </div>
   );
 };

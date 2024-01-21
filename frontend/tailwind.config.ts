@@ -42,6 +42,12 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
         "why-choose-us-bg": "url('/images/why-choose-us-bg.png')",
       },
+      fontFamily: {
+        "mona-sans": ["var(--font-Mona-Sans)"],
+        oswald: ["var(--font-oswald)"],
+        balboa: ["var(--font-balboa)"],
+        roboto: ["var(--font-roboto)"],
+      },
     },
   },
   plugins: [],

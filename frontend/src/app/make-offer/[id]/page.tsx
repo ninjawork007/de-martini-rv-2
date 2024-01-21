@@ -98,7 +98,7 @@ const MakeOffer = ({ params }: { params: { id: string } }) => {
               {/* left part */}
 
               <div className="flex flex-col">
-                <h3 className="text-2xl mb-7 font-medium">
+                <h3 className="text-2xl mb-7 font-semibold">
                   Customer Information:
                 </h3>
 
@@ -192,11 +192,11 @@ const MakeOffer = ({ params }: { params: { id: string } }) => {
             </div>
 
             <div className="flex justify-center my-9">
-              <div className="flex flex-col gap-5">
+              <div className="flex flex-col gap-3">
                 <div className="flex items-center gap-1">
                   <FormField
                     label={
-                      <span className="text-0053A6">
+                      <span className="text-0053A6 font-medium">
                         Please Contact Me as Soon as Possible
                       </span>
                     }

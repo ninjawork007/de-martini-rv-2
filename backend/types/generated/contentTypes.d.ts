@@ -851,6 +851,7 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
     order: Attribute.Integer;
     original_created_at: Attribute.DateTime;
     category_id: Attribute.String;
+    image: Attribute.Media;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1130,6 +1131,7 @@ export interface ApiFormSubmissionFormSubmission extends Schema.CollectionType {
     singularName: 'form-submission';
     pluralName: 'form-submissions';
     displayName: 'form submission';
+    description: '';
   };
   options: {
     draftAndPublish: true;
@@ -1142,6 +1144,7 @@ export interface ApiFormSubmissionFormSubmission extends Schema.CollectionType {
       'oneToOne',
       'api::vehicle.vehicle'
     >;
+    files: Attribute.Media;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

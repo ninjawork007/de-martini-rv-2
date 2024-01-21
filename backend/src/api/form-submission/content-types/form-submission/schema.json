@@ -4,7 +4,8 @@
   "info": {
     "singularName": "form-submission",
     "pluralName": "form-submissions",
-    "displayName": "form submission"
+    "displayName": "form submission",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -21,6 +22,16 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::vehicle.vehicle"
+    },
+    "files": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
     }
   }
 }

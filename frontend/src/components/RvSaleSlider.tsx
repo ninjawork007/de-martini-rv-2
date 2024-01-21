@@ -22,7 +22,7 @@ const SliderCard: React.FC<SliderCardProps> = ({ vehicle }) => {
     <div
       className={classNames(
         styles.sliderCard,
-        "bg-white rounded-md p-4 w-[95%] flex flex-col items-center mx-4 mb-6 sm:min-h-[520px]"
+        "bg-white rounded-md my-2 p-4 w-[95%] flex flex-col items-center mx-4 mb-6 sm:min-h-[560px]"
       )}
     >
       <Image
@@ -33,7 +33,7 @@ const SliderCard: React.FC<SliderCardProps> = ({ vehicle }) => {
         className="w-full h-72 rounded-lg"
       />
       <div className="py-4 flex flex-col items-center flex-grow">
-        <h3 className="text-263238 font-mono text-center text-lg lg:text-2xl font-semibold">
+        <h3 className="text-263238 text-center text-lg lg:text-2xl font-semibold mb-3 leading-[33px]">
           {vehicle?.attributes?.tagline}
         </h3>
         <div className="text-black text-lg">Retail MSRP: $1,698,507</div>
@@ -68,7 +68,7 @@ function Arrow(props: { onClick?: () => void; direction: "left" | "right" }) {
       }}
       onClick={onClick}
     >
-      <Image src={arrowImage} alt="" height={15} width={15} />
+      <Image src={arrowImage} alt="" height={25} width={25} />
     </button>
   );
 }
@@ -114,14 +114,14 @@ const RvSaleSlider = () => {
   const { vehicles } = useVehicles(`?filters[featured_special]=1`);
 
   return (
-    <div className="my-20 2xl:mx-20">
+    <div className="my-20 container-margin-x">
       {/* title */}
       <div className="flex flex-wrap items-center justify-between mb-8">
         <h3 className="text-2xl 2xl:text-[32px] font-bold">
           RVs For Sale{" "}
           <span className="text-xl text-455A64 font-normal">
             (Featured Specials -
-            <span className="italic px-1">Check out these great deals!</span>)
+            <span className="px-1">Check out these great deals!</span>)
           </span>
         </h3>
         <Link href="/categories">

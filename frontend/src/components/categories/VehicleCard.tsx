@@ -10,7 +10,9 @@ import { htmlDecode } from "../../utils";
 import { ImageMedia } from "../../types/image";
 import { ADMIN_URL } from "../../services/urls";
 
-const VehicleCard: React.FC<Vehicle & { images?: ImageMedia[] }> = ({
+const VehicleCard: React.FC<
+  Vehicle & { images?: ImageMedia[]; heightFit?: boolean }
+> = ({
   id,
   attributes: {
     year,
@@ -24,6 +26,7 @@ const VehicleCard: React.FC<Vehicle & { images?: ImageMedia[] }> = ({
     image,
   },
   images,
+  heightFit,
 }) => {
   const imageData = images?.find(
     (mediaImage) =>
@@ -34,7 +37,8 @@ const VehicleCard: React.FC<Vehicle & { images?: ImageMedia[] }> = ({
     <div
       className={classNames(
         styles.card,
-        "flex flex-col p-4 w-full max-w-[500px] max-h-[730px] rounded-md"
+        "flex flex-col p-4 w-full max-w-[500px] rounded-md",
+        { "h-fit": heightFit, "max-h-[730px]": !heightFit }
       )}
     >
       <Image

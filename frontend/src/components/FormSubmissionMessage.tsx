@@ -1,7 +1,14 @@
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
 
 const FormSubmissionMessage = () => {
+  const router = useRouter();
+
+  useEffect(() => {
+    router.push("#title");
+  }, [router]);
+
   return (
     <div className="mx-auto px-12 md:px-44 2xl:px-64 py-4 md:py-12 2xl:py-20 gap-6">
       <p>Thank you for submitting our form. We have received your response.</p>
