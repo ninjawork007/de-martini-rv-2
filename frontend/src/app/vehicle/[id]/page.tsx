@@ -72,7 +72,9 @@ const Vehicle = ({ params }: { params: { id: string } }) => {
             Stock #: D{vehicle?.attributes?.item_number}
           </div>
 
-          <div className="text-xl font-bold">RETAIL MSRP: $1,698,507</div>
+          <div className="text-xl text-607D8B font-bold">
+            RETAIL MSRP: <span className="line-through">$1,698,507</span>
+          </div>
           <div>
             For this week&apos;s lowest price,{" "}
             <a
@@ -91,56 +93,56 @@ const Vehicle = ({ params }: { params: { id: string } }) => {
           >
             <thead className="bg-CFD8DC">
               <tr className="rounded-2xl">
-                <th className="p-3">Vehicle Summary</th>
+                <th className="px-2 py-3 uppercase">Vehicle Summary</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td>Chassis</td>
+                <td className="font-bold uppercase">Chassis</td>
                 <td>{vehicle?.attributes?.chassis}</td>
               </tr>
               <tr className="bg-ECEFF1">
-                <td>Generator</td>
+                <td className="font-bold uppercase">Generator</td>
                 <td>{vehicle?.attributes?.generator_type}</td>
               </tr>
               <tr>
-                <td>Engine</td>
+                <td className="font-bold uppercase">Engine</td>
                 <td>{vehicle?.attributes?.engine?.data?.attributes?.name}</td>
               </tr>
               <tr className="bg-ECEFF1">
-                <td>Category</td>
+                <td className="font-bold uppercase">Category</td>
                 <td>{vehicle?.attributes?.category?.data?.attributes?.name}</td>
               </tr>
               <tr>
-                <td>Mileage</td>
+                <td className="font-bold uppercase">Mileage</td>
                 <td>{vehicle?.attributes.mileage}</td>
               </tr>
               <tr className="bg-ECEFF1">
-                <td>Slide Out</td>
+                <td className="font-bold uppercase">Slide Out</td>
                 <td>{vehicle?.attributes?.slide?.data?.attributes?.name}</td>
               </tr>
               <tr>
-                <td>Fuel</td>
+                <td className="font-bold uppercase">Fuel</td>
                 <td>{vehicle?.attributes?.fuel_type}</td>
               </tr>
               <tr className="bg-ECEFF1">
-                <td>Condition</td>
+                <td className="font-bold uppercase">Condition</td>
                 <td>{vehicle?.attributes?.vehicle_condition}</td>
               </tr>
               <tr>
-                <td>Interior Color</td>
+                <td className="font-bold uppercase">Interior Color</td>
                 <td>{vehicle?.attributes?.interior_color}</td>
               </tr>
               <tr className="bg-ECEFF1">
-                <td>Exterior Color</td>
+                <td className="font-bold uppercase">Exterior Color</td>
                 <td>{vehicle?.attributes?.exterior_color}</td>
               </tr>
             </tbody>
           </table>
 
           <div className="flex flex-col gap-3 my-7">
-            <div className="grid grid-cols-2 gap-3">
+            <div className="">
               <Link href={`/make-offer/${vehicle?.id}`}>
                 <button
                   className={classNames(
@@ -151,25 +153,21 @@ const Vehicle = ({ params }: { params: { id: string } }) => {
                   Make An Offer!
                 </button>
               </Link>
-
-              <Link
-                href={`mailto:?subject=Check%20out%20this%20RV:${vehicle?.attributes?.item_number}&body=${vehicle?.attributes?.tagline}%0D%0AURL:${ADMIN_URL}/vehicles/detail/${vehicle?.id}`}
-              >
-                <button className="primary-button w-full">
-                  Send To Friend
-                </button>
-              </Link>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <Link href="mailto:sales@demartini.com">
-                <button className="primary-button w-full">Email Us</button>
-              </Link>
               <Link
                 href={`mailto:sales@demartini.com?subject=Request%20More%20Info:%20${vehicle?.attributes?.item_number}&body=${vehicle?.attributes?.tagline}`}
               >
                 <button className="primary-button w-full">
                   Request More Info
+                </button>
+              </Link>
+              <Link
+                href={`mailto:?subject=Check%20out%20this%20RV:${vehicle?.attributes?.item_number}&body=${vehicle?.attributes?.tagline}%0D%0AURL:${ADMIN_URL}/vehicles/detail/${vehicle?.id}`}
+              >
+                <button className="primary-button w-full">
+                  Send To Friend
                 </button>
               </Link>
             </div>

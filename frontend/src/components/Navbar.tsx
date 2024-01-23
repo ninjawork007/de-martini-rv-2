@@ -125,7 +125,7 @@ const Navbar = () => {
                     ? link.url?.includes(page)
                     : pathname === link.url,
                 },
-                "font-oswald text-lg"
+                "font-oswald text-2xl uppercase hover:text-FFD323"
               )}
             >
               <li>{link.title}</li>

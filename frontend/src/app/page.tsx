@@ -2,7 +2,7 @@ import FeaturedSpecial from "@/components/homepage/FeaturedSpecial";
 import FeaturedVideos from "@/components/homepage/FeaturedVideos";
 import ShopByCategory from "@/components/homepage/ShopByCategory";
 import WhyChooseUs from "@/components/homepage/WhyChooseUs";
-import Video from "@/components/homepage/Video";
+// import Video from "@/components/homepage/Video";
 import Link from "next/link";
 
 export default function Home() {
@@ -11,14 +11,14 @@ export default function Home() {
       <ShopByCategory />
       <FeaturedSpecial />
       <FeaturedVideos />
-      <Video
+      {/* <Video
         url="/videos/intro.mp4"
         width="100%"
         height="100%"
         autoplay
         loop
         playing
-      />
+      /> */}
       <WhyChooseUs />
       {/* Submit Credit Card */}
       <div

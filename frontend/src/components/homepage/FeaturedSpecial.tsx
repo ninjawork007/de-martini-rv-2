@@ -79,7 +79,7 @@ const FeaturedSpecial = () => {
           href={`mailto:sales@demartini.com?subject=Request%20More%20Info:%20${vehicle?.attributes?.item_number}&body=${vehicle?.attributes?.tagline}`}
         >
           <button
-            className="primary-button px-9 py-4 mt-10 w-fit"
+            className="primary-button text-[1.7rem] px-9 py-4 mt-10 w-fit"
             style={{
               boxShadow: "0px 2px 9px 0px rgba(0, 0, 0, 0.25) inset",
             }}
