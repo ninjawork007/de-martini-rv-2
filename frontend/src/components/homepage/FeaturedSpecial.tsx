@@ -54,7 +54,7 @@ const FeaturedSpecial = () => {
           className="w-full h-full"
         />
       </div>
-      <div className="w-full xl:w-1/2 px-16 py-28 flex flex-col justify-center">
+      <div className="w-full xl:w-1/2 px-16 py-12 flex flex-col justify-center">
         <div
           className="text-white bg-12B669 rounded-md px-6 py-3 font-bold text-2xl w-fit mb-5"
           style={{
