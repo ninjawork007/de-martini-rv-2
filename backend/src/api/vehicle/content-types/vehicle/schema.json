@@ -164,6 +164,11 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::image.image"
+    },
+    "bath_layout": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::bath-layout.bath-layout"
     }
   }
 }
