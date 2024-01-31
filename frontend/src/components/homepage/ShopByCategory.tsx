@@ -20,7 +20,7 @@ const ShopByCategory = () => {
         Shop By Category
       </h3>
 
-      <div className="flex flex-wrap justify-center gap-6 sm:text-lg">
+      <div className="flex flex-wrap justify-center gap-8 sm:text-lg">
         {categories
           ?.sort((a, b) => a?.attributes?.order - b?.attributes?.order)
           .map((category: Category) => (

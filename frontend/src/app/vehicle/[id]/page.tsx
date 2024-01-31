@@ -1,9 +1,6 @@
 "use client";
 
-import Partners from "@/components/Partners";
-import RvSaleSlider from "@/components/RvSaleSlider";
 import Tabs from "@/components/vehicle/Tabs";
-
 import classNames from "classnames";
 import compact from "lodash/compact";
 import Image from "next/image";
@@ -26,8 +23,10 @@ const Vehicle = ({ params }: { params: { id: string } }) => {
   const { images: allImages } = useImages(`?populate=*`);
 
   const { images: vehicleImages } = useVehicleImages(
-    `?filters[title]=${vehicle?.attributes?.tagline}&populate=*`
+    `?filters[title]=${vehicle?.attributes?.tagline}&pagination[limit]=100&populate=*`
   );
+
+  const isUsedVehicle = vehicle?.attributes?.vehicle_condition === "used";
 
   const images = useMemo(() => {
     return compact(
@@ -57,9 +56,9 @@ const Vehicle = ({ params }: { params: { id: string } }) => {
   ];
 
   return (
-    <div className="container-padding-x mt-10 sm:mt-20">
+    <div className="container-padding-x max-w-screen-[1900px] mx-auto mt-10 sm:mt-20">
       <div className="flex flex-wrap lg:flex-nowrap justify-center gap-10">
-        <div className="w-full lg:w-[60%] 2xl:w-[70%] sm:mb-10">
+        <div className="w-full max-w-[600px] lg:w-[60%] 2xl:w-[70%] sm:mb-10">
           <ImageGallery images={images.length > 0 ? images : defaultImages} />
         </div>
 
@@ -69,12 +68,23 @@ const Vehicle = ({ params }: { params: { id: string } }) => {
             {vehicle?.attributes?.tagline}
           </div>
           <div className="text-0053A6 font-bold text-lg">
-            Stock #: D{vehicle?.attributes?.item_number}
+            Stock #: {vehicle?.attributes?.item_number}
           </div>
 
-          <div className="text-xl text-607D8B font-bold">
-            RETAIL MSRP: <span className="line-through">$1,698,507</span>
-          </div>
+          {isUsedVehicle ? (
+            <div className="text-xl text-607D8B font-bold">
+              RETAIL MSRP: <span className="line-through">$1,698,507</span>{" "}
+              {vehicle?.attributes?.sale_price && (
+                <span className="text-FF4000">
+                  Special Sale Only - ${vehicle?.attributes?.sale_price}
+                </span>
+              )}
+            </div>
+          ) : (
+            <div className="text-FF4000 text-lg uppercase font-bold">
+              Sale Price - ${vehicle?.attributes?.sale_price}
+            </div>
+          )}
           <div>
             For this week&apos;s lowest price,{" "}
             <a
@@ -93,51 +103,69 @@ const Vehicle = ({ params }: { params: { id: string } }) => {
           >
             <thead className="bg-CFD8DC">
               <tr className="rounded-2xl">
-                <th className="px-2 py-3 uppercase">Vehicle Summary</th>
+                <th className="p-3 uppercase text-left">Vehicle Summary</th>
                 <th></th>
               </tr>
             </thead>
             <tbody>
               <tr>
-                <td className="font-bold uppercase">Chassis</td>
-                <td>{vehicle?.attributes?.chassis}</td>
+                <td className="uppercase">Chassis</td>
+                <td className="font-bold">{vehicle?.attributes?.chassis}</td>
               </tr>
               <tr className="bg-ECEFF1">
-                <td className="font-bold uppercase">Generator</td>
-                <td>{vehicle?.attributes?.generator_type}</td>
+                <td className="uppercase">Generator</td>
+                <td className="font-bold">
+                  {vehicle?.attributes?.generator_type}
+                </td>
               </tr>
               <tr>
-                <td className="font-bold uppercase">Engine</td>
-                <td>{vehicle?.attributes?.engine?.data?.attributes?.name}</td>
+                <td className="uppercase">Engine</td>
+                <td className="font-bold">
+                  {vehicle?.attributes?.engine?.data?.attributes?.name}
+                </td>
               </tr>
               <tr className="bg-ECEFF1">
-                <td className="font-bold uppercase">Category</td>
-                <td>{vehicle?.attributes?.category?.data?.attributes?.name}</td>
+                <td className="uppercase">Category</td>
+                <td className="font-bold">
+                  {vehicle?.attributes?.category?.data?.attributes?.name}
+                </td>
               </tr>
               <tr>
-                <td className="font-bold uppercase">Mileage</td>
-                <td>{vehicle?.attributes.mileage}</td>
+                <td className="uppercase">Mileage</td>
+                <td className="font-bold">{vehicle?.attributes.mileage}</td>
               </tr>
               <tr className="bg-ECEFF1">
-                <td className="font-bold uppercase">Slide Out</td>
-                <td>{vehicle?.attributes?.slide?.data?.attributes?.name}</td>
+                <td className="uppercase">Slide Out</td>
+                <td className="font-bold">
+                  {vehicle?.attributes?.slide?.data?.attributes?.name}
+                </td>
               </tr>
               <tr>
-                <td className="font-bold uppercase">Fuel</td>
-                <td>{vehicle?.attributes?.fuel_type}</td>
+                <td className="uppercase">Fuel</td>
+                <td className="font-bold">{vehicle?.attributes?.fuel_type}</td>
               </tr>
               <tr className="bg-ECEFF1">
-                <td className="font-bold uppercase">Condition</td>
-                <td>{vehicle?.attributes?.vehicle_condition}</td>
+                <td className="uppercase">Condition</td>
+                <td className="font-bold">
+                  {vehicle?.attributes?.vehicle_condition}
+                </td>
               </tr>
-              <tr>
-                <td className="font-bold uppercase">Interior Color</td>
-                <td>{vehicle?.attributes?.interior_color}</td>
-              </tr>
-              <tr className="bg-ECEFF1">
-                <td className="font-bold uppercase">Exterior Color</td>
-                <td>{vehicle?.attributes?.exterior_color}</td>
-              </tr>
+              {!isUsedVehicle && (
+                <tr>
+                  <td className="uppercase">Interior Color</td>
+                  <td className="font-bold">
+                    {vehicle?.attributes?.interior_color}
+                  </td>
+                </tr>
+              )}
+              {!isUsedVehicle && (
+                <tr className="bg-ECEFF1">
+                  <td className="uppercase">Exterior Color</td>
+                  <td className="font-bold">
+                    {vehicle?.attributes?.exterior_color}
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
 

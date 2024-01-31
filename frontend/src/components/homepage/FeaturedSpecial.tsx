@@ -44,7 +44,7 @@ const FeaturedSpecial = () => {
   }, [allImages, vehicleImages]);
 
   return (
-    <div className="w-full flex flex-wrap xl:flex-nowrap justify-center min-h-[450px] bg-[url('/images/feature-bg.png')] bg-no-repeat bg-cover">
+    <div className="w-full max-h-[600px] flex flex-wrap xl:flex-nowrap justify-center min-h-[450px] bg-[url('/images/feature-bg.png')] bg-no-repeat bg-cover">
       <div className="w-full xl:w-1/2">
         <Image
           src={images[0]?.original || "/images/featured_special.png"}

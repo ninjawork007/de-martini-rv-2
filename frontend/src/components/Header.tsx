@@ -76,10 +76,12 @@ const Header: React.FC<HeaderProps> = ({ showSearchForm = true }) => {
   const { categories } = useCategories();
   const { vehicles } = useVehicles(`/all`);
 
-  const categoryOptions = categories.map((category) => ({
-    label: category?.attributes?.name,
-    value: category?.attributes?.name,
-  }));
+  const categoryOptions = categories
+    ?.sort((a, b) => a?.attributes?.order - b?.attributes?.order)
+    .map((category) => ({
+      label: category?.attributes?.name,
+      value: category?.attributes?.name,
+    }));
 
   const brandOptions = getUniqueBrandVehicles(vehicles).map((vehicle) => ({
     label: `${vehicle?.attributes?.make} ${vehicle?.attributes?.model}`,

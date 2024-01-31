@@ -239,7 +239,7 @@ const Page = () => {
         </div>
       </Title>
 
-      <div className="flex flex-wrap sm:flex-nowrap justify-center gap-8 container-padding-x">
+      <div className="flex flex-wrap sm:flex-nowrap justify-center gap-8 container-padding-x max-w-screen-2xl mx-auto">
         {/* categories with accordion */}
         <Sidebar />
         {/* vehicle list */}

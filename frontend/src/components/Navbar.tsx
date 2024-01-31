@@ -4,20 +4,20 @@ import classNames from "classnames";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import styles from "./styles.module.css";
 
 const links = [
   { id: 0, title: "Home", url: "/" },
-  { id: 1, title: "New RV’s", url: "/categories?page=new" },
-  { id: 2, title: "Used RV’s", url: "/categories?page=used" },
+  { id: 1, title: "New RVs", url: "/categories?page=new" },
+  { id: 2, title: "Used RVs", url: "/categories?page=used" },
   {
     id: 3,
     title: "Used Diesels",
     url: "/categories?page=diesels&category_id=90",
   },
-  { id: 4, title: "Web Special", url: "/categories?page=web_specials" },
+  { id: 4, title: "Web Specials", url: "/categories?page=web_specials" },
   { id: 5, title: "Clearance", url: "/categories?page=clearance" },
   { id: 6, title: "Parts & Service", url: "/parts-service" },
   { id: 7, title: "Contact Us", url: "/contact" },
@@ -26,12 +26,23 @@ const links = [
 const Navbar = () => {
   const searchParams = useSearchParams();
   const page = searchParams.get("page") || "";
+  const term = searchParams.get("term") || "";
 
   const router = useRouter();
 
   const pathname = usePathname();
 
   const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    if (page === "search") {
+      setSearchTerm(term);
+    }
+
+    if (page !== "search") {
+      setSearchTerm("");
+    }
+  }, [term, page, searchParams]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

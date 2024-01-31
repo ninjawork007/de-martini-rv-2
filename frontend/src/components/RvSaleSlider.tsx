@@ -114,7 +114,7 @@ const RvSaleSlider = () => {
   const { vehicles } = useVehicles(`?filters[featured_special]=1`);
 
   return (
-    <div className="my-20 container-margin-x">
+    <div className="my-20 max-w-screen-2xl mx-auto container-margin-x">
       {/* title */}
       <div className="flex flex-wrap items-center justify-between mb-8">
         <h3 className="text-2xl 2xl:text-[32px] font-bold">

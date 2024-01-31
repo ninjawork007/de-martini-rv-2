@@ -148,7 +148,7 @@ const MakeOffer = ({ params }: { params: { id: string } }) => {
 
               <div className="flex flex-col">
                 <h3 className="text-2xl mb-7 font-semibold">
-                  Vehicle: Item #D{vehicle?.attributes?.item_number}{" "}
+                  Vehicle: Item #{vehicle?.attributes?.item_number}{" "}
                   {vehicle?.attributes?.year} {vehicle?.attributes?.make}{" "}
                   {vehicle?.attributes?.model}
                 </h3>
