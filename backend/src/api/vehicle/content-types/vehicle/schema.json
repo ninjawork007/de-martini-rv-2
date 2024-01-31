@@ -169,6 +169,16 @@
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::bath-layout.bath-layout"
+    },
+    "exterior_equipment": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::exterior-equipment.exterior-equipment"
+    },
+    "interior_equipment": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::interior-equipment.interior-equipment"
     }
   }
 }

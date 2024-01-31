@@ -1970,6 +1970,16 @@ export interface ApiVehicleVehicle extends Schema.CollectionType {
       'oneToOne',
       'api::bath-layout.bath-layout'
     >;
+    exterior_equipment: Attribute.Relation<
+      'api::vehicle.vehicle',
+      'oneToOne',
+      'api::exterior-equipment.exterior-equipment'
+    >;
+    interior_equipment: Attribute.Relation<
+      'api::vehicle.vehicle',
+      'oneToOne',
+      'api::interior-equipment.interior-equipment'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
